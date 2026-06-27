@@ -1,0 +1,122 @@
+/* Grassroots Design System — Tokens */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500&display=swap');
+
+:root {
+  /* Fonts */
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Courier New', Courier, monospace;
+
+  /* Color — core palette */
+  --color-ink:           #1C2B1A;
+  --color-ink-soft:      #3D3D35;
+  --color-accent:        #6B8C6A;
+  --color-accent-subtle: #D5E5D4;
+  --color-accent-mist:   rgba(107, 140, 106, 0.12);
+  --color-accent-ink:    #2E5C2C;
+
+  /* Color — surfaces */
+  --color-canvas:        #F7F6F4;
+  --color-surface:       #FAFAF8;
+
+  /* Color — borders */
+  --color-border:        #E2DDD7;
+  --color-border-strong: #C5C0B8;
+
+  /* Color — text */
+  --color-secondary:     #8A897F;
+  --color-muted:         #A5A49A;
+
+  /* Color — semantic */
+  --color-danger:        #C17A5A;
+  --color-danger-subtle: #F0EAE0;
+  --color-warm:          #7A5C30;
+  --color-warm-subtle:   #F0EAE0;
+
+  /* Text scale */
+  --text-display:  36px;
+  --text-title:    24px;
+  --text-heading:  16px;
+  --text-body:     14px;
+  --text-small:    12px;
+  --text-label:    11px;
+
+  /* Line heights */
+  --leading-display: 1.1;
+  --leading-title:   1.2;
+  --leading-body:    1.65;
+  --leading-tight:   1.3;
+
+  /* Weights */
+  --weight-regular: 400;
+  --weight-medium:  500;
+
+  /* Letter spacing */
+  --tracking-label: 0.08em;
+  --tracking-tight: -0.01em;
+
+  /* Spacing */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  12px;
+  --space-lg:  20px;
+  --space-xl:  32px;
+  --space-2xl: 48px;
+  --space-3xl: 72px;
+
+  /* Radius */
+  --radius-sm:   4px;
+  --radius-md:   6px;
+  --radius-lg:   10px;
+  --radius-xl:   16px;
+  --radius-pill: 999px;
+
+  /* Borders (always 0.5px) */
+  --border-default: 0.5px solid var(--color-border);
+  --border-strong:  0.5px solid var(--color-border-strong);
+  --border-accent:  0.5px solid var(--color-accent);
+  --border-dashed:  0.5px dashed var(--color-border-strong);
+
+  /* Focus ring */
+  --focus-ring: 0 0 0 3px var(--color-accent-mist);
+
+  /* Elevation */
+  --shadow-overlay: 0 4px 16px rgba(0, 0, 0, 0.12);
+
+  /* Layout */
+  --feed-max-width:    640px;
+  --sidebar-width:     240px;
+  --content-max-width: 960px;
+
+  /* Z-index */
+  --z-sticky:  100;
+  --z-overlay: 200;
+  --z-modal:   300;
+  --z-toast:   400;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-ink:           #E8E6E1;
+    --color-ink-soft:      #C8C6C0;
+    --color-accent:        #8AAD89;
+    --color-accent-subtle: #1E3020;
+    --color-accent-mist:   rgba(138, 173, 137, 0.15);
+    --color-accent-ink:    #A9CBA8;
+
+    --color-canvas:        #141A13;
+    --color-surface:       #1A211A;
+
+    --color-border:        #2A3329;
+    --color-border-strong: #3A4439;
+
+    --color-secondary:     #6E6E65;
+    --color-muted:         #4E4E47;
+
+    --color-danger:        #D4896A;
+    --color-danger-subtle: #2A1F1A;
+    --color-warm:          #C9A878;
+    --color-warm-subtle:   #2A1F1A;
+  }
+}
