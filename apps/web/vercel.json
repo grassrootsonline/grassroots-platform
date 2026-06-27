@@ -1,4 +1,5 @@
 {
   "installCommand": "cd ../.. && pnpm install --frozen-lockfile",
-  "buildCommand": "cd ../.. && pnpm turbo build --filter=@grassroots/web"
+  "buildCommand": "cd ../.. && pnpm turbo build --filter=@grassroots/web",
+  "outputDirectory": ".next"
 }
