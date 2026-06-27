@@ -6,7 +6,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
   return (
     <>
       <Navbar user={MOCK_USER} />
-      <div className="w-full max-w-[var(--content-max-width)] mx-auto px-5 pt-5">
+      <div className="container-page pt-5">
         {children}
       </div>
       <Toaster />

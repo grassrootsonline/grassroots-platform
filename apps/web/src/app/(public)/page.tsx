@@ -57,7 +57,7 @@ function LandingInner() {
 
       {/* Sticky header */}
       <header className="sticky top-0 z-[var(--z-sticky)] h-[60px] bg-[var(--color-surface)] border-b border-[0.5px] border-[var(--color-border)] flex items-center">
-        <div className="w-full max-w-[var(--content-max-width)] mx-auto px-5 flex items-center justify-between">
+        <div className="container-page flex items-center justify-between">
           <span
             className="text-[22px] text-[var(--color-ink)] leading-none"
             style={{ fontFamily: 'var(--font-display)' }}
@@ -81,10 +81,10 @@ function LandingInner() {
         </div>
       </header>
 
-      <main className="w-full max-w-[var(--content-max-width)] mx-auto px-5">
+      <main className="container-page">
         {/* Hero */}
-        <section className="pt-[72px] pb-[80px]">
-          <div className="grid grid-cols-2 gap-[56px] items-center">
+        <section className="section-hero">
+          <div className="hero-grid">
             {/* Left copy */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
@@ -178,8 +178,8 @@ function LandingInner() {
         </section>
 
         {/* Value props */}
-        <section className="border-t border-[0.5px] border-[var(--color-border)] py-[60px]">
-          <div className="grid grid-cols-3 gap-[40px]">
+        <section className="section-pad" style={{ borderTop: '0.5px solid var(--color-border)' }}>
+          <div className="value-props-grid">
             {VALUE_PROPS.map((vp, i) => (
               <motion.div
                 key={vp.title}
@@ -202,8 +202,8 @@ function LandingInner() {
         </section>
 
         {/* CTA band */}
-        <section className="py-[60px]">
-          <div className="border border-[0.5px] border-[var(--color-border)] rounded-[var(--radius-lg)] px-[40px] py-[56px] flex flex-col items-center text-center gap-4">
+        <section className="section-pad">
+          <div className="flex flex-col items-center text-center gap-4" style={{ border: '0.5px solid var(--color-border)', borderRadius: 'var(--radius-lg)', padding: '56px 40px' }}>
             <h2
               className="text-[34px] text-[var(--color-ink)]"
               style={{ fontFamily: 'var(--font-display)', fontWeight: 400 }}
@@ -225,7 +225,7 @@ function LandingInner() {
 
       {/* Footer */}
       <footer className="border-t border-[0.5px] border-[var(--color-border)] bg-[var(--color-surface)] py-5">
-        <div className="w-full max-w-[var(--content-max-width)] mx-auto px-5 flex items-center justify-between">
+        <div className="container-page flex items-center justify-between">
           <span
             className="text-[18px] text-[var(--color-ink)]"
             style={{ fontFamily: 'var(--font-display)' }}

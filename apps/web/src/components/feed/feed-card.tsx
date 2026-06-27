@@ -50,24 +50,21 @@ export function FeedCard({ post, onOpenThread }: FeedCardProps) {
   }
 
   return (
-    <article className="bg-[var(--color-surface)] border border-[0.5px] border-[var(--color-border)] rounded-[var(--radius-lg)] p-4 transition-all duration-[120ms] hover:border-[var(--color-border-strong)]">
-      {/* Header */}
-      <div className="flex items-start gap-3">
+    <article className="feed-card">
+      <div className="feed-card-header">
         <Link href={`/profile/${post.author.username}`}>
           <Avatar src={post.author.avatarUrl} name={post.author.name} size="md" />
         </Link>
-        <div className="flex-1 min-w-0">
+        <div className="feed-card-meta">
           <div className="flex items-center gap-1 flex-wrap">
             <Link
               href={`/profile/${post.author.username}`}
-              className="text-[14px] font-[500] text-[var(--color-ink)] hover:text-[var(--color-accent)] transition-colors duration-[120ms]"
+              className="feed-card-name hover:text-[var(--color-accent)] transition-colors duration-[120ms]"
             >
               {post.author.name}
             </Link>
-            <span className="text-[var(--color-secondary)] text-[13px]">·</span>
-            <span className="text-[13px] text-[var(--color-secondary)]">
-              {formatTime(post.createdAt)}
-            </span>
+            <span className="feed-card-time">·</span>
+            <span className="feed-card-time">{formatTime(post.createdAt)}</span>
           </div>
           {(post.project || post.community) && (
             <Link
@@ -84,30 +81,23 @@ export function FeedCard({ post, onOpenThread }: FeedCardProps) {
         </div>
       </div>
 
-      {/* Body */}
-      <p className="mt-3 text-[14px] leading-[1.65] text-[var(--color-ink-soft)]">
-        {post.content}
-      </p>
+      <p className="feed-card-body">{post.content}</p>
 
-      {/* Actions */}
-      <div className="mt-3 flex items-center gap-4">
+      <div className="feed-card-actions">
         <motion.button
           onClick={handleLike}
           whileTap={{ scale: 1.25 }}
           transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-          className="flex items-center gap-1.5 text-[13px] text-[var(--color-secondary)] hover:text-[var(--color-accent)] transition-colors duration-[120ms] group"
+          className={['action-btn', liked ? 'active' : ''].filter(Boolean).join(' ')}
           aria-label={liked ? 'Unlike' : 'Like'}
         >
-          <i
-            className={`ti ti-heart text-[16px] transition-colors duration-[120ms] ${liked ? 'text-[var(--color-accent)]' : 'group-hover:text-[var(--color-accent)]'}`}
-            aria-hidden="true"
-          />
-          <span className={liked ? 'text-[var(--color-accent)]' : ''}>{likeCount}</span>
+          <i className="ti ti-heart text-[16px]" aria-hidden="true" />
+          <span>{likeCount}</span>
         </motion.button>
 
         <button
           onClick={() => onOpenThread?.(post.id)}
-          className="flex items-center gap-1.5 text-[13px] text-[var(--color-secondary)] hover:text-[var(--color-accent)] transition-colors duration-[120ms]"
+          className="action-btn"
           aria-label="View replies"
         >
           <i className="ti ti-message-circle text-[16px]" aria-hidden="true" />
@@ -118,7 +108,7 @@ export function FeedCard({ post, onOpenThread }: FeedCardProps) {
           onClick={() => {
             navigator.clipboard.writeText(`${window.location.origin}/feed/${post.id}`)
           }}
-          className="flex items-center gap-1.5 text-[13px] text-[var(--color-secondary)] hover:text-[var(--color-accent)] transition-colors duration-[120ms]"
+          className="action-btn"
           aria-label="Share"
         >
           <i className="ti ti-share text-[16px]" aria-hidden="true" />
@@ -131,20 +121,20 @@ export function FeedCard({ post, onOpenThread }: FeedCardProps) {
 
 export function FeedCardSkeleton() {
   return (
-    <div className="bg-[var(--color-surface)] border border-[0.5px] border-[var(--color-border)] rounded-[var(--radius-lg)] p-4">
-      <div className="flex items-start gap-3">
+    <div className="feed-card">
+      <div className="feed-card-header">
         <div className="skeleton w-9 h-9 rounded-full flex-shrink-0" />
-        <div className="flex-1 space-y-2">
+        <div className="feed-card-meta" style={{ gap: '8px', display: 'flex', flexDirection: 'column' }}>
           <div className="skeleton h-3.5 w-32 rounded" />
           <div className="skeleton h-3 w-20 rounded" />
         </div>
       </div>
-      <div className="mt-3 space-y-2">
+      <div className="feed-card-body" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <div className="skeleton h-3.5 w-full rounded" />
         <div className="skeleton h-3.5 w-4/5 rounded" />
         <div className="skeleton h-3.5 w-3/5 rounded" />
       </div>
-      <div className="mt-3 flex gap-4">
+      <div className="feed-card-actions">
         <div className="skeleton h-3 w-10 rounded" />
         <div className="skeleton h-3 w-10 rounded" />
         <div className="skeleton h-3 w-12 rounded" />
