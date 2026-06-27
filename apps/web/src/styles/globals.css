@@ -1,7 +1,16 @@
-@import 'tailwindcss';
-@import './tokens.css';
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500&display=swap');
 
-/* Layout utilities — used in place of max-w-[var(--...)] arbitrary values */
+@import 'tailwindcss';
+
+/* Tell Tailwind 4 exactly where to scan for class names */
+@source "../app";
+@source "../components";
+@source "../lib";
+
+@import './tokens.css';
+@import './design-system/components.css';
+
+/* ── Layout ──────────────────────────────────────────────── */
 .container-page {
   width: 100%;
   max-width: 960px;
@@ -16,7 +25,33 @@
   max-width: 640px;
 }
 
-/* Base reset */
+/* ── Section spacing ─────────────────────────────────────── */
+.section-hero {
+  padding-top: 72px;
+  padding-bottom: 80px;
+}
+
+.section-pad {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+/* ── Hero grid ───────────────────────────────────────────── */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+/* ── Value props grid ────────────────────────────────────── */
+.value-props-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+/* ── Base reset ──────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -37,7 +72,7 @@ body {
   min-height: 100vh;
 }
 
-/* Skeleton shimmer */
+/* ── Skeleton shimmer ────────────────────────────────────── */
 @keyframes shimmer {
   0%   { background-position: -200% 0; }
   100% { background-position:  200% 0; }
@@ -55,13 +90,13 @@ body {
   border-radius: 6px;
 }
 
-/* Focus ring */
+/* ── Focus ring ──────────────────────────────────────────── */
 :focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px var(--color-accent-mist);
 }
 
-/* Scrollbar */
+/* ── Scrollbar ───────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {

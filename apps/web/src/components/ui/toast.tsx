@@ -40,7 +40,7 @@ export function Toaster() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.15 }}
-            className="bg-[var(--color-ink)] text-[var(--color-canvas)] text-[13px] font-[500] px-4 py-2.5 rounded-[var(--radius-lg)] shadow-[var(--shadow-overlay)] whitespace-nowrap pointer-events-auto"
+            className="toast pointer-events-auto"
           >
             {t.message}
           </motion.div>
