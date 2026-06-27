@@ -1,0 +1,7 @@
+{
+  "buildCommand": "pnpm turbo build --filter=@grassroots/web",
+  "outputDirectory": "apps/web/.next",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "framework": "nextjs",
+  "devCommand": "pnpm turbo dev --filter=@grassroots/web"
+}
