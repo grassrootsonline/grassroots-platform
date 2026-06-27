@@ -21,7 +21,7 @@ export function Navbar({ user }: NavbarProps) {
       className="sticky top-0 z-[var(--z-sticky)] h-[60px] bg-[var(--color-surface)] border-b border-[0.5px] border-[var(--color-border)] flex items-center"
       style={{ borderBottomWidth: '0.5px' }}
     >
-      <div className="w-full max-w-[var(--content-max-width)] mx-auto px-5 flex items-center justify-between">
+      <div className="container-page flex items-center justify-between">
         {/* Wordmark */}
         <Link
           href={user ? '/feed' : '/'}

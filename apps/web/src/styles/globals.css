@@ -1,34 +1,22 @@
-@import './tokens.css';
 @import 'tailwindcss';
+@import './tokens.css';
 
-@theme {
-  /* Map Tailwind to design tokens */
-  --color-ink: var(--color-ink);
-  --color-ink-soft: var(--color-ink-soft);
-  --color-accent: var(--color-accent);
-  --color-accent-subtle: var(--color-accent-subtle);
-  --color-canvas: var(--color-canvas);
-  --color-surface: var(--color-surface);
-  --color-border: var(--color-border);
-  --color-border-strong: var(--color-border-strong);
-  --color-secondary: var(--color-secondary);
-  --color-muted: var(--color-muted);
-  --color-danger: var(--color-danger);
-
-  --font-display: var(--font-display);
-  --font-body: var(--font-body);
-  --font-mono: var(--font-mono);
-
-  --radius-sm: var(--radius-sm);
-  --radius-md: var(--radius-md);
-  --radius-lg: var(--radius-lg);
-  --radius-xl: var(--radius-xl);
-  --radius-pill: var(--radius-pill);
-
-  --shadow-overlay: var(--shadow-overlay);
+/* Layout utilities — used in place of max-w-[var(--...)] arbitrary values */
+.container-page {
+  width: 100%;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
-/* Base styles */
+.container-feed {
+  width: 100%;
+  max-width: 640px;
+}
+
+/* Base reset */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -37,8 +25,8 @@
 
 html {
   font-family: var(--font-body);
-  font-size: var(--text-body);
-  line-height: var(--leading-body);
+  font-size: 14px;
+  line-height: 1.65;
   color: var(--color-ink);
   background-color: var(--color-canvas);
   -webkit-font-smoothing: antialiased;
@@ -51,8 +39,8 @@ body {
 
 /* Skeleton shimmer */
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
 }
 
 .skeleton {
@@ -64,22 +52,18 @@ body {
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
-  border-radius: var(--radius-md);
+  border-radius: 6px;
 }
 
-/* Focus visible ring */
+/* Focus ring */
 :focus-visible {
   outline: none;
-  box-shadow: var(--focus-ring);
+  box-shadow: 0 0 0 3px var(--color-accent-mist);
 }
 
 /* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
   background: var(--color-border-strong);
   border-radius: 3px;

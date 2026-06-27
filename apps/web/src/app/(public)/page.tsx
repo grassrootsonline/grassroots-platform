@@ -57,7 +57,7 @@ function LandingInner() {
 
       {/* Sticky header */}
       <header className="sticky top-0 z-[var(--z-sticky)] h-[60px] bg-[var(--color-surface)] border-b border-[0.5px] border-[var(--color-border)] flex items-center">
-        <div className="w-full max-w-[var(--content-max-width)] mx-auto px-5 flex items-center justify-between">
+        <div className="container-page flex items-center justify-between">
           <span
             className="text-[22px] text-[var(--color-ink)] leading-none"
             style={{ fontFamily: 'var(--font-display)' }}
@@ -81,7 +81,7 @@ function LandingInner() {
         </div>
       </header>
 
-      <main className="w-full max-w-[var(--content-max-width)] mx-auto px-5">
+      <main className="container-page">
         {/* Hero */}
         <section className="pt-[72px] pb-[80px]">
           <div className="grid grid-cols-2 gap-[56px] items-center">
@@ -225,7 +225,7 @@ function LandingInner() {
 
       {/* Footer */}
       <footer className="border-t border-[0.5px] border-[var(--color-border)] bg-[var(--color-surface)] py-5">
-        <div className="w-full max-w-[var(--content-max-width)] mx-auto px-5 flex items-center justify-between">
+        <div className="container-page flex items-center justify-between">
           <span
             className="text-[18px] text-[var(--color-ink)]"
             style={{ fontFamily: 'var(--font-display)' }}
