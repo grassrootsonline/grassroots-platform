@@ -32,6 +32,10 @@
   --color-warm:          #7A5C30;
   --color-warm-subtle:   #F0EAE0;
 
+  /* Color — neutral badge (no token in palette — derived from border range) */
+  --color-neutral:       #EAE7E1;
+  --color-neutral-text:  #5A5950;
+
   /* Text scale */
   --text-display:  36px;
   --text-title:    24px;
@@ -116,5 +120,8 @@
     --color-danger-subtle: #2A1F1A;
     --color-warm:          #C9A878;
     --color-warm-subtle:   #2A1F1A;
+
+    --color-neutral:       #2E2C28;
+    --color-neutral-text:  #9E9C94;
   }
 }
