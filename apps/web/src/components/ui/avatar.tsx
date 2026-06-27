@@ -9,11 +9,11 @@ interface AvatarProps {
   className?: string
 }
 
-const sizeMap: Record<AvatarSize, { px: number; class: string; text: string }> = {
-  sm: { px: 28, class: 'w-7 h-7', text: 'text-[11px]' },
-  md: { px: 36, class: 'w-9 h-9', text: 'text-[13px]' },
-  lg: { px: 48, class: 'w-12 h-12', text: 'text-[16px]' },
-  xl: { px: 72, class: 'w-[72px] h-[72px]', text: 'text-[24px]' },
+const sizePx: Record<AvatarSize, number> = {
+  sm: 24,
+  md: 36,
+  lg: 48,
+  xl: 72,
 }
 
 function initials(name: string): string {
@@ -26,15 +26,10 @@ function initials(name: string): string {
 }
 
 export function Avatar({ src, name, size = 'md', className = '' }: AvatarProps) {
-  const { px, class: sizeClass, text } = sizeMap[size]
+  const px = sizePx[size]
   return (
     <div
-      className={[
-        'rounded-[var(--radius-pill)] overflow-hidden flex-shrink-0 flex items-center justify-center bg-[var(--color-accent-subtle)] text-[var(--color-accent-ink)] font-[500]',
-        sizeClass,
-        text,
-        className,
-      ].join(' ')}
+      className={['avatar', `avatar-${size}`, className].filter(Boolean).join(' ')}
       aria-label={name}
     >
       {src ? (
