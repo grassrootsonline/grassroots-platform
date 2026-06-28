@@ -6,26 +6,32 @@ import { motion } from 'framer-motion'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { AuthModal } from '@/components/auth/auth-modal'
 import { Toaster } from '@/components/ui/toast'
-import { FeedCard } from '@/components/feed/feed-card'
-import { MOCK_POSTS } from '@/lib/mock-data'
+import { MOCK_PLATFORM_STATS } from '@/lib/mock-data'
 
+// Amendment 01 — updated copy and value props
 const VALUE_PROPS = [
   {
-    icon: 'rocket',
-    title: 'Show your work',
-    body: 'Post updates on what you\'re building. Link your projects, share progress, and get feedback from people who get it.',
+    icon: 'pencil',
+    title: 'Build openly',
+    body: 'What you shipped, what you broke, what you learned, and what you imagine. Your journey, in one place.',
   },
   {
-    icon: 'users',
-    title: 'Find your people',
-    body: 'Follow builders working on the same problems. Join communities organized around tools, research areas, and ideas.',
+    icon: 'users-group',
+    title: 'Build together',
+    body: 'Create communities that follow the development of group projects and products. Talking to your audience has never been easier.',
   },
   {
-    icon: 'eye',
-    title: 'Get seen',
+    icon: 'message-circle',
+    title: 'Join the conversation',
     body: 'Your projects surface to the people most likely to care — not by algorithm, but by interest graph.',
   },
 ]
+
+const FOOTER_LINKS = ['Careers', 'Terms of service', 'Guidelines', 'Privacy']
+
+function formatStat(n: number): string {
+  return n.toLocaleString('en-US')
+}
 
 function LandingInner() {
   const router = useRouter()
@@ -49,32 +55,38 @@ function LandingInner() {
     router.replace('/', { scroll: false })
   }
 
-  const previewPosts = MOCK_POSTS.slice(0, 2)
+  const stats = MOCK_PLATFORM_STATS
 
   return (
     <>
       <Toaster />
 
-      {/* Sticky header */}
-      <header className="sticky top-0 z-[var(--z-sticky)] h-[56px] bg-[var(--color-surface)] border-b border-[0.5px] border-[var(--color-border)] flex items-center">
+      {/* Sticky header — 60px, wordmark hard-left, auth hard-right */}
+      <header
+        className="sticky top-0 flex items-center"
+        style={{
+          height: '60px',
+          background: 'var(--color-surface)',
+          borderBottom: 'var(--border-default)',
+          zIndex: 'var(--z-sticky)',
+        }}
+      >
         <div className="container-page flex items-center justify-between">
           <span
-            className="text-[22px] text-[var(--color-ink)] leading-none"
-            style={{ fontFamily: 'var(--font-display)' }}
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '22px',
+              color: 'var(--color-ink)',
+              lineHeight: 1,
+            }}
           >
             Grassroots
           </span>
-          <div className="flex items-center gap-2.5">
-            <button
-              onClick={() => openAuth('login')}
-              className="h-8 px-3.5 text-[13px] font-[500] text-[var(--color-ink)] hover:bg-[var(--color-accent-subtle)] rounded-[var(--radius-md)] flex items-center transition-all duration-[120ms]"
-            >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <button onClick={() => openAuth('login')} className="btn btn-ghost btn-sm">
               Log in
             </button>
-            <button
-              onClick={() => openAuth('signup')}
-              className="h-8 px-3.5 text-[13px] font-[500] bg-[var(--color-ink)] text-[var(--color-canvas)] rounded-[var(--radius-md)] flex items-center hover:opacity-[0.88] transition-all duration-[120ms]"
-            >
+            <button onClick={() => openAuth('signup')} className="btn btn-primary btn-sm">
               Sign up
             </button>
           </div>
@@ -92,83 +104,141 @@ function LandingInner() {
               transition={{ duration: 0.2, ease: 'easeOut' }}
               className="flex flex-col gap-5"
             >
-              <p className="text-[11px] font-[500] uppercase tracking-[0.08em] text-[var(--color-accent)]">
-                A home for builders
+              {/* Eyebrow — Amendment 01: "A home for creators" */}
+              <p
+                style={{
+                  fontSize: 'var(--text-label)',
+                  fontWeight: 'var(--weight-medium)',
+                  letterSpacing: 'var(--tracking-label)',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-accent)',
+                }}
+              >
+                A home for creators
               </p>
+
               <h1
-                className="text-[52px] text-[var(--color-ink)] leading-[1.04] tracking-[-0.01em]"
-                style={{ fontFamily: 'var(--font-display)', fontWeight: 400 }}
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '52px',
+                  fontWeight: 400,
+                  lineHeight: 1.04,
+                  letterSpacing: '-0.01em',
+                  color: 'var(--color-ink)',
+                }}
               >
                 Share what you&apos;re building.
               </h1>
+
+              {/* Paragraph — Amendment 01: new copy */}
               <p
-                className="text-[17px] text-[var(--color-ink-soft)] leading-[var(--leading-body)]"
-                style={{ maxWidth: '420px' }}
+                style={{
+                  fontSize: '17px',
+                  color: 'var(--color-ink-soft)',
+                  lineHeight: 'var(--leading-body)',
+                  maxWidth: '420px',
+                }}
               >
-                Grassroots is where AI builders share projects, ideas, and progress with
-                people who actually care.
+                Grassroots sits at the center of social enterprise in AI. Share what
+                you&apos;re working on, connect with likeminded individuals, dream big.
               </p>
 
-              <div className="flex items-center gap-3 mt-1">
-                <button
-                  onClick={() => openAuth('signup')}
-                  className="h-11 px-6 text-[15px] font-[500] bg-[var(--color-ink)] text-[var(--color-canvas)] rounded-[var(--radius-md)] hover:opacity-[0.88] active:opacity-[0.76] transition-all duration-[120ms]"
-                >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '4px' }}>
+                <button onClick={() => openAuth('signup')} className="btn btn-primary btn-lg">
                   Create your account
                 </button>
-                <button
-                  onClick={() => openAuth('login')}
-                  className="h-11 px-6 text-[15px] font-[500] text-[var(--color-ink)] border border-[0.5px] border-[var(--color-border-strong)] rounded-[var(--radius-md)] hover:bg-[var(--color-surface)] transition-all duration-[120ms]"
-                >
+                <button onClick={() => openAuth('login')} className="btn btn-secondary btn-lg">
                   Log in
                 </button>
               </div>
-              <p className="text-[13px] text-[var(--color-secondary)]">
+
+              <p style={{ fontSize: 'var(--text-small)', color: 'var(--color-secondary)' }}>
                 Free to join. No ads.
               </p>
             </motion.div>
 
-            {/* Right product preview */}
+            {/* Right column — Amendment 01: live stats card replaces faux feed preview */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2, delay: 0.05, ease: 'easeOut' }}
             >
-              <div className="bg-[var(--color-surface)] border border-[0.5px] border-[var(--color-border)] rounded-[var(--radius-lg)] overflow-hidden">
-                {/* Faux header */}
-                <div className="px-4 py-3 border-b border-[0.5px] border-[var(--color-border)] flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[var(--color-border-strong)]" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-[var(--color-border-strong)]" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-[var(--color-border-strong)]" />
-                  <div className="ml-auto text-[12px] text-[var(--color-muted)]">grassroots.ai</div>
+              <div
+                style={{
+                  background: 'var(--color-surface)',
+                  border: 'var(--border-default)',
+                  borderRadius: 'var(--radius-lg)',
+                  padding: '32px 28px',
+                }}
+              >
+                {/* Card header */}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    marginBottom: '28px',
+                  }}
+                >
+                  {/* Sage live-dot */}
+                  <span
+                    style={{
+                      width: '7px',
+                      height: '7px',
+                      borderRadius: '999px',
+                      background: 'var(--color-accent)',
+                      flexShrink: 0,
+                    }}
+                  />
+                  <span
+                    style={{
+                      fontSize: 'var(--text-small)',
+                      fontWeight: 'var(--weight-medium)',
+                      color: 'var(--color-ink)',
+                    }}
+                  >
+                    Live on Grassroots
+                  </span>
                 </div>
-                {/* Preview posts */}
-                <div className="bg-[var(--color-canvas)] p-3 flex flex-col gap-2.5">
-                  {previewPosts.map((post) => (
+
+                {/* Stats */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                  {[
+                    { value: stats.usersOnline, label: 'Users online', icon: 'user' },
+                    { value: stats.activeCommunities, label: 'Active communities', icon: 'users-group' },
+                    { value: stats.ongoingThreads, label: 'Ongoing threads', icon: 'message-circle' },
+                  ].map(({ value, label, icon }) => (
                     <div
-                      key={post.id}
-                      className="bg-[var(--color-surface)] border border-[0.5px] border-[var(--color-border)] rounded-[var(--radius-lg)] p-3.5 pointer-events-none"
+                      key={label}
+                      style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                     >
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="w-7 h-7 rounded-full bg-[var(--color-accent-subtle)] flex items-center justify-center text-[11px] font-[500] text-[var(--color-accent-ink)]">
-                          {post.author.name[0]}
-                        </div>
-                        <span className="text-[13px] font-[500] text-[var(--color-ink)]">
-                          {post.author.name}
-                        </span>
-                        <span className="text-[12px] text-[var(--color-secondary)]">· 2h</span>
+                      <div>
+                        <p
+                          style={{
+                            fontFamily: 'var(--font-display)',
+                            fontSize: '36px',
+                            fontWeight: 400,
+                            lineHeight: 1.1,
+                            color: 'var(--color-ink)',
+                          }}
+                        >
+                          {formatStat(value)}
+                        </p>
+                        <p
+                          style={{
+                            fontSize: 'var(--text-body)',
+                            color: 'var(--color-secondary)',
+                            marginTop: '2px',
+                          }}
+                        >
+                          {label}
+                        </p>
                       </div>
-                      <p className="text-[13px] text-[var(--color-ink-soft)] leading-[1.55] line-clamp-2">
-                        {post.content}
-                      </p>
-                      <div className="flex items-center gap-3 mt-2.5">
-                        <span className="text-[12px] text-[var(--color-secondary)] flex items-center gap-1">
-                          <i className="ti ti-heart text-[14px]" /> {post.reactionCount}
-                        </span>
-                        <span className="text-[12px] text-[var(--color-secondary)] flex items-center gap-1">
-                          <i className="ti ti-message-circle text-[14px]" /> {post.commentCount}
-                        </span>
-                      </div>
+                      <i
+                        className={`ti ti-${icon}`}
+                        style={{ fontSize: '28px', color: 'var(--color-accent)', flexShrink: 0 }}
+                        aria-hidden="true"
+                      />
                     </div>
                   ))}
                 </div>
@@ -177,8 +247,8 @@ function LandingInner() {
           </div>
         </section>
 
-        {/* Value props */}
-        <section className="section-pad" style={{ borderTop: '0.5px solid var(--color-border)' }}>
+        {/* Value props — Amendment 01: all three retitled/rewritten */}
+        <section className="section-pad" style={{ borderTop: 'var(--border-default)' }}>
           <div className="value-props-grid">
             {VALUE_PROPS.map((vp, i) => (
               <motion.div
@@ -189,11 +259,26 @@ function LandingInner() {
                 className="flex flex-col gap-3"
               >
                 <i
-                  className={`ti ti-${vp.icon} text-[22px] text-[var(--color-accent)]`}
+                  className={`ti ti-${vp.icon}`}
+                  style={{ fontSize: '22px', color: 'var(--color-accent)' }}
                   aria-hidden="true"
                 />
-                <h3 className="text-[17px] font-[500] text-[var(--color-ink)]">{vp.title}</h3>
-                <p className="text-[14px] text-[var(--color-secondary)] leading-[var(--leading-body)]">
+                <h3
+                  style={{
+                    fontSize: '17px',
+                    fontWeight: 'var(--weight-medium)',
+                    color: 'var(--color-ink)',
+                  }}
+                >
+                  {vp.title}
+                </h3>
+                <p
+                  style={{
+                    fontSize: 'var(--text-body)',
+                    color: 'var(--color-secondary)',
+                    lineHeight: 'var(--leading-body)',
+                  }}
+                >
                   {vp.body}
                 </p>
               </motion.div>
@@ -201,21 +286,40 @@ function LandingInner() {
           </div>
         </section>
 
-        {/* CTA band */}
+        {/* CTA band — unchanged per spec */}
         <section className="section-pad">
-          <div className="flex flex-col items-center text-center gap-4" style={{ border: '0.5px solid var(--color-border)', borderRadius: 'var(--radius-lg)', padding: '56px 40px' }}>
+          <div
+            className="flex flex-col items-center text-center gap-4"
+            style={{
+              border: 'var(--border-default)',
+              borderRadius: 'var(--radius-lg)',
+              padding: '56px 40px',
+            }}
+          >
             <h2
-              className="text-[34px] text-[var(--color-ink)]"
-              style={{ fontFamily: 'var(--font-display)', fontWeight: 400 }}
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '34px',
+                fontWeight: 400,
+                color: 'var(--color-ink)',
+              }}
             >
               Ready to build in public?
             </h2>
-            <p className="text-[15px] text-[var(--color-secondary)] max-w-[420px] leading-[var(--leading-body)]">
+            <p
+              style={{
+                fontSize: '15px',
+                color: 'var(--color-secondary)',
+                maxWidth: '420px',
+                lineHeight: 'var(--leading-body)',
+              }}
+            >
               Join thousands of AI builders sharing what they&apos;re working on.
             </p>
             <button
               onClick={() => openAuth('signup')}
-              className="mt-2 h-11 px-6 text-[15px] font-[500] bg-[var(--color-ink)] text-[var(--color-canvas)] rounded-[var(--radius-md)] hover:opacity-[0.88] transition-all duration-[120ms]"
+              className="btn btn-primary btn-lg"
+              style={{ marginTop: '8px' }}
             >
               Create your account
             </button>
@@ -223,27 +327,35 @@ function LandingInner() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-[0.5px] border-[var(--color-border)] bg-[var(--color-surface)] py-5">
+      {/* Footer — Amendment 01: Careers · Terms of service · Guidelines · Privacy */}
+      <footer
+        style={{
+          borderTop: 'var(--border-default)',
+          background: 'var(--color-surface)',
+          paddingTop: '20px',
+          paddingBottom: '20px',
+        }}
+      >
         <div className="container-page flex items-center justify-between">
           <span
-            className="text-[18px] text-[var(--color-ink)]"
-            style={{ fontFamily: 'var(--font-display)' }}
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '18px',
+              color: 'var(--color-ink)',
+            }}
           >
             Grassroots
           </span>
-          <div className="flex items-center gap-5">
-            {['About', 'Communities', 'Guidelines', 'Privacy'].map((link) => (
-              <Link
-                key={link}
-                href="#"
-                className="text-[13px] text-[var(--color-secondary)] hover:text-[var(--color-ink)] transition-colors duration-[120ms]"
-              >
-                {link}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            {FOOTER_LINKS.map((label) => (
+              <Link key={label} href="#" className="navbar-link">
+                {label}
               </Link>
             ))}
           </div>
-          <p className="text-[13px] text-[var(--color-muted)]">© 2026 Grassroots</p>
+          <p style={{ fontSize: 'var(--text-small)', color: 'var(--color-muted)' }}>
+            © 2026 Grassroots
+          </p>
         </div>
       </footer>
 

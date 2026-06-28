@@ -74,55 +74,87 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
 
           <div className="mt-3">
             <h1
-              className="text-[24px] text-[var(--color-ink)]"
-              style={{ fontFamily: 'var(--font-display)', fontWeight: 400 }}
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'var(--text-title)',
+                fontWeight: 400,
+                color: 'var(--color-ink)',
+              }}
             >
               {profile.name}
             </h1>
-            <p className="text-[13px] text-[var(--color-secondary)] mt-0.5">
+            <p
+              style={{
+                fontSize: 'var(--text-small)',
+                color: 'var(--color-secondary)',
+                marginTop: '2px',
+              }}
+            >
               @{profile.username}
               {profile.pronouns && ` · ${profile.pronouns}`}
             </p>
-            <p className="mt-2.5 text-[14px] text-[var(--color-ink-soft)] leading-[1.6]">
+            <p
+              style={{
+                marginTop: '10px',
+                fontSize: 'var(--text-body)',
+                color: 'var(--color-ink-soft)',
+                lineHeight: '1.6',
+              }}
+            >
               {profile.bio}
             </p>
 
-            {/* Stats */}
-            <div className="flex items-center gap-5 mt-3">
-              <div className="flex items-baseline gap-1">
-                <span className="text-[17px] font-[500] text-[var(--color-ink)]">
+            {/* Stats — 17px medium number + 12px secondary label per spec */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginTop: '12px' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+                <span style={{ fontSize: '17px', fontWeight: 'var(--weight-medium)', color: 'var(--color-ink)' }}>
                   {profile.followingCount}
                 </span>
-                <span className="text-[12px] text-[var(--color-secondary)]">following</span>
+                <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-secondary)' }}>following</span>
               </div>
-              <div className="flex items-baseline gap-1">
-                <span className="text-[17px] font-[500] text-[var(--color-ink)]">
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+                <span style={{ fontSize: '17px', fontWeight: 'var(--weight-medium)', color: 'var(--color-ink)' }}>
                   {formatCount(profile.followerCount)}
                 </span>
-                <span className="text-[12px] text-[var(--color-secondary)]">followers</span>
+                <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-secondary)' }}>followers</span>
               </div>
-              <div className="flex items-baseline gap-1">
-                <span className="text-[17px] font-[500] text-[var(--color-ink)]">
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+                <span style={{ fontSize: '17px', fontWeight: 'var(--weight-medium)', color: 'var(--color-ink)' }}>
                   {profile.projectCount}
                 </span>
-                <span className="text-[12px] text-[var(--color-secondary)]">projects</span>
+                <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-secondary)' }}>projects</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Tab bar */}
-        <div className="flex items-center gap-6 border-b border-[0.5px] border-[var(--color-border)] mb-5">
+        {/* Tab bar — active = ink + medium + 2px sage underline per spec */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '24px',
+            borderBottom: 'var(--border-default)',
+            marginBottom: '20px',
+          }}
+        >
           {(['posts', 'projects', 'about'] as ProfileTab[]).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
-              className={[
-                'pb-3 text-[14px] capitalize transition-all duration-[120ms] border-b-2 -mb-[0.5px]',
-                tab === t
-                  ? 'text-[var(--color-ink)] font-[500] border-[var(--color-accent)]'
-                  : 'text-[var(--color-secondary)] border-transparent hover:text-[var(--color-ink)]',
-              ].join(' ')}
+              style={{
+                paddingBottom: '12px',
+                fontSize: 'var(--text-body)',
+                fontWeight: tab === t ? 'var(--weight-medium)' : 'var(--weight-regular)',
+                color: tab === t ? 'var(--color-ink)' : 'var(--color-secondary)',
+                background: 'none',
+                border: 'none',
+                borderBottom: tab === t ? '2px solid var(--color-accent)' : '2px solid transparent',
+                marginBottom: '-0.5px',
+                cursor: 'pointer',
+                textTransform: 'capitalize',
+                transition: 'color 120ms ease',
+              }}
             >
               {t}
             </button>

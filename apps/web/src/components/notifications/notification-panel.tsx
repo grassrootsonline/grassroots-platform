@@ -53,7 +53,7 @@ export function NotificationPanel({ onClose: _ }: NotificationPanelProps) {
     >
       <div className="flex items-center justify-between px-4 py-3 border-b border-[0.5px] border-[var(--color-border)]">
         <span className="text-[14px] font-[500] text-[var(--color-ink)]">Notifications</span>
-        <button className="btn btn-ghost btn-sm text-[var(--color-accent)]">Mark all read</button>
+        <button className="btn btn-ghost btn-sm">Mark all read</button>
       </div>
 
       <div className="max-h-[400px] overflow-y-auto">

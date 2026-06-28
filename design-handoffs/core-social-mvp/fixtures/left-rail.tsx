@@ -1,5 +1,18 @@
 'use client'
 
+// ============================================================
+// left-rail.tsx — CORRECTED (Amendment 03)
+// apps/web/src/components/layout/left-rail.tsx
+// ------------------------------------------------------------
+// Every token reference moved from arbitrary syntax
+// (text-[var(--color-secondary)], rounded-[var(--radius-md)],
+// font-[500], duration-[120ms], tracking-[0.08em]) to the
+// @theme utilities. Layout-only utilities (flex, gap-3, px-3,
+// w-[188px], sticky) are unchanged — those aren't tokens.
+// The left-rail nav HOVER uses bg-surface (not bg-canvas),
+// matching the design-system RailLink hover (Amendment 02 §4).
+// ============================================================
+
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Avatar } from '@/components/ui/avatar'
@@ -48,16 +61,16 @@ export function LeftRail({ user }: LeftRailProps) {
               key={href}
               href={href}
               className={[
-                'flex items-center gap-3 px-3 py-2 rounded-[var(--radius-md)] text-[14px] transition-all duration-[120ms]',
+                'flex items-center gap-3 px-3 py-2 rounded-md text-body transition-colors duration-fast',
                 active
-                  ? 'bg-[var(--color-accent-subtle)] text-[var(--color-ink)] font-[500]'
-                  : 'text-[var(--color-secondary)] hover:text-[var(--color-ink)] hover:bg-[var(--color-surface)]',
+                  ? 'bg-accent-subtle text-ink font-medium'
+                  : 'text-secondary hover:text-ink hover:bg-surface',
               ].join(' ')}
             >
               <i
                 className={[
                   `ti ti-${icon} text-[18px]`,
-                  active ? 'text-[var(--color-accent)]' : '',
+                  active ? 'text-accent' : '',
                 ].join(' ')}
                 aria-hidden="true"
               />
@@ -69,16 +82,16 @@ export function LeftRail({ user }: LeftRailProps) {
 
       {/* Projects */}
       <div className="mt-5">
-        <p className="px-3 text-[11px] font-[500] uppercase tracking-[0.08em] text-[var(--color-accent)] mb-1">
+        <p className="px-3 text-label font-medium uppercase tracking-label text-accent mb-1">
           Your projects
         </p>
         {MOCK_PROJECTS.map((p) => (
           <Link
             key={p.slug}
             href={`/project/${p.slug}`}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-[var(--radius-md)] text-[13px] text-[var(--color-secondary)] hover:text-[var(--color-ink)] hover:bg-[var(--color-surface)] transition-all duration-[120ms]"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-md text-small text-secondary hover:text-ink hover:bg-surface transition-colors duration-fast"
           >
-            <i className="ti ti-circle-dot text-[var(--color-accent)] text-[14px]" aria-hidden="true" />
+            <i className="ti ti-circle-dot text-accent text-[14px]" aria-hidden="true" />
             {p.name}
           </Link>
         ))}
@@ -89,14 +102,12 @@ export function LeftRail({ user }: LeftRailProps) {
         <div className="mt-auto pb-4">
           <Link
             href={`/profile/${user.username}`}
-            className="flex items-center gap-2.5 px-3 py-2 rounded-[var(--radius-md)] hover:bg-[var(--color-surface)] transition-all duration-[120ms]"
+            className="flex items-center gap-2.5 px-3 py-2 rounded-md hover:bg-surface transition-colors duration-fast"
           >
             <Avatar src={user.avatarUrl} name={user.name} size="sm" />
             <div className="min-w-0">
-              <p className="text-[13px] font-[500] text-[var(--color-ink)] truncate">
-                {user.name}
-              </p>
-              <p className="text-[11px] text-[var(--color-secondary)]">View profile</p>
+              <p className="text-small font-medium text-ink truncate">{user.name}</p>
+              <p className="text-label text-secondary">View profile</p>
             </div>
           </Link>
         </div>
