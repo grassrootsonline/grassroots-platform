@@ -66,7 +66,7 @@ body {
 
 .btn-danger {
   background: var(--color-danger);
-  color: #fff;
+  color: var(--color-canvas);
   border: none;
 }
 .btn-danger:hover { opacity: 0.88; }
@@ -104,9 +104,9 @@ body {
   white-space: nowrap;
 }
 
-.badge-default { background: #EAE7E1; color: #5A5950; }
-.badge-accent  { background: var(--color-accent-subtle); color: #2E5C2C; }
-.badge-warm    { background: #F0EAE0; color: #7A5C30; }
+.badge-default { background: var(--color-neutral); color: var(--color-neutral-text); }
+.badge-accent  { background: var(--color-accent-subtle); color: var(--color-accent-ink); }
+.badge-warm    { background: var(--color-warm-subtle); color: var(--color-warm); }
 .badge-muted   { background: var(--color-surface); color: var(--color-secondary); border: var(--border-default); }
 .badge-danger  { background: var(--color-danger-subtle); color: var(--color-danger); }
 
@@ -153,7 +153,7 @@ textarea.input { resize: vertical; min-height: 80px; line-height: var(--leading-
   font-weight: var(--weight-medium);
   flex-shrink: 0;
   background: var(--color-accent-subtle);
-  color: #2E5C2C;
+  color: var(--color-accent-ink);
   overflow: hidden;
   user-select: none;
 }
@@ -363,7 +363,7 @@ textarea.input { resize: vertical; min-height: 80px; line-height: var(--leading-
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
-.toast-success { background: #2E5C2C; }
+.toast-success { background: var(--color-accent-ink); }
 .toast-danger  { background: var(--color-danger); }
 
 /* ============================================
