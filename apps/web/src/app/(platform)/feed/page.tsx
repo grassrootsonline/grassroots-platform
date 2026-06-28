@@ -50,7 +50,7 @@ export default function FeedPage() {
         <LeftRail user={MOCK_USER} />
 
         {/* Center feed */}
-        <main className="flex-1 max-w-[640px] min-w-0">
+        <main className="flex-1 max-w-[560px] min-w-0">
           {/* Composer trigger */}
           <div className="flex items-center gap-3 mb-5">
             <Avatar src={MOCK_USER.avatarUrl} name={MOCK_USER.name} size="md" />

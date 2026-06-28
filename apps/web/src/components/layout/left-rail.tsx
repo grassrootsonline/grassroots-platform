@@ -36,7 +36,7 @@ export function LeftRail({ user }: LeftRailProps) {
 
   return (
     <aside
-      className="w-[188px] flex-shrink-0 sticky top-[76px] self-start h-[calc(100vh-76px)] flex flex-col"
+      className="w-[188px] flex-shrink-0 sticky top-[80px] self-start h-[calc(100vh-80px)] flex flex-col"
       aria-label="Primary navigation"
     >
       {/* Nav links */}

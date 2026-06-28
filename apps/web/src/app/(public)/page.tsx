@@ -56,7 +56,7 @@ function LandingInner() {
       <Toaster />
 
       {/* Sticky header */}
-      <header className="sticky top-0 z-[var(--z-sticky)] h-[56px] bg-[var(--color-surface)] border-b border-[0.5px] border-[var(--color-border)] flex items-center">
+      <header className="sticky top-0 z-[var(--z-sticky)] h-[60px] bg-[var(--color-surface)] border-b border-[0.5px] border-[var(--color-border)] flex items-center">
         <div className="container-page flex items-center justify-between">
           <span
             className="text-[22px] text-[var(--color-ink)] leading-none"
