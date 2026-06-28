@@ -56,13 +56,13 @@ export default function FeedPage() {
             <Avatar src={MOCK_USER.avatarUrl} name={MOCK_USER.name} size="md" />
             <button
               onClick={() => setComposerOpen(true)}
-              className="flex-1 h-10 px-4 text-[14px] text-[var(--color-muted)] bg-[var(--color-canvas)] border border-[0.5px] border-[var(--color-border-strong)] rounded-[var(--radius-pill)] text-left hover:border-[var(--color-accent)] transition-all duration-[120ms]"
+              className="flex-1 h-10 px-4 text-body text-muted bg-canvas border-[0.5px] border-border-strong rounded-pill text-left hover:border-accent transition-colors duration-fast"
             >
               Share what you&apos;re building…
             </button>
             <button
               onClick={() => setComposerOpen(true)}
-              className="w-10 h-10 flex items-center justify-center bg-[var(--color-ink)] text-[var(--color-canvas)] rounded-[var(--radius-pill)] hover:opacity-[0.88] transition-all duration-[120ms]"
+              className="w-10 h-10 flex items-center justify-center bg-ink text-canvas rounded-pill hover:opacity-88 transition-colors duration-fast"
               aria-label="Create post"
             >
               <i className="ti ti-plus text-[18px]" aria-hidden="true" />
@@ -91,14 +91,7 @@ export default function FeedPage() {
         <aside className="w-[212px] flex-shrink-0 sticky top-[80px] self-start hidden lg:flex flex-col gap-4">
           {/* Trending projects */}
           <Card>
-            <h3
-              style={{
-                fontSize: 'var(--text-small)',
-                fontWeight: 'var(--weight-medium)',
-                color: 'var(--color-ink)',
-                marginBottom: 'var(--space-md)',
-              }}
-            >
+            <h3 className="text-small font-medium text-ink mb-md">
               Trending projects
             </h3>
             <div className="flex flex-col gap-3">
@@ -107,12 +100,11 @@ export default function FeedPage() {
                   <div className="min-w-0">
                     <Link
                       href={`/project/${p.slug}`}
-                      className="navbar-link truncate block"
-                      style={{ fontSize: 'var(--text-small)', fontWeight: 'var(--weight-medium)' }}
+                      className="navbar-link text-small font-medium truncate block"
                     >
                       {p.name}
                     </Link>
-                    <p style={{ fontSize: 'var(--text-label)', color: 'var(--color-secondary)' }}>
+                    <p className="text-label text-secondary">
                       {p.watchers.toLocaleString()} watchers
                     </p>
                   </div>
@@ -132,14 +124,7 @@ export default function FeedPage() {
 
           {/* Who to follow */}
           <Card>
-            <h3
-              style={{
-                fontSize: 'var(--text-small)',
-                fontWeight: 'var(--weight-medium)',
-                color: 'var(--color-ink)',
-                marginBottom: 'var(--space-md)',
-              }}
-            >
+            <h3 className="text-small font-medium text-ink mb-md">
               Who to follow
             </h3>
             <div className="flex flex-col gap-3">
@@ -150,20 +135,11 @@ export default function FeedPage() {
                     <div className="min-w-0">
                       <Link
                         href={`/profile/${u.username}`}
-                        className="navbar-link truncate block"
-                        style={{ fontSize: 'var(--text-small)', fontWeight: 'var(--weight-medium)' }}
+                        className="navbar-link text-small font-medium truncate block"
                       >
                         {u.name}
                       </Link>
-                      <p
-                        style={{
-                          fontSize: 'var(--text-label)',
-                          color: 'var(--color-secondary)',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
+                      <p className="text-label text-secondary truncate">
                         {u.tagline}
                       </p>
                     </div>

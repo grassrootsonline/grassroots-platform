@@ -48,11 +48,11 @@ interface NotificationPanelProps {
 export function NotificationPanel({ onClose: _ }: NotificationPanelProps) {
   return (
     <div
-      className="absolute top-full right-0 mt-2 w-[340px] bg-[var(--color-surface)] border border-[0.5px] border-[var(--color-border)] rounded-[var(--radius-lg)] shadow-[var(--shadow-overlay)] z-[var(--z-modal)] overflow-hidden"
+      className="absolute top-full right-0 mt-2 w-[340px] bg-surface border-[0.5px] border-border rounded-lg shadow-overlay z-[var(--z-modal)] overflow-hidden"
       onClick={(e) => e.stopPropagation()}
     >
-      <div className="flex items-center justify-between px-4 py-3 border-b border-[0.5px] border-[var(--color-border)]">
-        <span className="text-[14px] font-[500] text-[var(--color-ink)]">Notifications</span>
+      <div className="flex items-center justify-between px-4 py-3 border-b border-[0.5px] border-border">
+        <span className="text-body font-medium text-ink">Notifications</span>
         <button className="btn btn-ghost btn-sm">Mark all read</button>
       </div>
 
@@ -63,7 +63,7 @@ export function NotificationPanel({ onClose: _ }: NotificationPanelProps) {
             <Avatar src={n.actor.avatarUrl} name={n.actor.name} size="sm" />
             <div className="flex-1 min-w-0">
               <p className="notif-text">
-                <span className="font-[500] text-[var(--color-ink)]">{n.actor.name}</span>{' '}
+                <span className="font-medium text-ink">{n.actor.name}</span>{' '}
                 {n.text}
               </p>
               <p className="notif-time">{n.time}</p>
