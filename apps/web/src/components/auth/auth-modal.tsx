@@ -52,15 +52,15 @@ export function AuthModal({ open, initialMode = 'signup', onClose, onSuccess }: 
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
-            className="fixed top-[11vh] left-1/2 -translate-x-1/2 w-full max-w-[420px] bg-[var(--color-surface)] rounded-[var(--radius-xl)] shadow-[var(--shadow-overlay)] z-[var(--z-modal)] p-7"
+            className="fixed top-[11vh] left-1/2 -translate-x-1/2 w-full max-w-[420px] bg-surface rounded-xl shadow-overlay z-[var(--z-modal)] p-7"
           >
             <h2
-              className="text-[22px] text-[var(--color-ink)] mb-1"
+              className="text-[22px] text-ink mb-1"
               style={{ fontFamily: 'var(--font-display)' }}
             >
               {mode === 'signup' ? 'Join Grassroots' : 'Welcome back'}
             </h2>
-            <p className="text-[14px] text-[var(--color-secondary)] mb-6">
+            <p className="text-body text-secondary mb-6">
               {mode === 'signup'
                 ? 'A home for AI builders.'
                 : 'Sign in to your account.'}
@@ -103,14 +103,14 @@ export function AuthModal({ open, initialMode = 'signup', onClose, onSuccess }: 
               </Button>
             </form>
 
-            <p className="mt-5 text-center text-[13px] text-[var(--color-secondary)]">
+            <p className="mt-5 text-center text-small text-secondary">
               {mode === 'signup' ? (
                 <>
                   Already have an account?{' '}
                   <button
                     type="button"
                     onClick={() => setMode('login')}
-                    className="text-[var(--color-accent)] hover:underline"
+                    className="text-accent hover:underline"
                   >
                     Log in
                   </button>
@@ -121,7 +121,7 @@ export function AuthModal({ open, initialMode = 'signup', onClose, onSuccess }: 
                   <button
                     type="button"
                     onClick={() => setMode('signup')}
-                    className="text-[var(--color-accent)] hover:underline"
+                    className="text-accent hover:underline"
                   >
                     Create one
                   </button>
