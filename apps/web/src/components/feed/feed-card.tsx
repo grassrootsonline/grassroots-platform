@@ -1,7 +1,19 @@
 'use client'
 
+// ============================================================
+// feed-card.tsx — Amendment 04 (motion adherence)
+// apps/web/src/components/feed/feed-card.tsx
+// ------------------------------------------------------------
+// Only change vs. the shipped file: the like button no longer
+// uses a Framer Motion spring scale (whileTap scale:1.25). The
+// design system motion rule is "no spring, no scale transforms;
+// press = opacity/color." The liked state is already conveyed by
+// .action-btn.active turning sage (with the 120ms color
+// transition baked into components.css), so the button is now a
+// plain <button> and the unused `motion` import is dropped.
+// ============================================================
+
 import { useState } from 'react'
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Avatar } from '@/components/ui/avatar'
 import s from './feed-card.module.css'
@@ -86,16 +98,15 @@ export function FeedCard({ post, onOpenThread }: FeedCardProps) {
       <p className="feed-card-body">{post.content}</p>
 
       <div className="feed-card-actions">
-        <motion.button
+        <button
           onClick={handleLike}
-          whileTap={{ scale: 1.25 }}
-          transition={{ type: 'spring', stiffness: 400, damping: 20 }}
           className={['action-btn', liked ? 'active' : ''].filter(Boolean).join(' ')}
           aria-label={liked ? 'Unlike' : 'Like'}
+          aria-pressed={liked}
         >
           <i className="ti ti-heart icon-base" aria-hidden="true" />
           <span>{likeCount}</span>
-        </motion.button>
+        </button>
 
         <button
           onClick={() => onOpenThread?.(post.id)}

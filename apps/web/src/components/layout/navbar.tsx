@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { Avatar } from '@/components/ui/avatar'
 import { NotificationPanel } from '@/components/notifications/notification-panel'
+import { ThemeToggle } from './theme-toggle'
 import s from './navbar.module.css'
 
 interface NavbarProps {
@@ -29,6 +30,7 @@ export function Navbar({ user }: NavbarProps) {
       </Link>
 
       <div className="navbar-actions">
+        <ThemeToggle />
         {user ? (
           <>
             <div className={s.notifWrapper}>
