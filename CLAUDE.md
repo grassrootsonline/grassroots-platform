@@ -5,22 +5,36 @@
 
 You are building **Project Grassroots**, the AI builders' social platform. Two documents are authoritative and override anything you'd otherwise assume:
 
-- **Engineering** → `design-handoffs/<feature>/ARCHITECTURE.md` (Next.js 15 App Router, Supabase/Postgres, Drizzle, Upstash Redis, Tailwind 4, Framer Motion). Stack, schema, API, caching, permissions, and coding standards live there.
-- **Visual style** → the **design-system repo** `grassrootsonline/grassroots-design-system-core`, default branch `main`. Its `CLAUDE.md` is binding. If visual guidance ever conflicts, the design-system `CLAUDE.md` wins on style and `ARCHITECTURE.md` wins on engineering.
+- **Engineering** → `design-handoffs/<feature>/ARCHITECTURE.md` (Next.js 15 App Router, Supabase/Postgres, Drizzle, Upstash Redis, Framer Motion). Stack, schema, API, caching, permissions, and coding standards live there.
+- **Visual style** → `packages/design-system/CLAUDE.md`. That file is binding. If visual guidance ever conflicts, `packages/design-system/CLAUDE.md` wins on style and `ARCHITECTURE.md` wins on engineering.
 
 ## Design system — always the source of truth
 
-Never invent colors, type, spacing, or components. Derive everything from `grassroots-design-system-core`:
+Never invent colors, type, spacing, or components. Derive everything from `packages/design-system/`:
 
-- Tokens: `tokens/{colors,typography,spacing}.css`. Components: `components/components.css`. Guide: `CLAUDE.md`.
-- Vendor the tokens into `apps/web/src/styles/tokens.css` and map the Tailwind 4 config to those CSS variables — **no hard-coded hex in component files**. Recreate the components as React in `packages/ui` (the design-system repo ships CSS, not React).
-- Non-negotiables from the guide: sentence-case copy; Inter weights **400/500 only**; DM Serif Display for display moments only; **sage `#6B8C6A` is the only interactive color — never introduce blue**; all borders **0.5px**; cards have no shadow (shadow is for modals/toasts only); **Tabler outline icons only**, never `-filled`; no emoji; dark mode flips via tokens (never hand-author overrides).
+- Tokens: `tokens/colors.css`, `tokens/typography.css`, `tokens/spacing.css`
+- Components: `components/components.css`, `components-new.css`
+- Motion: `motion.css` — all durations and easing live here
+- Responsive: `responsive.css` — breakpoints, bottom nav, sheet pattern
+- Entry point: `index.css` imports tokens + components in the correct order
+
+Non-negotiables from the guide: sentence-case copy; Inter weights **400/500 only**; DM Serif Display for display moments only; **sage `#6B8C6A` is the only interactive color — never introduce blue**; all borders **0.5px**; cards have no shadow (shadow is for modals/toasts only); **Tabler outline icons only**, never `-filled`; no emoji; dark mode flips via tokens (never hand-author overrides).
+
+## CSS approach — native CSS, no utility framework
+
+This project uses **native CSS** with design system tokens. There is no Tailwind or other utility-class library.
+
+- **`apps/web/src/styles/globals.css`** imports the design system directly and adds platform-level layout helpers (`.container-platform`, `.container-feed`, `.skeleton`, etc.). Do not import or vendor design system files anywhere else.
+- **CSS Modules** (`*.module.css` co-located with components) for all component-scoped styles. Reference design system tokens via `var(--color-ink)`, `var(--space-md)`, `var(--border-default)` etc. — never hardcode values.
+- **Design system component classes** (`.btn`, `.btn-primary`, `.feed-card`, `.avatar`, `.tab`, `.input`, etc.) are available globally. Use them in React `className` props directly.
+- **Inline `style` prop** for genuinely dynamic values only (e.g. `style={{ width: progress + '%' }}`).
+- **No Tailwind classes** anywhere in the codebase. `tailwindcss` and `@tailwindcss/postcss` have been removed.
 
 ## Design handoffs
 
 Designs arrive under `design-handoffs/<feature>/` (see that folder's README). To implement one:
 
-1. Read the design-system repo + the feature `README.md`; open its `prototypes/` for look and behavior. The HTML is a **reference**, not code to copy — recreate it with `packages/ui` + Tailwind tokens.
+1. Read `packages/design-system/CLAUDE.md` + the feature `README.md`; open its `prototypes/` for look and behavior. The HTML prototype is a **reference** — recreate it as React components using design system classes and CSS Modules.
 2. Build it for real per `ARCHITECTURE.md`: RSC by default, Server Actions for writes (`requireSession()` → `checkPermission()` → Zod → mutate → `revalidateTag()`), layout-accurate `*Skeleton`s, optimistic UI, the Framer Motion specs.
 3. Amendments (`AMENDMENT-*.md` in a feature folder) change only what they describe — keep the diff small.
 
