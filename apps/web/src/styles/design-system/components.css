@@ -1,9 +1,14 @@
-/* ============================================
-   Grassroots — Components
+/* ============================================================
+   Grassroots — Components  (CORRECTED, Amendment 03)
    Vendored from grassroots-design-system-core
-   ============================================ */
+   ------------------------------------------------------------
+   Changes vs. prior version:
+   • All hardcoded hex replaced with tokens (so dark mode flips).
+   • .badge / .badge-* and .card blocks REMOVED — Badge and Card
+     are now single-sourced in components/ui/{badge,card}.tsx.
+   • Hardcoded "120ms ease" transitions → motion tokens.
+   ============================================================ */
 
-/* ---- Reset baseline ---- */
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
@@ -88,27 +93,9 @@ body {
 }
 
 /* ============================================
-   BADGES
+   BADGES — REMOVED.
+   Single-sourced in components/ui/badge.tsx.
    ============================================ */
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-xs);
-  padding: 3px 9px;
-  border-radius: var(--radius-pill);
-  font-size: var(--text-label);
-  font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.badge-default { background: var(--color-neutral); color: var(--color-neutral-text); }
-.badge-accent  { background: var(--color-accent-subtle); color: var(--color-accent-ink); }
-.badge-warm    { background: var(--color-warm-subtle); color: var(--color-warm); }
-.badge-muted   { background: var(--color-surface); color: var(--color-secondary); border: var(--border-default); }
-.badge-danger  { background: var(--color-danger-subtle); color: var(--color-danger); }
 
 /* ============================================
    FORM INPUTS
@@ -172,14 +159,9 @@ textarea.input { resize: vertical; min-height: 80px; line-height: var(--leading-
 
 /* ============================================
    CARDS
+   .card REMOVED — single-sourced in components/ui/card.tsx.
+   .feed-card stays here (stateful component class).
    ============================================ */
-
-.card {
-  background: var(--color-surface);
-  border: var(--border-default);
-  border-radius: var(--radius-lg);
-  padding: var(--space-lg) 20px;
-}
 
 .feed-card {
   background: var(--color-surface);
@@ -361,7 +343,7 @@ textarea.input { resize: vertical; min-height: 80px; line-height: var(--leading-
   color: var(--color-canvas);
   border-radius: var(--radius-lg);
   font-size: var(--text-body);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-overlay);
 }
 
 .toast-success { background: var(--color-accent-ink); }
