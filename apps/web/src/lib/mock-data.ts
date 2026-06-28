@@ -96,6 +96,12 @@ export const MOCK_WHO_TO_FOLLOW = [
   },
 ]
 
+export const MOCK_PLATFORM_STATS = {
+  usersOnline: 1284,
+  activeCommunities: 312,
+  ongoingThreads: 4927,
+}
+
 export const MOCK_REPLIES = [
   {
     id: 'r1',

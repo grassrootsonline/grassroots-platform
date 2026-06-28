@@ -6,26 +6,32 @@ import { motion } from 'framer-motion'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { AuthModal } from '@/components/auth/auth-modal'
 import { Toaster } from '@/components/ui/toast'
-import { FeedCard } from '@/components/feed/feed-card'
-import { MOCK_POSTS } from '@/lib/mock-data'
+import { MOCK_PLATFORM_STATS } from '@/lib/mock-data'
 
+// Amendment 01 — updated copy and value props
 const VALUE_PROPS = [
   {
-    icon: 'rocket',
-    title: 'Show your work',
-    body: "Post updates on what you're building. Link your projects, share progress, and get feedback from people who get it.",
+    icon: 'pencil',
+    title: 'Build openly',
+    body: 'What you shipped, what you broke, what you learned, and what you imagine. Your journey, in one place.',
   },
   {
-    icon: 'users',
-    title: 'Find your people',
-    body: 'Follow builders working on the same problems. Join communities organized around tools, research areas, and ideas.',
+    icon: 'users-group',
+    title: 'Build together',
+    body: 'Create communities that follow the development of group projects and products. Talking to your audience has never been easier.',
   },
   {
-    icon: 'eye',
-    title: 'Get seen',
+    icon: 'message-circle',
+    title: 'Join the conversation',
     body: 'Your projects surface to the people most likely to care — not by algorithm, but by interest graph.',
   },
 ]
+
+const FOOTER_LINKS = ['Careers', 'Terms of service', 'Guidelines', 'Privacy']
+
+function formatStat(n: number): string {
+  return n.toLocaleString('en-US')
+}
 
 function LandingInner() {
   const router = useRouter()
@@ -49,13 +55,13 @@ function LandingInner() {
     router.replace('/', { scroll: false })
   }
 
-  const previewPosts = MOCK_POSTS.slice(0, 2)
+  const stats = MOCK_PLATFORM_STATS
 
   return (
     <>
       <Toaster />
 
-      {/* Sticky header — 60px per spec */}
+      {/* Sticky header — 60px, wordmark hard-left, auth hard-right */}
       <header
         className="sticky top-0 flex items-center"
         style={{
@@ -88,7 +94,7 @@ function LandingInner() {
       </header>
 
       <main className="container-page">
-        {/* Hero — 72px top padding per spec */}
+        {/* Hero */}
         <section className="section-hero">
           <div className="hero-grid">
             {/* Left copy */}
@@ -98,6 +104,7 @@ function LandingInner() {
               transition={{ duration: 0.2, ease: 'easeOut' }}
               className="flex flex-col gap-5"
             >
+              {/* Eyebrow — Amendment 01: "A home for creators" */}
               <p
                 style={{
                   fontSize: 'var(--text-label)',
@@ -107,7 +114,7 @@ function LandingInner() {
                   color: 'var(--color-accent)',
                 }}
               >
-                A home for builders
+                A home for creators
               </p>
 
               <h1
@@ -123,6 +130,7 @@ function LandingInner() {
                 Share what you&apos;re building.
               </h1>
 
+              {/* Paragraph — Amendment 01: new copy */}
               <p
                 style={{
                   fontSize: '17px',
@@ -131,8 +139,8 @@ function LandingInner() {
                   maxWidth: '420px',
                 }}
               >
-                Grassroots is where AI builders share projects, ideas, and progress with
-                people who actually care.
+                Grassroots sits at the center of social enterprise in AI. Share what
+                you&apos;re working on, connect with likeminded individuals, dream big.
               </p>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '4px' }}>
@@ -149,7 +157,7 @@ function LandingInner() {
               </p>
             </motion.div>
 
-            {/* Right product preview */}
+            {/* Right column — Amendment 01: live stats card replaces faux feed preview */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -160,147 +168,77 @@ function LandingInner() {
                   background: 'var(--color-surface)',
                   border: 'var(--border-default)',
                   borderRadius: 'var(--radius-lg)',
-                  overflow: 'hidden',
+                  padding: '32px 28px',
                 }}
               >
-                {/* Faux browser chrome */}
+                {/* Card header */}
                 <div
                   style={{
-                    padding: '10px 16px',
-                    borderBottom: 'var(--border-default)',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '6px',
+                    gap: '8px',
+                    marginBottom: '28px',
                   }}
                 >
-                  <div
+                  {/* Sage live-dot */}
+                  <span
                     style={{
-                      width: '10px',
-                      height: '10px',
+                      width: '7px',
+                      height: '7px',
                       borderRadius: '999px',
-                      background: 'var(--color-border-strong)',
-                    }}
-                  />
-                  <div
-                    style={{
-                      width: '10px',
-                      height: '10px',
-                      borderRadius: '999px',
-                      background: 'var(--color-border-strong)',
-                    }}
-                  />
-                  <div
-                    style={{
-                      width: '10px',
-                      height: '10px',
-                      borderRadius: '999px',
-                      background: 'var(--color-border-strong)',
+                      background: 'var(--color-accent)',
+                      flexShrink: 0,
                     }}
                   />
                   <span
                     style={{
-                      marginLeft: 'auto',
                       fontSize: 'var(--text-small)',
-                      color: 'var(--color-muted)',
+                      fontWeight: 'var(--weight-medium)',
+                      color: 'var(--color-ink)',
                     }}
                   >
-                    grassroots.ai
+                    Live on Grassroots
                   </span>
                 </div>
-                {/* Preview feed */}
-                <div
-                  style={{
-                    background: 'var(--color-canvas)',
-                    padding: '12px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '10px',
-                  }}
-                >
-                  {previewPosts.map((post) => (
+
+                {/* Stats */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                  {[
+                    { value: stats.usersOnline, label: 'Users online', icon: 'user' },
+                    { value: stats.activeCommunities, label: 'Active communities', icon: 'users-group' },
+                    { value: stats.ongoingThreads, label: 'Ongoing threads', icon: 'message-circle' },
+                  ].map(({ value, label, icon }) => (
                     <div
-                      key={post.id}
-                      style={{
-                        background: 'var(--color-surface)',
-                        border: 'var(--border-default)',
-                        borderRadius: 'var(--radius-lg)',
-                        padding: '14px',
-                        pointerEvents: 'none',
-                      }}
+                      key={label}
+                      style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                     >
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          marginBottom: '8px',
-                        }}
-                      >
-                        <div
-                          className="avatar avatar-sm"
-                          style={{ width: '28px', height: '28px', fontSize: '10px' }}
-                        >
-                          {post.author.name[0]}
-                        </div>
-                        <span
+                      <div>
+                        <p
                           style={{
-                            fontSize: 'var(--text-small)',
-                            fontWeight: 'var(--weight-medium)',
+                            fontFamily: 'var(--font-display)',
+                            fontSize: '36px',
+                            fontWeight: 400,
+                            lineHeight: 1.1,
                             color: 'var(--color-ink)',
                           }}
                         >
-                          {post.author.name}
-                        </span>
-                        <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-secondary)' }}>
-                          · 2h
-                        </span>
-                      </div>
-                      <p
-                        style={{
-                          fontSize: 'var(--text-small)',
-                          color: 'var(--color-ink-soft)',
-                          lineHeight: 'var(--leading-tight)',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                        }}
-                      >
-                        {post.content}
-                      </p>
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '12px',
-                          marginTop: '10px',
-                        }}
-                      >
-                        <span
+                          {formatStat(value)}
+                        </p>
+                        <p
                           style={{
-                            fontSize: 'var(--text-small)',
+                            fontSize: 'var(--text-body)',
                             color: 'var(--color-secondary)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '4px',
+                            marginTop: '2px',
                           }}
                         >
-                          <i className="ti ti-heart" style={{ fontSize: '14px' }} />
-                          {post.reactionCount}
-                        </span>
-                        <span
-                          style={{
-                            fontSize: 'var(--text-small)',
-                            color: 'var(--color-secondary)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '4px',
-                          }}
-                        >
-                          <i className="ti ti-message-circle" style={{ fontSize: '14px' }} />
-                          {post.commentCount}
-                        </span>
+                          {label}
+                        </p>
                       </div>
+                      <i
+                        className={`ti ti-${icon}`}
+                        style={{ fontSize: '28px', color: 'var(--color-accent)', flexShrink: 0 }}
+                        aria-hidden="true"
+                      />
                     </div>
                   ))}
                 </div>
@@ -309,7 +247,7 @@ function LandingInner() {
           </div>
         </section>
 
-        {/* Value props */}
+        {/* Value props — Amendment 01: all three retitled/rewritten */}
         <section className="section-pad" style={{ borderTop: 'var(--border-default)' }}>
           <div className="value-props-grid">
             {VALUE_PROPS.map((vp, i) => (
@@ -348,7 +286,7 @@ function LandingInner() {
           </div>
         </section>
 
-        {/* CTA band */}
+        {/* CTA band — unchanged per spec */}
         <section className="section-pad">
           <div
             className="flex flex-col items-center text-center gap-4"
@@ -389,7 +327,7 @@ function LandingInner() {
         </section>
       </main>
 
-      {/* Footer */}
+      {/* Footer — Amendment 01: Careers · Terms of service · Guidelines · Privacy */}
       <footer
         style={{
           borderTop: 'var(--border-default)',
@@ -409,7 +347,7 @@ function LandingInner() {
             Grassroots
           </span>
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-            {['About', 'Communities', 'Guidelines', 'Privacy'].map((label) => (
+            {FOOTER_LINKS.map((label) => (
               <Link key={label} href="#" className="navbar-link">
                 {label}
               </Link>
