@@ -4,13 +4,13 @@
 
 This package contains the UI design for the first slice of **Project Grassroots**, the AI builders' social platform. It covers the surfaces a logged-out visitor and a logged-in member touch first: the **landing/auth page**, the **home feed**, an **individual profile**, a **post-detail thread**, and the **create-post composer**, plus the persistent **navigation** and **notifications** that frame them.
 
-It is the design-and-spec half of the work. Implementation happens in your repo against the stack defined in `Grassroots — Principal Architecture Document` (Next.js 15 App Router, Supabase/Postgres, Drizzle, Tailwind 4 + Grassroots design tokens, Framer Motion). Every screen below is cross-referenced to the tables, Server Actions, and rules in that document so a developer who wasn't in the design conversation can build it.
+It is the design-and-spec half of the work. Implementation happens in your repo against the stack defined in `Grassroots — Principal Architecture Document` (Next.js 15 App Router, Supabase/Postgres, Drizzle, native CSS + CSS Modules with Grassroots design tokens, Framer Motion). Every screen below is cross-referenced to the tables, Server Actions, and rules in that document so a developer who wasn't in the design conversation can build it.
 
 ## About the design files
 
 The files in `prototypes/` are **design references created in HTML** — self-contained, offline-openable prototypes that show the intended look and behavior. **They are not production code to copy.** They were built with a standalone HTML component runtime purely to make the designs interactive; none of that runtime should ship.
 
-The task is to **recreate these designs in the Grassroots codebase** using its established patterns: React Server Components by default, Server Actions for writes, the Grassroots component library (`components/ui/*`), Tailwind classes mapped to the design tokens, and Framer Motion for the motion specs. Treat the HTML as the visual + interaction contract; treat the architecture document as the implementation contract.
+The task is to **recreate these designs in the Grassroots codebase** using its established patterns: React Server Components by default, Server Actions for writes, the Grassroots component library (`components/ui/*`), CSS Modules + the design-system token `var(--…)`s and global component classes, and Framer Motion for the motion specs. Treat the HTML as the visual + interaction contract; treat the architecture document as the implementation contract.
 
 Open each file directly in a browser:
 
@@ -28,19 +28,19 @@ One caveat: the prototypes render in light or dark automatically via `prefers-co
 
 ## Engineering setup (read this first, Claude Code)
 
-You are working across **two repositories in the `grassrootsonline` org**:
+Everything lives in **one repo** — `grassrootsonline/grassroots-platform` (Next.js 15 monorepo per `ARCHITECTURE.md`). The **design system is in-repo and is the source of truth** at `packages/design-system/` (its `CLAUDE.md` is the binding style guide — read it in full and obey it; tokens in `tokens/{colors,typography,spacing}.css`, classes in `components/components.css` + `components-new.css`, motion in `motion.css`, responsive in `responsive.css`, all wired by `index.css`). There is no separate design-system repo to sync from.
 
-- **`grassrootsonline/grassroots-design-system-core`** (default branch `main`) — the source of truth for visual style. CSS-first: `CLAUDE.md` (the binding style guide — read it in full and obey it), `tokens/{colors,typography,spacing}.css`, `components/components.css`, `index.css`.
-- **`grassrootsonline/grassroots-platform`** (default branch `main`) — the application you are building in (Next.js 15 monorepo per `ARCHITECTURE.md`). **All your work lands here.**
+### Step 1 — Consume the design system
 
-### Step 1 — Pull in the design system
+The design system is already imported by `apps/web/src/styles/globals.css`; you don't vendor or fetch anything. Build against it directly — **do not eyeball values from the prototype HTML**:
 
-Read the design-system repo and make it the live styling foundation; do not eyeball values from the prototype HTML. Choose the integration that fits the platform repo's current state:
+- **Tokens** via `var(--…)` (`var(--color-ink)`, `var(--space-md)`, `var(--border-default)`) — **never hard-code hex** (architecture §12.3).
+- **Global component classes** (`.btn`, `.btn-primary`, `.feed-card`, `.avatar`, `.input`, …) used directly in React `className`.
+- **Component-scoped styles** as co-located **CSS Modules** (`*.module.css`) referencing those tokens.
+- **No Tailwind** — `tailwindcss` has been removed; there are no utility classes and no `tailwind.config`.
+- Recreate the components described in `components/components.css` as real React components in `components/ui/*` where one doesn't already exist.
 
-- **Preferred — vendor the tokens, recreate the components.** Port `tokens/{colors,typography,spacing}.css` into the platform's token layer (`apps/web/src/styles/tokens.css`) and wire the Tailwind 4 config so utilities map to those CSS variables (architecture §12.3 — no hard-coded hex). Recreate the components described in `components/components.css` as real React components in `packages/ui` (Radix primitives + the Grassroots styles), since the design-system repo ships CSS, not React.
-- **Alternative — keep it linked for easy sync.** Add the design-system repo as a git submodule (or a pnpm workspace / git dependency) and `@import` its `index.css`. Use this if the team wants token changes to flow without re-vendoring.
-
-Either way, **`CLAUDE.md` in the design-system repo is binding**: sentence-case copy, Inter weights 400/500 only, DM Serif Display for display moments, sage as the only interactive color (never blue), 0.5px borders, no card shadows, Tabler outline icons only. Where this README and that `CLAUDE.md` agree, follow them; if they ever conflict, the design-system `CLAUDE.md` wins on visual style and `ARCHITECTURE.md` wins on engineering.
+**`packages/design-system/CLAUDE.md` is binding**: sentence-case copy, Inter weights 400/500 only, DM Serif Display for display moments, sage as the only interactive color (never blue), 0.5px borders, no card shadows, Tabler outline icons only. Where this README and that `CLAUDE.md` agree, follow them; if they ever conflict, `packages/design-system/CLAUDE.md` wins on visual style and `ARCHITECTURE.md` wins on engineering.
 
 ### Step 2 — Data layer: seeded on feature/dev, live on main
 
@@ -168,7 +168,7 @@ Submitting closes the modal and shows a `Toast` ("Account created." / "Logged in
 | Reply | "Reply posted." toast | `createComment`; optimistic append |
 | Auth submit | Closes modal, success toast | Supabase Auth (§14.1) |
 
-**Motion** (from architecture §12.2 — apply these, not the prototype's CSS): modal = scale `0.95→1` + fade, 150ms ease-out, backdrop fades separately; feed card entry = staggered children `0.05`, fade + 8px up; like = spring `scale 1.25→1`; button press = `whileTap scale 0.97`; page transitions = fade + 12px Y, 200ms ease-out at the layout level; notification bell bounce on arrival. All other transitions are **120ms ease** on background/border/opacity/color only — no bounces or decorative loops.
+**Motion** (from architecture §12.2, which complies with the binding design-system motion rule — apply these, not the prototype's CSS): modal = scale `0.95→1` + fade, 150ms ease-out, backdrop fades separately; feed card entry = staggered children `0.05`, fade + 8px up; like = the heart turns **sage** (120ms color transition) and the count increments — **no scale, no spring, never fills**; button press = opacity drop to ~0.76 (**no scale**); page transitions = fade + 12px Y, 200ms ease-out at the layout level; new notification = unread dot fades in (**no bounce**). All other transitions are **120ms ease** on background/border/opacity/color only — no bounces, springs, or decorative loops.
 
 **Loading.** Every data-driven component needs a layout-accurate `*Skeleton` (architecture §6.4, §12.4) — never spinners. Route segments use `loading.tsx`; feed uses `IntersectionObserver` infinite scroll loading 300px early; new feed items enter with opacity only (no position shift).
 
@@ -198,7 +198,7 @@ Map the prototype's local React state to the production data layer:
 
 ## Design tokens
 
-Exact values from the bound Grassroots design system (light mode; dark-mode equivalents flip automatically via `prefers-color-scheme`). **No hard-coded hex in component files** (architecture §12.3) — these must be the Tailwind/CSS-variable token set.
+Exact values from the bound Grassroots design system (light mode; dark-mode equivalents flip automatically via `prefers-color-scheme`). **No hard-coded hex in component files** (architecture §12.3) — reference the design-system token `var(--…)`s (in `packages/design-system/tokens/`) via CSS Modules and global classes.
 
 ### Color
 | Token | Hex | Use |

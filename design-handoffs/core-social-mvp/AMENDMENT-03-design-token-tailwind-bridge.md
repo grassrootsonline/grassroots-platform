@@ -1,5 +1,12 @@
 # Amendment 03 — Design-token ↔ Tailwind 4 bridge (theme registration)
 
+> **⚠ SUPERSEDED.** The team did not take the Tailwind `@theme` approach below — the
+> platform was migrated **CSS-first (Tailwind removed entirely)**, with the design system
+> living in-repo at `packages/design-system/`. The *diagnosis* in this amendment still holds
+> (three competing styling systems, hardcoded hex, stale DS layers); the *fix* (a Tailwind 4
+> `@theme` bridge) does **not** apply. For the current model see `/CLAUDE.md` ("native CSS, no
+> utility framework") and **Amendment 04** for the remaining color-token cleanup. Kept for history.
+
 **Feature:** core-social-mvp
 **Screen(s) affected:** Global — styling foundation (`apps/web/src/styles/*`) and every component that references a token. No visual redesign; this makes the *intended* design system actually reachable through Tailwind and removes drift.
 **Date:** 2026-06-28

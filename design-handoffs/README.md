@@ -7,7 +7,7 @@ This folder is the **contract between visual design and engineering**. Designs a
 ```
 design-handoffs/
   README.md                  ← you are here (the convention)
-  grassroots-platform.CLAUDE.md  ← commit this as /CLAUDE.md at the repo root
+  CLAUDE.md                  ← commit this as /CLAUDE.md at the repo root
   AMENDMENT-TEMPLATE.md      ← copy when iterating on a shipped screen
   <feature>/                 ← one folder per feature handoff
     README.md                ← the build spec (binding)
@@ -22,7 +22,7 @@ For any feature folder, the instruction to Claude Code is always the same one li
 > Implement `design-handoffs/<feature>/` per its README, on a branch.
 
 Claude Code then:
-1. Reads the design-system repo (`grassrootsonline/grassroots-design-system-core`) and treats its `CLAUDE.md` as binding for visual style.
+1. Reads `packages/design-system/CLAUDE.md` (the in-repo binding style guide) for visual style.
 2. Reads the feature `README.md` (spec) + opens the `prototypes/` for look and behavior.
 3. Builds on a `feature/<feature>` branch off `development`, commits with Conventional Commits, pushes, and **stops** — no merge to `main`, no PR. You review the Vercel preview and merge manually.
 
