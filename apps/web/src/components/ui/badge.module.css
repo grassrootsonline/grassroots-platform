@@ -34,8 +34,7 @@
   color: var(--color-danger);
 }
 
-/* warm is not yet in the design system tokens — using literal values */
 .warm {
-  background: #F0EAE0;
-  color: #7A5C30;
+  background: var(--color-warm-subtle);
+  color: var(--color-warm);
 }
