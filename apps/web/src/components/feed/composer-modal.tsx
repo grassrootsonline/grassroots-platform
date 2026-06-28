@@ -95,25 +95,23 @@ export function ComposerModal({ open, onClose, onPublish, user }: ComposerModalP
 
             {/* Footer */}
             <div className="flex items-center justify-between px-5 py-3 border-t border-[0.5px] border-[var(--color-border)]">
-              <div className="flex items-center gap-2">
-                <button
-                  className="w-8 h-8 flex items-center justify-center text-[var(--color-muted)] hover:text-[var(--color-secondary)] transition-colors duration-[120ms]"
-                  aria-label="Add image"
-                >
-                  <i className="ti ti-photo text-[16px]" aria-hidden="true" />
-                </button>
-                <button
-                  className="w-8 h-8 flex items-center justify-center text-[var(--color-muted)] hover:text-[var(--color-secondary)] transition-colors duration-[120ms]"
-                  aria-label="Add link"
-                >
-                  <i className="ti ti-link text-[16px]" aria-hidden="true" />
-                </button>
-                <button
-                  className="w-8 h-8 flex items-center justify-center text-[var(--color-muted)] hover:text-[var(--color-secondary)] transition-colors duration-[120ms]"
-                  aria-label="Add code"
-                >
-                  <i className="ti ti-code text-[16px]" aria-hidden="true" />
-                </button>
+              <div className="flex items-center gap-1">
+                {[
+                  { icon: 'photo', label: 'Add image' },
+                  { icon: 'link', label: 'Add link' },
+                  { icon: 'code', label: 'Add code' },
+                ].map(({ icon, label }) => (
+                  <button
+                    key={icon}
+                    className="btn btn-icon"
+                    aria-label={label}
+                    style={{ color: 'var(--color-muted)' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-secondary)' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted)' }}
+                  >
+                    <i className={`ti ti-${icon}`} style={{ fontSize: '16px' }} aria-hidden="true" />
+                  </button>
+                ))}
 
                 <select
                   value={projectId}

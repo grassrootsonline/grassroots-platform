@@ -91,7 +91,14 @@ export default function FeedPage() {
         <aside className="w-[212px] flex-shrink-0 sticky top-[80px] self-start flex flex-col gap-4">
           {/* Trending projects */}
           <Card>
-            <h3 className="text-[13px] font-[500] text-[var(--color-ink)] mb-3">
+            <h3
+              style={{
+                fontSize: 'var(--text-small)',
+                fontWeight: 'var(--weight-medium)',
+                color: 'var(--color-ink)',
+                marginBottom: 'var(--space-md)',
+              }}
+            >
               Trending projects
             </h3>
             <div className="flex flex-col gap-3">
@@ -100,21 +107,20 @@ export default function FeedPage() {
                   <div className="min-w-0">
                     <Link
                       href={`/project/${p.slug}`}
-                      className="text-[13px] font-[500] text-[var(--color-ink)] hover:text-[var(--color-accent)] truncate block transition-colors duration-[120ms]"
+                      className="navbar-link truncate block"
+                      style={{ fontSize: 'var(--text-small)', fontWeight: 'var(--weight-medium)' }}
                     >
                       {p.name}
                     </Link>
-                    <p className="text-[12px] text-[var(--color-secondary)]">
+                    <p style={{ fontSize: 'var(--text-label)', color: 'var(--color-secondary)' }}>
                       {p.watchers.toLocaleString()} watchers
                     </p>
                   </div>
                   <button
                     onClick={() => toggleFollow(p.slug)}
                     className={[
-                      'h-7 px-3 text-[12px] font-[500] rounded-[var(--radius-md)] flex-shrink-0 transition-all duration-[120ms]',
-                      following[p.slug]
-                        ? 'bg-[var(--color-accent-subtle)] text-[var(--color-accent-ink)] border border-[0.5px] border-[var(--color-accent)]/30'
-                        : 'bg-[var(--color-ink)] text-[var(--color-canvas)] hover:opacity-[0.88]',
+                      'btn btn-sm flex-shrink-0',
+                      following[p.slug] ? 'btn-secondary' : 'btn-primary',
                     ].join(' ')}
                   >
                     {following[p.slug] ? 'Following' : 'Follow'}
@@ -126,7 +132,14 @@ export default function FeedPage() {
 
           {/* Who to follow */}
           <Card>
-            <h3 className="text-[13px] font-[500] text-[var(--color-ink)] mb-3">
+            <h3
+              style={{
+                fontSize: 'var(--text-small)',
+                fontWeight: 'var(--weight-medium)',
+                color: 'var(--color-ink)',
+                marginBottom: 'var(--space-md)',
+              }}
+            >
               Who to follow
             </h3>
             <div className="flex flex-col gap-3">
@@ -137,11 +150,20 @@ export default function FeedPage() {
                     <div className="min-w-0">
                       <Link
                         href={`/profile/${u.username}`}
-                        className="text-[13px] font-[500] text-[var(--color-ink)] hover:text-[var(--color-accent)] truncate block transition-colors duration-[120ms]"
+                        className="navbar-link truncate block"
+                        style={{ fontSize: 'var(--text-small)', fontWeight: 'var(--weight-medium)' }}
                       >
                         {u.name}
                       </Link>
-                      <p className="text-[12px] text-[var(--color-secondary)] truncate">
+                      <p
+                        style={{
+                          fontSize: 'var(--text-label)',
+                          color: 'var(--color-secondary)',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
                         {u.tagline}
                       </p>
                     </div>
@@ -149,10 +171,8 @@ export default function FeedPage() {
                   <button
                     onClick={() => toggleFollow(u.username)}
                     className={[
-                      'h-7 px-3 text-[12px] font-[500] rounded-[var(--radius-md)] flex-shrink-0 transition-all duration-[120ms]',
-                      following[u.username]
-                        ? 'bg-[var(--color-accent-subtle)] text-[var(--color-accent-ink)] border border-[0.5px] border-[var(--color-accent)]/30'
-                        : 'bg-[var(--color-ink)] text-[var(--color-canvas)] hover:opacity-[0.88]',
+                      'btn btn-sm flex-shrink-0',
+                      following[u.username] ? 'btn-secondary' : 'btn-primary',
                     ].join(' ')}
                   >
                     {following[u.username] ? 'Following' : 'Follow'}
