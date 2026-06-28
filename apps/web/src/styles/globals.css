@@ -160,6 +160,51 @@
    Non-token globals (layout helpers, resets, skeleton, focus)
    ============================================================ */
 
+/* Legacy shorthand aliases — components.css / components-new.css / responsive.css
+   still reference these names from the old tokens.css. @theme uses --spacing-* /
+   --font-weight-* naming; these aliases bridge the gap. New code should use @theme
+   utilities (gap-md, font-medium, etc.) rather than var(--space-md). */
+:root {
+  /* Spacing aliases (vendored component CSS uses --space-* not --spacing-*) */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  12px;
+  --space-lg:  20px;
+  --space-xl:  32px;
+  --space-2xl: 48px;
+  --space-3xl: 72px;
+
+  /* Font weight aliases */
+  --weight-regular: 400;
+  --weight-medium:  500;
+
+  /* Leading scale */
+  --leading-display: 1.1;
+  --leading-title:   1.2;
+  --leading-body:    1.65;
+  --leading-tight:   1.3;
+
+  /* Z-index scale */
+  --z-sticky:  100;
+  --z-overlay: 200;
+  --z-modal:   300;
+  --z-toast:   400;
+
+  /* Focus ring */
+  --focus-ring: 0 0 0 3px var(--color-accent-mist);
+
+  /* Border shorthands */
+  --border-default: 0.5px solid var(--color-border);
+  --border-strong:  0.5px solid var(--color-border-strong);
+  --border-accent:  0.5px solid var(--color-accent);
+  --border-dashed:  0.5px dashed var(--color-border-strong);
+
+  /* Layout constants */
+  --feed-max-width:    640px;
+  --sidebar-width:     188px;
+  --content-max-width: 1200px;
+}
+
 /* Public / auth pages */
 .container-page {
   width: 100%;

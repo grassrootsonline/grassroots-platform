@@ -108,12 +108,12 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
               key={t}
               onClick={() => setTab(t)}
               className={[
-                'pb-3 text-body border-b-2 -mb-px cursor-pointer capitalize transition-colors duration-fast bg-none border-none outline-none',
+                'pb-3 text-body border-b-2 -mb-px cursor-pointer capitalize transition-colors duration-fast outline-none',
                 tab === t
                   ? 'text-ink font-medium border-accent'
                   : 'text-secondary font-normal border-transparent hover:text-ink',
               ].join(' ')}
-              style={{ background: 'none', border: 'none', borderBottom: tab === t ? '2px solid var(--color-accent)' : '2px solid transparent' }}
+              style={{ background: 'none' }}
             >
               {t}
             </button>
