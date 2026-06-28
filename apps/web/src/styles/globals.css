@@ -96,6 +96,14 @@ body { min-height: 100vh; }
   box-shadow: var(--focus-ring);
 }
 
+/* Icon sizes — Tabler icons are font-based; font-size controls their dimensions */
+.icon-xs   { font-size: 13px; }
+.icon-sm   { font-size: 14px; }
+.icon-base { font-size: 16px; }
+.icon-md   { font-size: 18px; }
+.icon-lg   { font-size: 22px; }
+.icon-xl   { font-size: 28px; }
+
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }

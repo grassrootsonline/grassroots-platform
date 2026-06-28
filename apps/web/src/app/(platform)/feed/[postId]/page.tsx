@@ -8,6 +8,7 @@ import { Avatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/toast'
 import { MOCK_USER, MOCK_POSTS, MOCK_REPLIES } from '@/lib/mock-data'
+import s from './page.module.css'
 
 function formatTime(dateStr: string): string {
   const date = new Date(dateStr)
@@ -44,68 +45,60 @@ export default function ThreadPage({ params }: { params: Promise<{ postId: strin
   }
 
   return (
-    <div className="flex gap-6">
+    <div style={{ display: 'flex', gap: '24px' }}>
       <LeftRail user={MOCK_USER} />
 
-      <main className="flex-1 max-w-[560px] min-w-0 pb-10">
-        <Link
-          href="/feed"
-          className="inline-flex items-center gap-1.5 text-small text-secondary hover:text-accent transition-colors duration-fast mb-5"
-        >
-          <i className="ti ti-arrow-left text-[14px]" aria-hidden="true" />
+      <main className={s.main}>
+        <Link href="/feed" className={s.backLink}>
+          <i className="ti ti-arrow-left icon-sm" aria-hidden="true" />
           Back to feed
         </Link>
 
         <FeedCard post={post} />
 
         {/* Replies section */}
-        <div className="mt-6">
-          <div className="flex items-center gap-3 mb-4">
-            <h2 className="text-small font-medium uppercase tracking-label text-accent">
-              Replies
-            </h2>
-            <div className="flex-1 h-[0.5px] bg-border" />
+        <div className={s.replies}>
+          <div className={s.repliesHeader}>
+            <h2 className={s.repliesLabel}>Replies</h2>
+            <div className={s.repliesDivider} />
           </div>
 
-          <div className="flex flex-col">
-            {replies.map((reply, i) => (
+          <div className={s.replyList}>
+            {replies.map((reply) => (
               <div
                 key={reply.id}
-                className={[
-                  'flex items-start gap-3 py-4',
-                  i < replies.length - 1 ? 'border-b border-[0.5px] border-border' : '',
-                ].join(' ')}
+                className={s.reply}
               >
                 <Link href={`/profile/${reply.author.username}`}>
                   <Avatar src={reply.author.avatarUrl} name={reply.author.name} size="md" />
                 </Link>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-1 mb-1">
+                <div className={s.replyBody}>
+                  <div className={s.replyMeta}>
                     <Link
                       href={`/profile/${reply.author.username}`}
-                      className="text-body font-medium text-ink hover:text-accent transition-colors duration-fast"
+                      className={s.replyAuthor}
                     >
                       {reply.author.name}
                     </Link>
-                    <span className="text-secondary text-small">·</span>
-                    <span className="text-small text-secondary">
+                    <span className={s.replySep}>·</span>
+                    <span className={s.replyTime}>
                       {formatTime(reply.createdAt)}
                     </span>
                   </div>
-                  <p className="text-body text-ink-soft leading-[1.65]">
+                  <p className={s.replyContent}>
                     {reply.content}
                   </p>
-                  <div className="flex items-center gap-4 mt-2.5">
+                  <div className={s.replyActions}>
                     <button
                       onClick={() =>
                         setReplyLikes((l) => ({ ...l, [reply.id]: (l[reply.id] ?? 0) + 1 }))
                       }
-                      className="flex items-center gap-1.5 text-small text-secondary hover:text-accent transition-colors duration-fast"
+                      className={s.replyActionBtn}
                     >
-                      <i className="ti ti-heart text-[14px]" aria-hidden="true" />
+                      <i className="ti ti-heart icon-sm" aria-hidden="true" />
                       <span>{reply.reactionCount + (replyLikes[reply.id] ?? 0)}</span>
                     </button>
-                    <button className="text-small text-secondary hover:text-accent transition-colors duration-fast">
+                    <button className={s.replyActionBtn}>
                       Reply
                     </button>
                   </div>
@@ -115,7 +108,7 @@ export default function ThreadPage({ params }: { params: Promise<{ postId: strin
           </div>
 
           {/* Reply composer */}
-          <div className="flex items-center gap-3 mt-5">
+          <div className={s.composer}>
             <Avatar src={MOCK_USER.avatarUrl} name={MOCK_USER.name} size="md" />
             <input
               type="text"
@@ -123,7 +116,7 @@ export default function ThreadPage({ params }: { params: Promise<{ postId: strin
               onChange={(e) => setReplyText(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleReply()}
               placeholder="Write a reply…"
-              className="flex-1 h-9 px-4 text-body bg-canvas border-[0.5px] border-border-strong rounded-pill outline-none focus:border-accent focus:shadow-[var(--focus-ring)] transition-colors duration-fast placeholder:text-muted"
+              className={s.composerInput}
             />
             <Button size="sm" onClick={handleReply} disabled={!replyText.trim()}>
               Reply

@@ -1,6 +1,7 @@
 import { Navbar } from '@/components/layout/navbar'
 import { Toaster } from '@/components/ui/toast'
 import { MOCK_USER } from '@/lib/mock-data'
+import s from './layout.module.css'
 
 const isDev =
   process.env.USE_SEED_DATA === 'true' ||
@@ -11,19 +12,12 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
     <>
       <Navbar user={MOCK_USER} />
       {isDev && (
-        <div
-          className="flex items-center justify-center gap-2 py-1.5 text-label font-medium tracking-[0.04em] uppercase"
-          style={{
-            background: 'var(--color-accent-mist)',
-            borderBottom: 'var(--border-accent)',
-            color: 'var(--color-accent)',
-          }}
-        >
-          <i className="ti ti-database text-[13px]" aria-hidden="true" />
+        <div className={s.devBanner}>
+          <i className="ti ti-database icon-xs" aria-hidden="true" />
           Development build · seeded data
         </div>
       )}
-      <div className="container-platform pt-5">
+      <div className={`container-platform ${s.main}`}>
         {children}
       </div>
       <Toaster />

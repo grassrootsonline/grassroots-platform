@@ -1,6 +1,7 @@
 'use client'
 
 import { Avatar } from '@/components/ui/avatar'
+import s from './notification-panel.module.css'
 
 interface Notification {
   id: string
@@ -47,23 +48,20 @@ interface NotificationPanelProps {
 
 export function NotificationPanel({ onClose: _ }: NotificationPanelProps) {
   return (
-    <div
-      className="absolute top-full right-0 mt-2 w-[340px] bg-surface border-[0.5px] border-border rounded-lg shadow-overlay z-[var(--z-modal)] overflow-hidden"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className="flex items-center justify-between px-4 py-3 border-b border-[0.5px] border-border">
-        <span className="text-body font-medium text-ink">Notifications</span>
+    <div className={s.panel} onClick={(e) => e.stopPropagation()}>
+      <div className={s.header}>
+        <span className="text-body" style={{ fontWeight: 'var(--weight-medium)', color: 'var(--color-ink)' }}>Notifications</span>
         <button className="btn btn-ghost btn-sm">Mark all read</button>
       </div>
 
-      <div className="max-h-[400px] overflow-y-auto">
+      <div className={s.list}>
         {MOCK_NOTIFICATIONS.map((n) => (
-          <div key={n.id} className="notif cursor-pointer">
+          <div key={n.id} className="notif" style={{ cursor: 'pointer' }}>
             <div className={['notif-dot', n.read ? 'read' : ''].filter(Boolean).join(' ')} />
             <Avatar src={n.actor.avatarUrl} name={n.actor.name} size="sm" />
-            <div className="flex-1 min-w-0">
+            <div className={s.textWrap}>
               <p className="notif-text">
-                <span className="font-medium text-ink">{n.actor.name}</span>{' '}
+                <span style={{ fontWeight: 'var(--weight-medium)', color: 'var(--color-ink)' }}>{n.actor.name}</span>{' '}
                 {n.text}
               </p>
               <p className="notif-time">{n.time}</p>

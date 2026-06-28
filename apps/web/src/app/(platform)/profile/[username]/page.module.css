@@ -1,0 +1,134 @@
+.main {
+  flex: 1;
+  max-width: 600px;
+  min-width: 0;
+  padding-bottom: 40px;
+}
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  text-decoration: none;
+  margin-bottom: var(--space-lg);
+  transition: var(--transition-colors);
+}
+.backLink:hover { color: var(--color-accent); }
+.profileHeader { margin-bottom: var(--space-lg); }
+.profileTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.profileActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.profileInfo { margin-top: var(--space-md); }
+.profileName {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  color: var(--color-ink);
+  font-weight: 400;
+}
+.profileHandle {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  margin-top: 2px;
+}
+.profileBio {
+  font-size: var(--text-body);
+  color: var(--color-ink-soft);
+  margin-top: 10px;
+  line-height: 1.6;
+}
+.stats {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
+}
+.stat {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-xs);
+}
+.statValue {
+  font-size: 17px;
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+}
+.statLabel { font-size: var(--text-small); color: var(--color-secondary); }
+.tabBar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  border-bottom: var(--border-default);
+  margin-bottom: var(--space-lg);
+}
+.tab {
+  padding-bottom: var(--space-md);
+  font-size: var(--text-body);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  cursor: pointer;
+  text-transform: capitalize;
+  transition: var(--transition-colors);
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  outline: none;
+  color: var(--color-secondary);
+  font-weight: var(--weight-regular);
+}
+.tab:hover { color: var(--color-ink); }
+.tabActive {
+  color: var(--color-ink);
+  font-weight: var(--weight-medium);
+  border-bottom-color: var(--color-accent);
+}
+.posts { display: flex; flex-direction: column; gap: var(--space-lg); }
+.projectsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.projectCard {
+  display: block;
+  background: var(--color-surface);
+  border: var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  text-decoration: none;
+  transition: var(--transition-colors);
+}
+.projectCard:hover { border-color: var(--color-border-strong); }
+.projectCardHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+.projectCardIcon { font-size: 16px; color: var(--color-accent); }
+.projectCardName {
+  font-size: 15px;
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+}
+.projectCardDesc {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  line-height: 1.5;
+  margin-bottom: var(--space-md);
+}
+.projectCardFoot {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-size: var(--text-small);
+  color: var(--color-muted);
+}

@@ -6,32 +6,26 @@ import { motion } from 'framer-motion'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { AuthModal } from '@/components/auth/auth-modal'
 import { Toaster } from '@/components/ui/toast'
-import { MOCK_PLATFORM_STATS } from '@/lib/mock-data'
+import { MOCK_POSTS } from '@/lib/mock-data'
+import s from './page.module.css'
 
-// Amendment 01 — updated copy and value props
 const VALUE_PROPS = [
   {
-    icon: 'pencil',
-    title: 'Build openly',
-    body: 'What you shipped, what you broke, what you learned, and what you imagine. Your journey, in one place.',
+    icon: 'rocket',
+    title: 'Show your work',
+    body: 'Post updates on what you\'re building. Link your projects, share progress, and get feedback from people who get it.',
   },
   {
-    icon: 'users-group',
-    title: 'Build together',
-    body: 'Create communities that follow the development of group projects and products. Talking to your audience has never been easier.',
+    icon: 'users',
+    title: 'Find your people',
+    body: 'Follow builders working on the same problems. Join communities organized around tools, research areas, and ideas.',
   },
   {
-    icon: 'message-circle',
-    title: 'Join the conversation',
+    icon: 'eye',
+    title: 'Get seen',
     body: 'Your projects surface to the people most likely to care — not by algorithm, but by interest graph.',
   },
 ]
-
-const FOOTER_LINKS = ['Careers', 'Terms of service', 'Guidelines', 'Privacy']
-
-function formatStat(n: number): string {
-  return n.toLocaleString('en-US')
-}
 
 function LandingInner() {
   const router = useRouter()
@@ -55,23 +49,26 @@ function LandingInner() {
     router.replace('/', { scroll: false })
   }
 
-  const stats = MOCK_PLATFORM_STATS
+  const previewPosts = MOCK_POSTS.slice(0, 2)
 
   return (
     <>
       <Toaster />
 
-      {/* Sticky header — 60px, wordmark hard-left, auth hard-right */}
+      {/* Sticky header */}
       <header
-        className="sticky top-0 flex items-center"
         style={{
+          position: 'sticky',
+          top: 0,
+          zIndex: 'var(--z-sticky)',
           height: '60px',
           background: 'var(--color-surface)',
           borderBottom: 'var(--border-default)',
-          zIndex: 'var(--z-sticky)',
+          display: 'flex',
+          alignItems: 'center',
         }}
       >
-        <div className="container-page flex items-center justify-between">
+        <div className="container-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span
             style={{
               fontFamily: 'var(--font-display)',
@@ -102,9 +99,8 @@ function LandingInner() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2, ease: 'easeOut' }}
-              className="flex flex-col gap-5"
+              className={s.heroMotion}
             >
-              {/* Eyebrow — Amendment 01: "A home for creators" */}
               <p
                 style={{
                   fontSize: 'var(--text-label)',
@@ -114,9 +110,8 @@ function LandingInner() {
                   color: 'var(--color-accent)',
                 }}
               >
-                A home for creators
+                A home for builders
               </p>
-
               <h1
                 style={{
                   fontFamily: 'var(--font-display)',
@@ -129,8 +124,6 @@ function LandingInner() {
               >
                 Share what you&apos;re building.
               </h1>
-
-              {/* Paragraph — Amendment 01: new copy */}
               <p
                 style={{
                   fontSize: '17px',
@@ -139,8 +132,8 @@ function LandingInner() {
                   maxWidth: '420px',
                 }}
               >
-                Grassroots sits at the center of social enterprise in AI. Share what
-                you&apos;re working on, connect with likeminded individuals, dream big.
+                Grassroots is where AI builders share projects, ideas, and progress with
+                people who actually care.
               </p>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '4px' }}>
@@ -151,13 +144,12 @@ function LandingInner() {
                   Log in
                 </button>
               </div>
-
               <p style={{ fontSize: 'var(--text-small)', color: 'var(--color-secondary)' }}>
                 Free to join. No ads.
               </p>
             </motion.div>
 
-            {/* Right column — Amendment 01: live stats card replaces faux feed preview */}
+            {/* Right product preview */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -168,77 +160,88 @@ function LandingInner() {
                   background: 'var(--color-surface)',
                   border: 'var(--border-default)',
                   borderRadius: 'var(--radius-lg)',
-                  padding: '32px 28px',
+                  overflow: 'hidden',
                 }}
               >
-                {/* Card header */}
+                {/* Faux header */}
                 <div
                   style={{
+                    padding: '12px 16px',
+                    borderBottom: 'var(--border-default)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
-                    marginBottom: '28px',
                   }}
                 >
-                  {/* Sage live-dot */}
-                  <span
-                    style={{
-                      width: '7px',
-                      height: '7px',
-                      borderRadius: '999px',
-                      background: 'var(--color-accent)',
-                      flexShrink: 0,
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: 'var(--text-small)',
-                      fontWeight: 'var(--weight-medium)',
-                      color: 'var(--color-ink)',
-                    }}
-                  >
-                    Live on Grassroots
-                  </span>
+                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--color-border-strong)' }} />
+                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--color-border-strong)' }} />
+                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--color-border-strong)' }} />
+                  <div style={{ marginLeft: 'auto', fontSize: 'var(--text-small)', color: 'var(--color-muted)' }}>grassroots.ai</div>
                 </div>
-
-                {/* Stats */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                  {[
-                    { value: stats.usersOnline, label: 'Users online', icon: 'user' },
-                    { value: stats.activeCommunities, label: 'Active communities', icon: 'users-group' },
-                    { value: stats.ongoingThreads, label: 'Ongoing threads', icon: 'message-circle' },
-                  ].map(({ value, label, icon }) => (
+                {/* Preview posts */}
+                <div
+                  style={{
+                    background: 'var(--color-canvas)',
+                    padding: '12px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '10px',
+                  }}
+                >
+                  {previewPosts.map((post) => (
                     <div
-                      key={label}
-                      style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                      key={post.id}
+                      style={{
+                        background: 'var(--color-surface)',
+                        border: 'var(--border-default)',
+                        borderRadius: 'var(--radius-lg)',
+                        padding: '14px',
+                        pointerEvents: 'none',
+                      }}
                     >
-                      <div>
-                        <p
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                        <div
                           style={{
-                            fontFamily: 'var(--font-display)',
-                            fontSize: '36px',
-                            fontWeight: 400,
-                            lineHeight: 1.1,
-                            color: 'var(--color-ink)',
+                            width: '28px',
+                            height: '28px',
+                            borderRadius: '50%',
+                            background: 'var(--color-accent-subtle)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: 'var(--text-label)',
+                            fontWeight: 'var(--weight-medium)',
+                            color: 'var(--color-accent-ink)',
                           }}
                         >
-                          {formatStat(value)}
-                        </p>
-                        <p
-                          style={{
-                            fontSize: 'var(--text-body)',
-                            color: 'var(--color-secondary)',
-                            marginTop: '2px',
-                          }}
-                        >
-                          {label}
-                        </p>
+                          {post.author.name[0]}
+                        </div>
+                        <span style={{ fontSize: 'var(--text-small)', fontWeight: 'var(--weight-medium)', color: 'var(--color-ink)' }}>
+                          {post.author.name}
+                        </span>
+                        <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-secondary)' }}>· 2h</span>
                       </div>
-                      <i
-                        className={`ti ti-${icon}`}
-                        style={{ fontSize: '28px', color: 'var(--color-accent)', flexShrink: 0 }}
-                        aria-hidden="true"
-                      />
+                      <p
+                        style={{
+                          fontSize: 'var(--text-small)',
+                          color: 'var(--color-ink-soft)',
+                          lineHeight: '1.55',
+                          overflow: 'hidden',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                        }}
+                      >
+                        {post.content}
+                      </p>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '10px' }}>
+                        <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <i className="ti ti-heart icon-sm" /> {post.reactionCount}
+                        </span>
+                        <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <i className="ti ti-message-circle icon-sm" /> {post.commentCount}
+                        </span>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -247,7 +250,7 @@ function LandingInner() {
           </div>
         </section>
 
-        {/* Value props — Amendment 01: all three retitled/rewritten */}
+        {/* Value props */}
         <section className="section-pad" style={{ borderTop: 'var(--border-default)' }}>
           <div className="value-props-grid">
             {VALUE_PROPS.map((vp, i) => (
@@ -256,29 +259,15 @@ function LandingInner() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2, delay: 0.1 + i * 0.05 }}
-                className="flex flex-col gap-3"
+                className={s.valueProp}
               >
                 <i
-                  className={`ti ti-${vp.icon}`}
-                  style={{ fontSize: '22px', color: 'var(--color-accent)' }}
+                  className={`ti ti-${vp.icon} icon-lg`}
+                  style={{ color: 'var(--color-accent)' }}
                   aria-hidden="true"
                 />
-                <h3
-                  style={{
-                    fontSize: '17px',
-                    fontWeight: 'var(--weight-medium)',
-                    color: 'var(--color-ink)',
-                  }}
-                >
-                  {vp.title}
-                </h3>
-                <p
-                  style={{
-                    fontSize: 'var(--text-body)',
-                    color: 'var(--color-secondary)',
-                    lineHeight: 'var(--leading-body)',
-                  }}
-                >
+                <h3 style={{ fontSize: '17px', fontWeight: 'var(--weight-medium)', color: 'var(--color-ink)' }}>{vp.title}</h3>
+                <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-secondary)', lineHeight: 'var(--leading-body)' }}>
                   {vp.body}
                 </p>
               </motion.div>
@@ -286,10 +275,10 @@ function LandingInner() {
           </div>
         </section>
 
-        {/* CTA band — unchanged per spec */}
+        {/* CTA band */}
         <section className="section-pad">
           <div
-            className="flex flex-col items-center text-center gap-4"
+            className={s.ctaContent}
             style={{
               border: 'var(--border-default)',
               borderRadius: 'var(--radius-lg)',
@@ -327,7 +316,7 @@ function LandingInner() {
         </section>
       </main>
 
-      {/* Footer — Amendment 01: Careers · Terms of service · Guidelines · Privacy */}
+      {/* Footer */}
       <footer
         style={{
           borderTop: 'var(--border-default)',
@@ -336,7 +325,7 @@ function LandingInner() {
           paddingBottom: '20px',
         }}
       >
-        <div className="container-page flex items-center justify-between">
+        <div className="container-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span
             style={{
               fontFamily: 'var(--font-display)',
@@ -346,16 +335,14 @@ function LandingInner() {
           >
             Grassroots
           </span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-            {FOOTER_LINKS.map((label) => (
-              <Link key={label} href="#" className="navbar-link">
-                {label}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-lg)' }}>
+            {['About', 'Communities', 'Guidelines', 'Privacy'].map((link) => (
+              <Link key={link} href="#" className="navbar-link">
+                {link}
               </Link>
             ))}
           </div>
-          <p style={{ fontSize: 'var(--text-small)', color: 'var(--color-muted)' }}>
-            © 2026 Grassroots
-          </p>
+          <p style={{ fontSize: 'var(--text-small)', color: 'var(--color-muted)' }}>© 2026 Grassroots</p>
         </div>
       </footer>
 

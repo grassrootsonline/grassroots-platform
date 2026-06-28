@@ -1,0 +1,17 @@
+.devBanner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: 6px 0;
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--color-accent-mist);
+  border-bottom: var(--border-accent);
+  color: var(--color-accent);
+}
+.main {
+  padding-top: var(--space-lg);
+}
