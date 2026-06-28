@@ -1,0 +1,42 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  white-space: nowrap;
+}
+
+.default {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  border: 0.5px solid var(--color-border);
+}
+
+.accent {
+  background: var(--color-accent-subtle);
+  color: var(--color-accent-ink);
+}
+
+.muted {
+  background: var(--color-surface);
+  color: var(--color-secondary);
+  border: 0.5px solid var(--color-border);
+}
+
+.danger {
+  background: var(--color-danger-subtle);
+  color: var(--color-danger);
+}
+
+/* Amendment 04: warm is now a real token pair — no more literal hex,
+   so the warm badge flips correctly in dark mode. */
+.warm {
+  background: var(--color-warm-subtle);
+  color: var(--color-warm);
+}

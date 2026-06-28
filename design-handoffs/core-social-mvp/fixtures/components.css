@@ -1,7 +1,20 @@
-/* ============================================
-   Grassroots — Components
+/* ============================================================
+   Grassroots — Components  (CORRECTED, Amendment 03)
    Vendored from grassroots-design-system-core
-   ============================================ */
+   Drop-in replacement for
+   apps/web/src/styles/design-system/components.css
+   ------------------------------------------------------------
+   Changes vs. the shipped file:
+   • All hardcoded hex replaced with tokens (so dark mode flips).
+   • .badge / .badge-* and .card blocks REMOVED — Badge and Card
+     are now single-sourced in components/ui/{badge,card}.tsx.
+   • Hardcoded "120ms ease" transitions → motion tokens
+     (var(--duration-fast)/var(--ease-standard)), now that
+     motion.css is vendored.
+   These are component-level classes (multi-rule, stateful) — the
+   one place class-based CSS is still correct. One-off token
+   references in app code use the @theme utilities instead.
+   ============================================================ */
 
 /* ---- Reset baseline ---- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -31,7 +44,7 @@ body {
   border-radius: var(--radius-md);
   padding: 8px 16px;
   cursor: pointer;
-  transition: background 120ms ease, border-color 120ms ease, opacity 120ms ease;
+  transition: var(--transition-colors);
   text-decoration: none;
   white-space: nowrap;
   border: none;
@@ -66,7 +79,7 @@ body {
 
 .btn-danger {
   background: var(--color-danger);
-  color: #fff;
+  color: var(--color-canvas);   /* was #fff — warm off-white matches .btn-primary */
   border: none;
 }
 .btn-danger:hover { opacity: 0.88; }
@@ -88,27 +101,11 @@ body {
 }
 
 /* ============================================
-   BADGES
+   BADGES — REMOVED.
+   Single-sourced in components/ui/badge.tsx using @theme
+   utilities (bg-accent-subtle, text-accent-ink, tracking-label …).
+   Do not re-add .badge classes here.
    ============================================ */
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-xs);
-  padding: 3px 9px;
-  border-radius: var(--radius-pill);
-  font-size: var(--text-label);
-  font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.badge-default { background: #EAE7E1; color: #5A5950; }
-.badge-accent  { background: var(--color-accent-subtle); color: #2E5C2C; }
-.badge-warm    { background: #F0EAE0; color: #7A5C30; }
-.badge-muted   { background: var(--color-surface); color: var(--color-secondary); border: var(--border-default); }
-.badge-danger  { background: var(--color-danger-subtle); color: var(--color-danger); }
 
 /* ============================================
    FORM INPUTS
@@ -125,7 +122,8 @@ body {
   border-radius: var(--radius-md);
   padding: 8px 12px;
   outline: none;
-  transition: border-color 120ms ease, box-shadow 120ms ease;
+  transition: border-color var(--duration-fast) var(--ease-standard),
+              box-shadow var(--duration-fast) var(--ease-standard);
 }
 
 .input::placeholder { color: var(--color-muted); }
@@ -153,7 +151,7 @@ textarea.input { resize: vertical; min-height: 80px; line-height: var(--leading-
   font-weight: var(--weight-medium);
   flex-shrink: 0;
   background: var(--color-accent-subtle);
-  color: #2E5C2C;
+  color: var(--color-accent-ink);   /* was #2E5C2C — now flips in dark mode */
   overflow: hidden;
   user-select: none;
 }
@@ -171,21 +169,16 @@ textarea.input { resize: vertical; min-height: 80px; line-height: var(--leading-
 
 /* ============================================
    CARDS
+   .card REMOVED — single-sourced in components/ui/card.tsx.
+   .feed-card stays here (stateful component class).
    ============================================ */
-
-.card {
-  background: var(--color-surface);
-  border: var(--border-default);
-  border-radius: var(--radius-lg);
-  padding: var(--space-lg) 20px;
-}
 
 .feed-card {
   background: var(--color-surface);
   border: var(--border-default);
   border-radius: var(--radius-lg);
   padding: var(--space-lg) 20px;
-  transition: border-color 120ms ease;
+  transition: border-color var(--duration-fast) var(--ease-standard);
 }
 .feed-card:hover { border-color: var(--color-border-strong); }
 
@@ -237,13 +230,14 @@ textarea.input { resize: vertical; min-height: 80px; line-height: var(--leading-
   border: none;
   cursor: pointer;
   padding: 0;
-  transition: color 120ms ease;
+  transition: color var(--duration-fast) var(--ease-standard);
 }
 .action-btn:hover  { color: var(--color-accent); }
-.action-btn.active { color: var(--color-accent); }
+.action-btn.active { color: var(--color-accent); }  /* like = sage, never filled */
 
 /* ============================================
    NAVIGATION
+   (Mobile bottom-tab behavior lives in responsive.css)
    ============================================ */
 
 .navbar {
@@ -279,7 +273,7 @@ textarea.input { resize: vertical; min-height: 80px; line-height: var(--leading-
   font-size: var(--text-body);
   color: var(--color-secondary);
   text-decoration: none;
-  transition: color 120ms ease;
+  transition: color var(--duration-fast) var(--ease-standard);
 }
 .navbar-link:hover  { color: var(--color-ink); }
 .navbar-link.active { color: var(--color-ink); font-weight: var(--weight-medium); }
@@ -360,10 +354,10 @@ textarea.input { resize: vertical; min-height: 80px; line-height: var(--leading-
   color: var(--color-canvas);
   border-radius: var(--radius-lg);
   font-size: var(--text-body);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-overlay);
 }
 
-.toast-success { background: #2E5C2C; }
+.toast-success { background: var(--color-accent-ink); }  /* was #2E5C2C */
 .toast-danger  { background: var(--color-danger); }
 
 /* ============================================

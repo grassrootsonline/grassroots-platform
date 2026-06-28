@@ -1,0 +1,43 @@
+/* ============================================
+   Grassroots — Spacing & Layout Tokens
+   ============================================ */
+
+:root {
+  /* Spacing scale */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  12px;
+  --space-lg:  20px;
+  --space-xl:  32px;
+  --space-2xl: 48px;
+  --space-3xl: 72px;
+
+  /* Border radius */
+  --radius-sm:   4px;  /* Badges, small tags */
+  --radius-md:   6px;  /* Buttons, inputs */
+  --radius-lg:   10px; /* Cards, panels */
+  --radius-xl:   16px; /* Modals, sheets */
+  --radius-pill: 999px; /* Avatar chips, pill badges */
+
+  /* Borders */
+  --border-default: 0.5px solid var(--color-border);
+  --border-strong:  0.5px solid var(--color-border-strong);
+  --border-accent:  0.5px solid var(--color-accent);
+  --border-dashed:  0.5px dashed var(--color-border-strong);
+
+  /* Focus ring */
+  --focus-ring: 0 0 0 3px var(--color-accent-mist);
+
+  /* Layout */
+  --feed-max-width:    640px; /* Single-column feed */
+  --sidebar-width:     240px; /* Left nav / sidebar */
+  --content-max-width: 960px; /* Overall page container */
+
+  /* Z-index stack */
+  --z-base:    0;
+  --z-raised:  10;
+  --z-sticky:  100;
+  --z-overlay: 200;
+  --z-modal:   300;
+  --z-toast:   400;
+}

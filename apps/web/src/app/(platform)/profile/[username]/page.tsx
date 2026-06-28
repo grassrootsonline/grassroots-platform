@@ -8,6 +8,7 @@ import { Avatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { MOCK_USER, MOCK_POSTS } from '@/lib/mock-data'
+import s from './page.module.css'
 
 type ProfileTab = 'posts' | 'projects' | 'about'
 
@@ -42,28 +43,25 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
   const profile = MOCK_USER
 
   return (
-    <div className="flex gap-6">
+    <div style={{ display: 'flex', gap: '24px' }}>
       <LeftRail user={MOCK_USER} />
 
-      <main className="flex-1 max-w-[600px] min-w-0 pb-10">
-        <Link
-          href="/feed"
-          className="inline-flex items-center gap-1.5 text-[13px] text-[var(--color-secondary)] hover:text-[var(--color-accent)] transition-colors duration-[120ms] mb-5"
-        >
-          <i className="ti ti-arrow-left text-[14px]" aria-hidden="true" />
+      <main className={s.main}>
+        <Link href="/feed" className={s.backLink}>
+          <i className="ti ti-arrow-left icon-sm" aria-hidden="true" />
           Back to feed
         </Link>
 
         {/* Profile header */}
-        <div className="mb-5">
-          <div className="flex items-start justify-between gap-4">
+        <div className={s.profileHeader}>
+          <div className={s.profileTop}>
             <Avatar src={profile.avatarUrl} name={profile.name} size="xl" />
             {isOwnProfile ? (
               <Button variant="secondary" size="sm" icon="pencil">
                 Edit profile
               </Button>
             ) : (
-              <div className="flex items-center gap-2">
+              <div className={s.profileActions}>
                 <Button variant="secondary" size="sm">
                   Message
                 </Button>
@@ -72,57 +70,37 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
             )}
           </div>
 
-          <div className="mt-3">
-            <h1
-              className="text-[24px] text-[var(--color-ink)]"
-              style={{ fontFamily: 'var(--font-display)', fontWeight: 400 }}
-            >
-              {profile.name}
-            </h1>
-            <p className="text-[13px] text-[var(--color-secondary)] mt-0.5">
+          <div className={s.profileInfo}>
+            <h1 className={s.profileName}>{profile.name}</h1>
+            <p className={s.profileHandle}>
               @{profile.username}
               {profile.pronouns && ` · ${profile.pronouns}`}
             </p>
-            <p className="mt-2.5 text-[14px] text-[var(--color-ink-soft)] leading-[1.6]">
-              {profile.bio}
-            </p>
+            <p className={s.profileBio}>{profile.bio}</p>
 
             {/* Stats */}
-            <div className="flex items-center gap-5 mt-3">
-              <div className="flex items-baseline gap-1">
-                <span className="text-[17px] font-[500] text-[var(--color-ink)]">
-                  {profile.followingCount}
-                </span>
-                <span className="text-[12px] text-[var(--color-secondary)]">following</span>
-              </div>
-              <div className="flex items-baseline gap-1">
-                <span className="text-[17px] font-[500] text-[var(--color-ink)]">
-                  {formatCount(profile.followerCount)}
-                </span>
-                <span className="text-[12px] text-[var(--color-secondary)]">followers</span>
-              </div>
-              <div className="flex items-baseline gap-1">
-                <span className="text-[17px] font-[500] text-[var(--color-ink)]">
-                  {profile.projectCount}
-                </span>
-                <span className="text-[12px] text-[var(--color-secondary)]">projects</span>
-              </div>
+            <div className={s.stats}>
+              {[
+                { value: profile.followingCount, label: 'following' },
+                { value: formatCount(profile.followerCount), label: 'followers' },
+                { value: profile.projectCount, label: 'projects' },
+              ].map(({ value, label }) => (
+                <div key={label} className={s.stat}>
+                  <span className={s.statValue}>{value}</span>
+                  <span className={s.statLabel}>{label}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
         {/* Tab bar */}
-        <div className="flex items-center gap-6 border-b border-[0.5px] border-[var(--color-border)] mb-5">
+        <div className={s.tabBar}>
           {(['posts', 'projects', 'about'] as ProfileTab[]).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
-              className={[
-                'pb-3 text-[14px] capitalize transition-all duration-[120ms] border-b-2 -mb-[0.5px]',
-                tab === t
-                  ? 'text-[var(--color-ink)] font-[500] border-[var(--color-accent)]'
-                  : 'text-[var(--color-secondary)] border-transparent hover:text-[var(--color-ink)]',
-              ].join(' ')}
+              className={[s.tab, tab === t ? s.tabActive : ''].filter(Boolean).join(' ')}
             >
               {t}
             </button>
@@ -131,7 +109,7 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
 
         {/* Tab content */}
         {tab === 'posts' && (
-          <div className="flex flex-col gap-5">
+          <div className={s.posts}>
             {MOCK_POSTS.filter((_, i) => i < 3).map((post) => (
               <FeedCard key={post.id} post={post} />
             ))}
@@ -139,21 +117,19 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
         )}
 
         {tab === 'projects' && (
-          <div className="grid grid-cols-2 gap-4">
+          <div className={s.projectsGrid}>
             {MOCK_PROJECTS_PROFILE.map((p) => (
               <Link
                 key={p.id}
                 href={`/project/${p.slug}`}
-                className="bg-[var(--color-surface)] border border-[0.5px] border-[var(--color-border)] rounded-[var(--radius-lg)] p-4 hover:border-[var(--color-border-strong)] transition-all duration-[120ms] block"
+                className={s.projectCard}
               >
-                <div className="flex items-center gap-2 mb-2">
-                  <i className="ti ti-circle-dot text-[var(--color-accent)] text-[16px]" aria-hidden="true" />
-                  <span className="text-[15px] font-[500] text-[var(--color-ink)]">{p.name}</span>
+                <div className={s.projectCardHead}>
+                  <i className={`ti ti-circle-dot ${s.projectCardIcon}`} aria-hidden="true" />
+                  <span className={s.projectCardName}>{p.name}</span>
                 </div>
-                <p className="text-[13px] text-[var(--color-secondary)] leading-[1.5] mb-3">
-                  {p.description}
-                </p>
-                <div className="flex items-center gap-3 text-[12px] text-[var(--color-muted)]">
+                <p className={s.projectCardDesc}>{p.description}</p>
+                <div className={s.projectCardFoot}>
                   <span>{p.postCount} posts</span>
                   <span>{p.collaboratorCount} collaborator{p.collaboratorCount !== 1 ? 's' : ''}</span>
                 </div>
@@ -164,7 +140,7 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
 
         {tab === 'about' && (
           <Card>
-            <p className="text-[14px] text-[var(--color-ink-soft)] leading-[var(--leading-body)]">
+            <p className="text-body">
               {profile.bio}
             </p>
           </Card>

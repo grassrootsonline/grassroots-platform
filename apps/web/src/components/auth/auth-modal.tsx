@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/toast'
+import s from './auth-modal.module.css'
 
 type AuthMode = 'signup' | 'login'
 
@@ -43,7 +44,7 @@ export function AuthModal({ open, initialMode = 'signup', onClose, onSuccess }: 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="fixed inset-0 bg-[rgba(28,43,26,0.32)] z-[var(--z-overlay)]"
+            className={s.scrim}
             onClick={onClose}
           />
 
@@ -52,21 +53,18 @@ export function AuthModal({ open, initialMode = 'signup', onClose, onSuccess }: 
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
-            className="fixed top-[11vh] left-1/2 -translate-x-1/2 w-full max-w-[420px] bg-[var(--color-surface)] rounded-[var(--radius-xl)] shadow-[var(--shadow-overlay)] z-[var(--z-modal)] p-7"
+            className={s.panel}
           >
-            <h2
-              className="text-[22px] text-[var(--color-ink)] mb-1"
-              style={{ fontFamily: 'var(--font-display)' }}
-            >
+            <h2 className={s.heading}>
               {mode === 'signup' ? 'Join Grassroots' : 'Welcome back'}
             </h2>
-            <p className="text-[14px] text-[var(--color-secondary)] mb-6">
+            <p className={s.subtitle}>
               {mode === 'signup'
                 ? 'A home for AI builders.'
                 : 'Sign in to your account.'}
             </p>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <form onSubmit={handleSubmit} className={s.form}>
               {mode === 'signup' && (
                 <Input
                   label="Display name"
@@ -98,19 +96,19 @@ export function AuthModal({ open, initialMode = 'signup', onClose, onSuccess }: 
                 required
               />
 
-              <Button type="submit" size="lg" loading={loading} className="w-full mt-1">
+              <Button type="submit" size="lg" loading={loading} className={s.submitBtn}>
                 {mode === 'signup' ? 'Create account' : 'Log in'}
               </Button>
             </form>
 
-            <p className="mt-5 text-center text-[13px] text-[var(--color-secondary)]">
+            <p className={s.footer}>
               {mode === 'signup' ? (
                 <>
                   Already have an account?{' '}
                   <button
                     type="button"
                     onClick={() => setMode('login')}
-                    className="text-[var(--color-accent)] hover:underline"
+                    className={s.footerLink}
                   >
                     Log in
                   </button>
@@ -121,7 +119,7 @@ export function AuthModal({ open, initialMode = 'signup', onClose, onSuccess }: 
                   <button
                     type="button"
                     onClick={() => setMode('signup')}
-                    className="text-[var(--color-accent)] hover:underline"
+                    className={s.footerLink}
                   >
                     Create one
                   </button>

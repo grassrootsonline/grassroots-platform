@@ -1,0 +1,287 @@
+/* ============================================
+   Grassroots — Responsive & Mobile Tokens
+   ============================================
+   Breakpoints are named for intent, not device.
+   Mobile-first: base styles are mobile,
+   breakpoints layer up.
+   ============================================ */
+
+:root {
+  /* Breakpoint reference values (use in JS / container queries) */
+  --bp-sm:  480px;  /* Large phones, landscape */
+  --bp-md:  768px;  /* Tablets */
+  --bp-lg:  1024px; /* Desktop */
+  --bp-xl:  1280px; /* Wide desktop */
+
+  /* Touch target minimum — 44px per WCAG 2.5.5 */
+  --touch-target: 44px;
+
+  /* Mobile nav height (bottom bar on mobile) */
+  --mobile-nav-height: 56px;
+
+  /* Safe area insets for notched devices */
+  --safe-top:    env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left:   env(safe-area-inset-left, 0px);
+  --safe-right:  env(safe-area-inset-right, 0px);
+}
+
+/* ============================================
+   RESPONSIVE NAVBAR
+   Desktop: sticky top bar
+   Mobile:  bottom tab bar
+   ============================================ */
+
+/* Mobile bottom nav */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-xl);
+  height: 56px;
+  background: var(--color-surface);
+  border-bottom: var(--border-default);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+@media (max-width: 767px) {
+  .navbar {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-bottom: none;
+    border-top: var(--border-default);
+    padding: 0 var(--space-sm);
+    padding-bottom: var(--safe-bottom);
+    height: calc(var(--mobile-nav-height) + var(--safe-bottom));
+    z-index: var(--z-sticky);
+    justify-content: space-around;
+  }
+
+  .navbar-logo {
+    display: none; /* Wordmark hidden on mobile — space is precious */
+  }
+
+  .navbar-links {
+    flex: 1;
+    justify-content: space-around;
+    gap: 0;
+  }
+
+  .navbar-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    padding: var(--space-sm) var(--space-md);
+    min-width: var(--touch-target);
+    min-height: var(--touch-target);
+    justify-content: center;
+  }
+
+  .navbar-link i {
+    font-size: 20px;
+  }
+
+  .navbar-actions {
+    display: none; /* Collapse action buttons into profile tab on mobile */
+  }
+
+  /* Offset page content so bottom nav doesn't overlap */
+  body {
+    padding-bottom: calc(var(--mobile-nav-height) + var(--safe-bottom));
+  }
+}
+
+/* ============================================
+   MOBILE NAV LINK with icon + label
+   ============================================ */
+
+/* Add this structure on mobile:
+   <a href="/feed" class="navbar-link active">
+     <i class="ti ti-home" aria-hidden="true"></i>
+     Feed
+   </a>
+*/
+
+/* ============================================
+   RESPONSIVE FEED LAYOUT
+   ============================================ */
+
+.feed-layout {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: var(--space-xl);
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+@media (max-width: 1023px) {
+  .feed-layout {
+    grid-template-columns: 1fr;
+    padding: var(--space-lg);
+  }
+
+  .feed-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .feed-layout {
+    padding: var(--space-sm) 0;
+    gap: var(--space-sm);
+  }
+}
+
+/* Feed column */
+.feed-column {
+  max-width: var(--feed-max-width);
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* ============================================
+   RESPONSIVE CARDS
+   ============================================ */
+
+@media (max-width: 767px) {
+  .feed-card {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    /* Full-bleed cards on mobile — more content-native */
+  }
+
+  .feed-card + .feed-card {
+    border-top: none;
+  }
+}
+
+/* ============================================
+   TOUCH TARGETS
+   All interactive elements must meet 44×44px
+   minimum on mobile, even if visually smaller.
+   ============================================ */
+
+@media (max-width: 767px) {
+  .btn {
+    min-height: var(--touch-target);
+  }
+
+  .btn-sm {
+    min-height: 36px; /* Small buttons in dense contexts — intentional exception */
+  }
+
+  .action-btn {
+    min-height: var(--touch-target);
+    padding: 0 var(--space-sm);
+  }
+
+  .input {
+    min-height: var(--touch-target);
+    font-size: 16px; /* Prevents iOS zoom on focus */
+  }
+}
+
+/* ============================================
+   BOTTOM SHEET
+   Mobile modal pattern — slides up from bottom
+   Desktop: renders as a centered modal instead
+   ============================================ */
+
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 43, 26, 0.4);
+  z-index: var(--z-overlay);
+  animation: gr-fade-in var(--duration-base) var(--ease-enter) both;
+}
+
+.sheet-backdrop.is-exiting {
+  animation: gr-fade-out var(--duration-fast) var(--ease-exit) both;
+}
+
+.sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-surface);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  border-top: var(--border-default);
+  padding: var(--space-lg) var(--space-lg) calc(var(--space-lg) + var(--safe-bottom));
+  z-index: var(--z-modal);
+  animation: gr-sheet-up var(--duration-slow) var(--ease-spring) both;
+  max-height: 85vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sheet.is-exiting {
+  animation: gr-sheet-down var(--duration-base) var(--ease-exit) both;
+}
+
+.sheet-handle {
+  width: 36px;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--color-border-strong);
+  margin: 0 auto var(--space-lg);
+}
+
+.sheet-title {
+  font-size: var(--text-heading);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+  margin-bottom: var(--space-lg);
+}
+
+/* On desktop, sheets behave like modals */
+@media (min-width: 768px) {
+  .sheet-backdrop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sheet {
+    position: static;
+    border-radius: var(--radius-xl);
+    border: var(--border-default);
+    width: 480px;
+    max-height: 80vh;
+    animation: gr-scale-in var(--duration-base) var(--ease-enter) both;
+  }
+
+  .sheet.is-exiting {
+    animation: gr-scale-out var(--duration-fast) var(--ease-exit) both;
+  }
+
+  .sheet-handle {
+    display: none;
+  }
+}
+
+/* ============================================
+   RESPONSIVE TYPOGRAPHY
+   ============================================ */
+
+@media (max-width: 767px) {
+  :root {
+    --text-display: 28px; /* Slightly smaller on mobile */
+    --text-title:   22px;
+  }
+}

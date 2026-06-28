@@ -6,8 +6,8 @@ import { motion } from 'framer-motion'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { AuthModal } from '@/components/auth/auth-modal'
 import { Toaster } from '@/components/ui/toast'
-import { FeedCard } from '@/components/feed/feed-card'
 import { MOCK_POSTS } from '@/lib/mock-data'
+import s from './page.module.css'
 
 const VALUE_PROPS = [
   {
@@ -56,25 +56,34 @@ function LandingInner() {
       <Toaster />
 
       {/* Sticky header */}
-      <header className="sticky top-0 z-[var(--z-sticky)] h-[60px] bg-[var(--color-surface)] border-b border-[0.5px] border-[var(--color-border)] flex items-center">
-        <div className="container-page flex items-center justify-between">
+      <header
+        style={{
+          position: 'sticky',
+          top: 0,
+          zIndex: 'var(--z-sticky)',
+          height: '60px',
+          background: 'var(--color-surface)',
+          borderBottom: 'var(--border-default)',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <div className="container-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span
-            className="text-[22px] text-[var(--color-ink)] leading-none"
-            style={{ fontFamily: 'var(--font-display)' }}
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '22px',
+              color: 'var(--color-ink)',
+              lineHeight: 1,
+            }}
           >
             Grassroots
           </span>
-          <div className="flex items-center gap-2.5">
-            <button
-              onClick={() => openAuth('login')}
-              className="h-8 px-3.5 text-[13px] font-[500] text-[var(--color-ink)] hover:bg-[var(--color-accent-subtle)] rounded-[var(--radius-md)] flex items-center transition-all duration-[120ms]"
-            >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <button onClick={() => openAuth('login')} className="btn btn-ghost btn-sm">
               Log in
             </button>
-            <button
-              onClick={() => openAuth('signup')}
-              className="h-8 px-3.5 text-[13px] font-[500] bg-[var(--color-ink)] text-[var(--color-canvas)] rounded-[var(--radius-md)] flex items-center hover:opacity-[0.88] transition-all duration-[120ms]"
-            >
+            <button onClick={() => openAuth('signup')} className="btn btn-primary btn-sm">
               Sign up
             </button>
           </div>
@@ -90,40 +99,52 @@ function LandingInner() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2, ease: 'easeOut' }}
-              className="flex flex-col gap-5"
+              className={s.heroMotion}
             >
-              <p className="text-[11px] font-[500] uppercase tracking-[0.08em] text-[var(--color-accent)]">
+              <p
+                style={{
+                  fontSize: 'var(--text-label)',
+                  fontWeight: 'var(--weight-medium)',
+                  letterSpacing: 'var(--tracking-label)',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-accent)',
+                }}
+              >
                 A home for builders
               </p>
               <h1
-                className="text-[52px] text-[var(--color-ink)] leading-[1.04] tracking-[-0.01em]"
-                style={{ fontFamily: 'var(--font-display)', fontWeight: 400 }}
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '52px',
+                  fontWeight: 400,
+                  lineHeight: 1.04,
+                  letterSpacing: '-0.01em',
+                  color: 'var(--color-ink)',
+                }}
               >
                 Share what you&apos;re building.
               </h1>
               <p
-                className="text-[17px] text-[var(--color-ink-soft)] leading-[var(--leading-body)]"
-                style={{ maxWidth: '420px' }}
+                style={{
+                  fontSize: '17px',
+                  color: 'var(--color-ink-soft)',
+                  lineHeight: 'var(--leading-body)',
+                  maxWidth: '420px',
+                }}
               >
                 Grassroots is where AI builders share projects, ideas, and progress with
                 people who actually care.
               </p>
 
-              <div className="flex items-center gap-3 mt-1">
-                <button
-                  onClick={() => openAuth('signup')}
-                  className="h-11 px-6 text-[15px] font-[500] bg-[var(--color-ink)] text-[var(--color-canvas)] rounded-[var(--radius-md)] hover:opacity-[0.88] active:opacity-[0.76] transition-all duration-[120ms]"
-                >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '4px' }}>
+                <button onClick={() => openAuth('signup')} className="btn btn-primary btn-lg">
                   Create your account
                 </button>
-                <button
-                  onClick={() => openAuth('login')}
-                  className="h-11 px-6 text-[15px] font-[500] text-[var(--color-ink)] border border-[0.5px] border-[var(--color-border-strong)] rounded-[var(--radius-md)] hover:bg-[var(--color-surface)] transition-all duration-[120ms]"
-                >
+                <button onClick={() => openAuth('login')} className="btn btn-secondary btn-lg">
                   Log in
                 </button>
               </div>
-              <p className="text-[13px] text-[var(--color-secondary)]">
+              <p style={{ fontSize: 'var(--text-small)', color: 'var(--color-secondary)' }}>
                 Free to join. No ads.
               </p>
             </motion.div>
@@ -134,39 +155,91 @@ function LandingInner() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2, delay: 0.05, ease: 'easeOut' }}
             >
-              <div className="bg-[var(--color-surface)] border border-[0.5px] border-[var(--color-border)] rounded-[var(--radius-lg)] overflow-hidden">
+              <div
+                style={{
+                  background: 'var(--color-surface)',
+                  border: 'var(--border-default)',
+                  borderRadius: 'var(--radius-lg)',
+                  overflow: 'hidden',
+                }}
+              >
                 {/* Faux header */}
-                <div className="px-4 py-3 border-b border-[0.5px] border-[var(--color-border)] flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[var(--color-border-strong)]" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-[var(--color-border-strong)]" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-[var(--color-border-strong)]" />
-                  <div className="ml-auto text-[12px] text-[var(--color-muted)]">grassroots.ai</div>
+                <div
+                  style={{
+                    padding: '12px 16px',
+                    borderBottom: 'var(--border-default)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                  }}
+                >
+                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--color-border-strong)' }} />
+                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--color-border-strong)' }} />
+                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--color-border-strong)' }} />
+                  <div style={{ marginLeft: 'auto', fontSize: 'var(--text-small)', color: 'var(--color-muted)' }}>grassroots.ai</div>
                 </div>
                 {/* Preview posts */}
-                <div className="bg-[var(--color-canvas)] p-3 flex flex-col gap-2.5">
+                <div
+                  style={{
+                    background: 'var(--color-canvas)',
+                    padding: '12px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '10px',
+                  }}
+                >
                   {previewPosts.map((post) => (
                     <div
                       key={post.id}
-                      className="bg-[var(--color-surface)] border border-[0.5px] border-[var(--color-border)] rounded-[var(--radius-lg)] p-3.5 pointer-events-none"
+                      style={{
+                        background: 'var(--color-surface)',
+                        border: 'var(--border-default)',
+                        borderRadius: 'var(--radius-lg)',
+                        padding: '14px',
+                        pointerEvents: 'none',
+                      }}
                     >
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="w-7 h-7 rounded-full bg-[var(--color-accent-subtle)] flex items-center justify-center text-[11px] font-[500] text-[var(--color-accent-ink)]">
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                        <div
+                          style={{
+                            width: '28px',
+                            height: '28px',
+                            borderRadius: '50%',
+                            background: 'var(--color-accent-subtle)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: 'var(--text-label)',
+                            fontWeight: 'var(--weight-medium)',
+                            color: 'var(--color-accent-ink)',
+                          }}
+                        >
                           {post.author.name[0]}
                         </div>
-                        <span className="text-[13px] font-[500] text-[var(--color-ink)]">
+                        <span style={{ fontSize: 'var(--text-small)', fontWeight: 'var(--weight-medium)', color: 'var(--color-ink)' }}>
                           {post.author.name}
                         </span>
-                        <span className="text-[12px] text-[var(--color-secondary)]">· 2h</span>
+                        <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-secondary)' }}>· 2h</span>
                       </div>
-                      <p className="text-[13px] text-[var(--color-ink-soft)] leading-[1.55] line-clamp-2">
+                      <p
+                        style={{
+                          fontSize: 'var(--text-small)',
+                          color: 'var(--color-ink-soft)',
+                          lineHeight: '1.55',
+                          overflow: 'hidden',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                        }}
+                      >
                         {post.content}
                       </p>
-                      <div className="flex items-center gap-3 mt-2.5">
-                        <span className="text-[12px] text-[var(--color-secondary)] flex items-center gap-1">
-                          <i className="ti ti-heart text-[14px]" /> {post.reactionCount}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '10px' }}>
+                        <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <i className="ti ti-heart icon-sm" /> {post.reactionCount}
                         </span>
-                        <span className="text-[12px] text-[var(--color-secondary)] flex items-center gap-1">
-                          <i className="ti ti-message-circle text-[14px]" /> {post.commentCount}
+                        <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <i className="ti ti-message-circle icon-sm" /> {post.commentCount}
                         </span>
                       </div>
                     </div>
@@ -178,7 +251,7 @@ function LandingInner() {
         </section>
 
         {/* Value props */}
-        <section className="section-pad" style={{ borderTop: '0.5px solid var(--color-border)' }}>
+        <section className="section-pad" style={{ borderTop: 'var(--border-default)' }}>
           <div className="value-props-grid">
             {VALUE_PROPS.map((vp, i) => (
               <motion.div
@@ -186,14 +259,15 @@ function LandingInner() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2, delay: 0.1 + i * 0.05 }}
-                className="flex flex-col gap-3"
+                className={s.valueProp}
               >
                 <i
-                  className={`ti ti-${vp.icon} text-[22px] text-[var(--color-accent)]`}
+                  className={`ti ti-${vp.icon} icon-lg`}
+                  style={{ color: 'var(--color-accent)' }}
                   aria-hidden="true"
                 />
-                <h3 className="text-[17px] font-[500] text-[var(--color-ink)]">{vp.title}</h3>
-                <p className="text-[14px] text-[var(--color-secondary)] leading-[var(--leading-body)]">
+                <h3 style={{ fontSize: '17px', fontWeight: 'var(--weight-medium)', color: 'var(--color-ink)' }}>{vp.title}</h3>
+                <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-secondary)', lineHeight: 'var(--leading-body)' }}>
                   {vp.body}
                 </p>
               </motion.div>
@@ -203,19 +277,38 @@ function LandingInner() {
 
         {/* CTA band */}
         <section className="section-pad">
-          <div className="flex flex-col items-center text-center gap-4" style={{ border: '0.5px solid var(--color-border)', borderRadius: 'var(--radius-lg)', padding: '56px 40px' }}>
+          <div
+            className={s.ctaContent}
+            style={{
+              border: 'var(--border-default)',
+              borderRadius: 'var(--radius-lg)',
+              padding: '56px 40px',
+            }}
+          >
             <h2
-              className="text-[34px] text-[var(--color-ink)]"
-              style={{ fontFamily: 'var(--font-display)', fontWeight: 400 }}
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '34px',
+                fontWeight: 400,
+                color: 'var(--color-ink)',
+              }}
             >
               Ready to build in public?
             </h2>
-            <p className="text-[15px] text-[var(--color-secondary)] max-w-[420px] leading-[var(--leading-body)]">
+            <p
+              style={{
+                fontSize: '15px',
+                color: 'var(--color-secondary)',
+                maxWidth: '420px',
+                lineHeight: 'var(--leading-body)',
+              }}
+            >
               Join thousands of AI builders sharing what they&apos;re working on.
             </p>
             <button
               onClick={() => openAuth('signup')}
-              className="mt-2 h-11 px-6 text-[15px] font-[500] bg-[var(--color-ink)] text-[var(--color-canvas)] rounded-[var(--radius-md)] hover:opacity-[0.88] transition-all duration-[120ms]"
+              className="btn btn-primary btn-lg"
+              style={{ marginTop: '8px' }}
             >
               Create your account
             </button>
@@ -224,26 +317,32 @@ function LandingInner() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[0.5px] border-[var(--color-border)] bg-[var(--color-surface)] py-5">
-        <div className="container-page flex items-center justify-between">
+      <footer
+        style={{
+          borderTop: 'var(--border-default)',
+          background: 'var(--color-surface)',
+          paddingTop: '20px',
+          paddingBottom: '20px',
+        }}
+      >
+        <div className="container-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span
-            className="text-[18px] text-[var(--color-ink)]"
-            style={{ fontFamily: 'var(--font-display)' }}
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '18px',
+              color: 'var(--color-ink)',
+            }}
           >
             Grassroots
           </span>
-          <div className="flex items-center gap-5">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-lg)' }}>
             {['About', 'Communities', 'Guidelines', 'Privacy'].map((link) => (
-              <Link
-                key={link}
-                href="#"
-                className="text-[13px] text-[var(--color-secondary)] hover:text-[var(--color-ink)] transition-colors duration-[120ms]"
-              >
+              <Link key={link} href="#" className="navbar-link">
                 {link}
               </Link>
             ))}
           </div>
-          <p className="text-[13px] text-[var(--color-muted)]">© 2026 Grassroots</p>
+          <p style={{ fontSize: 'var(--text-small)', color: 'var(--color-muted)' }}>© 2026 Grassroots</p>
         </div>
       </footer>
 

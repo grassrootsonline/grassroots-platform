@@ -1,0 +1,11 @@
+/* ============================================
+   Grassroots Design System — Entry Point
+   ============================================
+   Import order matters. Tokens must load
+   before components that reference them.
+   ============================================ */
+
+@import './tokens/colors.css';
+@import './tokens/typography.css';
+@import './tokens/spacing.css';
+@import './components/components.css';

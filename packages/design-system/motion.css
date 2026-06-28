@@ -1,0 +1,109 @@
+/* ============================================
+   Grassroots — Motion Tokens
+   ============================================
+   All animation in the system flows through
+   these tokens. Never hardcode durations or
+   easing values in component code.
+   ============================================ */
+
+:root {
+  /* Duration scale */
+  --duration-instant:  50ms;  /* State swaps: active press, toggle on/off */
+  --duration-fast:    120ms;  /* Micro-interactions: hover, focus ring */
+  --duration-base:    200ms;  /* Standard transitions: dropdowns, tooltips */
+  --duration-slow:    320ms;  /* Larger motion: modals, command palette */
+  --duration-relaxed: 480ms;  /* Entrance choreography, page transitions */
+
+  /* Easing curves */
+  --ease-standard:  cubic-bezier(0.2, 0, 0, 1);     /* Most UI motion — quick out */
+  --ease-enter:     cubic-bezier(0, 0, 0.2, 1);     /* Elements arriving on screen */
+  --ease-exit:      cubic-bezier(0.4, 0, 1, 1);     /* Elements leaving — quick start */
+  --ease-spring:    cubic-bezier(0.34, 1.56, 0.64, 1); /* Playful: bottom sheets, badges */
+  --ease-linear:    linear;                           /* Spinners, progress bars only */
+
+  /* Transition shorthands */
+  --transition-colors:    color var(--duration-fast) var(--ease-standard),
+                          background-color var(--duration-fast) var(--ease-standard),
+                          border-color var(--duration-fast) var(--ease-standard),
+                          opacity var(--duration-fast) var(--ease-standard);
+  --transition-transform: transform var(--duration-base) var(--ease-standard);
+  --transition-shadow:    box-shadow var(--duration-fast) var(--ease-standard);
+  --transition-all:       var(--transition-colors), var(--transition-transform);
+}
+
+/* ---- Reduced motion ---- */
+/* When the user prefers reduced motion, collapse all durations to near-zero.
+   Components don't need individual overrides — tokens handle it globally. */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-instant:  0ms;
+    --duration-fast:     0ms;
+    --duration-base:     0ms;
+    --duration-slow:     0ms;
+    --duration-relaxed:  0ms;
+    --ease-spring:       linear; /* Prevent any residual overshoot */
+  }
+}
+
+/* ---- Entrance / exit keyframes ---- */
+
+@keyframes gr-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes gr-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes gr-scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes gr-scale-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.95); }
+}
+
+@keyframes gr-slide-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gr-slide-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gr-sheet-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+@keyframes gr-sheet-down {
+  from { transform: translateY(0); }
+  to   { transform: translateY(100%); }
+}
+
+@keyframes gr-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ---- Animation utility classes ---- */
+/* Apply to elements that enter the DOM. Pair with JS to add/remove
+   .is-exiting before removing the element. */
+
+.animate-fade-in   { animation: gr-fade-in   var(--duration-base)    var(--ease-enter) both; }
+.animate-scale-in  { animation: gr-scale-in  var(--duration-base)    var(--ease-enter) both; }
+.animate-slide-up  { animation: gr-slide-up  var(--duration-base)    var(--ease-enter) both; }
+.animate-slide-down{ animation: gr-slide-down var(--duration-base)   var(--ease-enter) both; }
+.animate-sheet-up  { animation: gr-sheet-up  var(--duration-slow)    var(--ease-spring) both; }
+.animate-spin      { animation: gr-spin      800ms                   var(--ease-linear) infinite; }
+
+.animate-fade-in.is-exiting    { animation: gr-fade-out   var(--duration-fast) var(--ease-exit) both; }
+.animate-scale-in.is-exiting   { animation: gr-scale-out  var(--duration-fast) var(--ease-exit) both; }
+.animate-sheet-up.is-exiting   { animation: gr-sheet-down var(--duration-base) var(--ease-exit) both; }

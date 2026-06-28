@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import s from './avatar.module.css'
 
 type AvatarSize = 'sm' | 'md' | 'lg' | 'xl'
 
@@ -33,7 +34,7 @@ export function Avatar({ src, name, size = 'md', className = '' }: AvatarProps) 
       aria-label={name}
     >
       {src ? (
-        <Image src={src} alt={name} width={px} height={px} className="object-cover w-full h-full" />
+        <Image src={src} alt={name} width={px} height={px} className={s.img} />
       ) : (
         <span>{initials(name)}</span>
       )}

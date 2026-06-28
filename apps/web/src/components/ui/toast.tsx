@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import s from './toast.module.css'
 
 interface ToastItem {
   id: string
@@ -31,7 +32,7 @@ export function Toaster() {
   }, [])
 
   return (
-    <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-[var(--z-toast)] flex flex-col gap-2 pointer-events-none">
+    <div className={s.toaster}>
       <AnimatePresence>
         {toasts.map((t) => (
           <motion.div
@@ -40,7 +41,7 @@ export function Toaster() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.15 }}
-            className="toast pointer-events-auto"
+            className={`toast ${s.item}`}
           >
             {t.message}
           </motion.div>
