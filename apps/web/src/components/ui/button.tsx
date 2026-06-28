@@ -1,6 +1,7 @@
 'use client'
 
 import { forwardRef } from 'react'
+import s from './button.module.css'
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger'
 type ButtonSize = 'sm' | 'md' | 'lg'
@@ -49,7 +50,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
         variantClass[variant],
         sizeClass[size],
         iconOnly ? 'btn-icon' : '',
-        'disabled:opacity-50 disabled:cursor-not-allowed',
+        s.root,
         className,
       ]
         .filter(Boolean)
@@ -57,9 +58,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       {...props}
     >
       {loading ? (
-        <i className="ti ti-loader-2 animate-spin text-[16px]" aria-hidden="true" />
+        <i className="ti ti-loader-2 animate-spin icon-base" aria-hidden="true" />
       ) : icon ? (
-        <i className={`ti ti-${icon} text-[16px]`} aria-hidden="true" />
+        <i className={`ti ti-${icon} icon-base`} aria-hidden="true" />
       ) : null}
       {!iconOnly && children}
     </button>

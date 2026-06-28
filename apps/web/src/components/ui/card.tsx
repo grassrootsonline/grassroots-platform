@@ -1,3 +1,5 @@
+import s from './card.module.css'
+
 interface CardProps {
   children: React.ReactNode
   className?: string
@@ -6,13 +8,7 @@ interface CardProps {
 
 export function Card({ children, className = '', padding = true }: CardProps) {
   return (
-    <div
-      className={[
-        'bg-surface border-[0.5px] border-border rounded-lg',
-        padding ? 'px-lg py-lg' : '',
-        className,
-      ].join(' ')}
-    >
+    <div className={[s.card, padding ? s.padded : '', className].filter(Boolean).join(' ')}>
       {children}
     </div>
   )

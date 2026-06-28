@@ -1,0 +1,24 @@
+.panel {
+  position: absolute;
+  top: calc(100% + var(--space-sm));
+  right: 0;
+  width: 340px;
+  background: var(--color-surface);
+  border: var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-overlay);
+  z-index: var(--z-modal);
+  overflow: hidden;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: var(--border-default);
+}
+.list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+.textWrap { flex: 1; min-width: 0; }

@@ -1,0 +1,53 @@
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 43, 26, 0.32);
+  z-index: var(--z-overlay);
+}
+.panel {
+  position: fixed;
+  top: 11vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 420px;
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-overlay);
+  z-index: var(--z-modal);
+  padding: 28px;
+}
+.heading {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--color-ink);
+  margin-bottom: var(--space-xs);
+}
+.subtitle {
+  font-size: var(--text-body);
+  color: var(--color-secondary);
+  margin-bottom: 24px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.submitBtn {
+  width: 100%;
+  margin-top: var(--space-xs);
+}
+.footer {
+  margin-top: var(--space-lg);
+  text-align: center;
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+}
+.footerLink {
+  color: var(--color-accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
+}
+.footerLink:hover { text-decoration: underline; }

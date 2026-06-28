@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { Avatar } from '@/components/ui/avatar'
 import { NotificationPanel } from '@/components/notifications/notification-panel'
+import s from './navbar.module.css'
 
 interface NavbarProps {
   user?: {
@@ -17,8 +18,8 @@ export function Navbar({ user }: NavbarProps) {
   const [notifOpen, setNotifOpen] = useState(false)
 
   return (
-    <header className="navbar" style={{ padding: 0 }}>
-      <div className="container-page flex items-center justify-between h-full">
+    <header className="navbar">
+      <div className={`container-page ${s.inner}`}>
       <Link
         href={user ? '/feed' : '/'}
         className="navbar-logo"
@@ -30,18 +31,18 @@ export function Navbar({ user }: NavbarProps) {
       <div className="navbar-actions">
         {user ? (
           <>
-            <div className="relative">
+            <div className={s.notifWrapper}>
               <button
                 onClick={() => setNotifOpen((o) => !o)}
                 className="btn btn-ghost btn-icon"
                 aria-label="Notifications"
               >
-                <i className="ti ti-bell text-[18px]" aria-hidden="true" />
+                <i className="ti ti-bell icon-md" aria-hidden="true" />
               </button>
               {notifOpen && (
                 <>
                   <div
-                    className="fixed inset-0 z-[var(--z-overlay)]"
+                    className={s.notifBackdrop}
                     onClick={() => setNotifOpen(false)}
                   />
                   <NotificationPanel onClose={() => setNotifOpen(false)} />

@@ -1,0 +1,109 @@
+.layout {
+  display: flex;
+  gap: 24px;
+}
+.feed {
+  flex: 1;
+  max-width: 560px;
+  min-width: 0;
+}
+.composer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+.composerInput {
+  flex: 1;
+  height: 40px;
+  padding: 0 16px;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--color-muted);
+  background: var(--color-canvas);
+  border: var(--border-strong);
+  border-radius: var(--radius-pill);
+  text-align: left;
+  cursor: pointer;
+  transition: var(--transition-colors);
+}
+.composerInput:hover { border-color: var(--color-accent); }
+.composerPlus {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-ink);
+  color: var(--color-canvas);
+  border-radius: var(--radius-pill);
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+.composerPlus:hover { opacity: 0.88; }
+.posts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+.rightRail {
+  width: 212px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 80px;
+  align-self: flex-start;
+  display: none;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+@media (min-width: 1024px) {
+  .rightRail { display: flex; }
+}
+.railHeading {
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+  margin-bottom: var(--space-md);
+}
+.railItems { display: flex; flex-direction: column; gap: var(--space-md); }
+.railRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+.railRowStart {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+.railMeta { min-width: 0; }
+.railName {
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: var(--transition-colors);
+}
+.railName:hover { color: var(--color-accent); }
+.railSub {
+  font-size: var(--text-label);
+  color: var(--color-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.railFollowInner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+.railFollowMeta { min-width: 0; }

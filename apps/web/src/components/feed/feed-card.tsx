@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Avatar } from '@/components/ui/avatar'
+import s from './feed-card.module.css'
 
 export interface FeedPost {
   id: string
@@ -56,10 +57,11 @@ export function FeedCard({ post, onOpenThread }: FeedCardProps) {
           <Avatar src={post.author.avatarUrl} name={post.author.name} size="md" />
         </Link>
         <div className="feed-card-meta">
-          <div className="flex items-center gap-1 flex-wrap">
+          <div className={s.authorLine}>
             <Link
               href={`/profile/${post.author.username}`}
-              className="feed-card-name hover:text-accent transition-colors duration-fast"
+              className="feed-card-name"
+              style={{ transition: 'var(--transition-colors)' }}
             >
               {post.author.name}
             </Link>
@@ -73,7 +75,7 @@ export function FeedCard({ post, onOpenThread }: FeedCardProps) {
                   ? `/project/${post.project.slug}`
                   : `/community/${post.community!.slug}`
               }
-              className="text-small text-accent hover:underline"
+              className={s.projectLink}
             >
               {post.project?.name ?? post.community?.name}
             </Link>
@@ -91,7 +93,7 @@ export function FeedCard({ post, onOpenThread }: FeedCardProps) {
           className={['action-btn', liked ? 'active' : ''].filter(Boolean).join(' ')}
           aria-label={liked ? 'Unlike' : 'Like'}
         >
-          <i className="ti ti-heart text-[16px]" aria-hidden="true" />
+          <i className="ti ti-heart icon-base" aria-hidden="true" />
           <span>{likeCount}</span>
         </motion.button>
 
@@ -100,7 +102,7 @@ export function FeedCard({ post, onOpenThread }: FeedCardProps) {
           className="action-btn"
           aria-label="View replies"
         >
-          <i className="ti ti-message-circle text-[16px]" aria-hidden="true" />
+          <i className="ti ti-message-circle icon-base" aria-hidden="true" />
           <span>{post.commentCount}</span>
         </button>
 
@@ -111,7 +113,7 @@ export function FeedCard({ post, onOpenThread }: FeedCardProps) {
           className="action-btn"
           aria-label="Share"
         >
-          <i className="ti ti-share text-[16px]" aria-hidden="true" />
+          <i className="ti ti-share icon-base" aria-hidden="true" />
           <span>Share</span>
         </button>
       </div>
@@ -123,24 +125,22 @@ export function FeedCardSkeleton() {
   return (
     <div className="feed-card">
       <div className="feed-card-header">
-        <div className="skeleton w-9 h-9 rounded-full flex-shrink-0" />
-        <div className="feed-card-meta flex flex-col gap-sm">
-          <div className="skeleton h-3.5 w-32 rounded" />
-          <div className="skeleton h-3 w-20 rounded" />
+        <div className={`skeleton ${s.skeletonAvatar}`} />
+        <div className={`feed-card-meta ${s.skeletonMeta}`}>
+          <div className={`skeleton ${s.skeletonLine} ${s.skeletonLineName}`} />
+          <div className={`skeleton ${s.skeletonLineTime}`} />
         </div>
       </div>
-      <div className="feed-card-body flex flex-col gap-sm">
-        <div className="skeleton h-3.5 w-full rounded" />
-        <div className="skeleton h-3.5 w-4/5 rounded" />
-        <div className="skeleton h-3.5 w-3/5 rounded" />
+      <div className={`feed-card-body ${s.skeletonBody}`}>
+        <div className={`skeleton ${s.skeletonLine} ${s.skeletonLineFull}`} />
+        <div className={`skeleton ${s.skeletonLine} ${s.skeletonLineWide}`} />
+        <div className={`skeleton ${s.skeletonLine} ${s.skeletonLineMed}`} />
       </div>
       <div className="feed-card-actions">
-        <div className="skeleton h-3 w-10 rounded" />
-        <div className="skeleton h-3 w-10 rounded" />
-        <div className="skeleton h-3 w-12 rounded" />
+        <div className={`skeleton ${s.skeletonAction}`} />
+        <div className={`skeleton ${s.skeletonAction}`} />
+        <div className={`skeleton ${s.skeletonAction}`} />
       </div>
     </div>
   )
 }
-
-// NOTE: text-[16px] on Tabler <i> glyphs is an allowed per-glyph value — not a token.

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Avatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/toast'
+import s from './composer-modal.module.css'
 
 const MOCK_PROJECTS = [
   { id: '1', name: 'Inference Stack' },
@@ -51,7 +52,7 @@ export function ComposerModal({ open, onClose, onPublish, user }: ComposerModalP
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.12, ease: [0.2, 0, 0, 1] }}
-            className="fixed inset-0 bg-[rgba(28,43,26,0.32)] z-[var(--z-overlay)]"
+            className={s.scrim}
             onClick={onClose}
           />
 
@@ -61,41 +62,36 @@ export function ComposerModal({ open, onClose, onPublish, user }: ComposerModalP
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.32, ease: [0.34, 1.56, 0.64, 1] }}
-            className="fixed top-[12vh] left-1/2 -translate-x-1/2 w-full max-w-[560px] bg-surface rounded-xl shadow-overlay z-[var(--z-modal)] overflow-hidden"
+            className={s.panel}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-[0.5px] border-border">
-              <h2
-                className="text-[18px] text-ink"
-                style={{ fontFamily: 'var(--font-display)' }}
-              >
-                Create post
-              </h2>
+            <div className={s.header}>
+              <h2 className={s.heading}>Create post</h2>
               <button
                 onClick={onClose}
-                className="w-8 h-8 flex items-center justify-center rounded-md text-secondary hover:bg-surface transition-colors duration-fast"
+                className={s.closeBtn}
                 aria-label="Close"
               >
-                <i className="ti ti-x text-[16px]" aria-hidden="true" />
+                <i className="ti ti-x icon-base" aria-hidden="true" />
               </button>
             </div>
 
             {/* Body */}
-            <div className="flex gap-3 px-5 py-4">
+            <div className={s.body}>
               <Avatar src={user.avatarUrl} name={user.name} size="md" />
               <textarea
                 ref={textareaRef}
                 value={content}
                 onChange={handleTextareaChange}
                 placeholder="What are you working on?"
-                className="flex-1 text-[16px] text-ink placeholder:text-muted bg-transparent border-none outline-none resize-none leading-[var(--leading-body)] min-h-[96px]"
+                className={s.textarea}
                 autoFocus
               />
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-between px-5 py-3 border-t border-[0.5px] border-border">
-              <div className="flex items-center gap-1">
+            <div className={s.footer}>
+              <div className={s.tools}>
                 {[
                   { icon: 'photo', label: 'Add image' },
                   { icon: 'link', label: 'Add link' },
@@ -103,17 +99,17 @@ export function ComposerModal({ open, onClose, onPublish, user }: ComposerModalP
                 ].map(({ icon, label }) => (
                   <button
                     key={icon}
-                    className="w-7 h-7 flex items-center justify-center rounded-md text-muted hover:bg-accent-subtle hover:text-accent-ink transition-colors duration-fast"
+                    className={s.toolBtn}
                     aria-label={label}
                   >
-                    <i className={`ti ti-${icon}`} style={{ fontSize: '16px' }} aria-hidden="true" />
+                    <i className={`ti ti-${icon} icon-base`} aria-hidden="true" />
                   </button>
                 ))}
 
                 <select
                   value={projectId}
                   onChange={(e) => setProjectId(e.target.value)}
-                  className="ml-1 h-7 px-3 text-small font-medium text-accent bg-accent-subtle border-[0.5px] border-accent/30 rounded-pill outline-none cursor-pointer"
+                  className={s.projectSelect}
                 >
                   <option value="">No project</option>
                   {MOCK_PROJECTS.map((p) => (

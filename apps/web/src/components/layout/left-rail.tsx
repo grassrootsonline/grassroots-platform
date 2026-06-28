@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Avatar } from '@/components/ui/avatar'
+import s from './left-rail.module.css'
 
 interface NavItem {
   href: string
@@ -35,29 +36,18 @@ export function LeftRail({ user }: LeftRailProps) {
   const pathname = usePathname()
 
   return (
-    <aside
-      className="w-[188px] flex-shrink-0 sticky top-[80px] self-start h-[calc(100vh-80px)] flex flex-col"
-      aria-label="Primary navigation"
-    >
-      <nav className="flex flex-col gap-0.5">
+    <aside className={s.rail} aria-label="Primary navigation">
+      <nav className={s.nav}>
         {NAV_ITEMS.map(({ href, icon, label }) => {
           const active = pathname === href || pathname.startsWith(href + '/')
           return (
             <Link
               key={href}
               href={href}
-              className={[
-                'flex items-center gap-3 px-3 py-2 rounded-md text-body transition-colors duration-fast',
-                active
-                  ? 'bg-accent-subtle text-ink font-medium'
-                  : 'text-secondary hover:text-ink hover:bg-surface',
-              ].join(' ')}
+              className={[s.link, active ? s.linkActive : ''].filter(Boolean).join(' ')}
             >
               <i
-                className={[
-                  `ti ti-${icon} text-[18px]`,
-                  active ? 'text-accent' : '',
-                ].join(' ')}
+                className={['ti', `ti-${icon}`, s.linkIcon, active ? s.linkIconActive : ''].filter(Boolean).join(' ')}
                 aria-hidden="true"
               />
               {label}
@@ -66,32 +56,32 @@ export function LeftRail({ user }: LeftRailProps) {
         })}
       </nav>
 
-      <div className="mt-5">
-        <p className="px-3 text-label font-medium uppercase tracking-label text-accent mb-1">
+      <div className={s.projects}>
+        <p className={`text-label ${s.projectsLabel}`}>
           Your projects
         </p>
         {MOCK_PROJECTS.map((p) => (
           <Link
             key={p.slug}
             href={`/project/${p.slug}`}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-md text-small text-secondary hover:text-ink hover:bg-surface transition-colors duration-fast"
+            className={s.projectLink}
           >
-            <i className="ti ti-circle-dot text-accent text-[14px]" aria-hidden="true" />
+            <i className={`ti ti-circle-dot ${s.projectIcon}`} aria-hidden="true" />
             {p.name}
           </Link>
         ))}
       </div>
 
       {user && (
-        <div className="mt-auto pb-4">
+        <div className={s.userChip}>
           <Link
             href={`/profile/${user.username}`}
-            className="flex items-center gap-2.5 px-3 py-2 rounded-md hover:bg-surface transition-colors duration-fast"
+            className={s.userChipLink}
           >
             <Avatar src={user.avatarUrl} name={user.name} size="sm" />
-            <div className="min-w-0">
-              <p className="text-small font-medium text-ink truncate">{user.name}</p>
-              <p className="text-label text-secondary">View profile</p>
+            <div className={s.userChipMeta}>
+              <p className={s.userChipName}>{user.name}</p>
+              <p className={s.userChipSub}>View profile</p>
             </div>
           </Link>
         </div>
