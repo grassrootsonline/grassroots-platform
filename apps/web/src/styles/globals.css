@@ -7,30 +7,222 @@
 @source "../components";
 @source "../lib";
 
-@import './tokens.css';
-@import './motion.css';
+/* Design-system component classes (vendored). Keep these for the few
+   real component classes (.btn, .feed-card, .navbar …) — NOT for
+   one-off token references; those use the @theme utilities below. */
 @import './design-system/components.css';
-@import './design-system/components-new.css';
-@import './design-system/responsive.css';
 
-/* ── Layout ──────────────────────────────────────────────── */
+/* Design-system layers vendored from grassroots-design-system-core */
+@import './design-system/motion.css';
+@import './design-system/responsive.css';
+@import './design-system/components-new.css';
+
+/* ============================================================
+   @theme — the token → utility bridge  (THE ROOT-CAUSE FIX)
+   ------------------------------------------------------------
+   Values are the Grassroots tokens. Tailwind emits each as a
+   :root custom property AND generates the matching utilities.
+   Dark mode (below, OUTSIDE @theme) overrides the SAME var
+   names, so utilities flip automatically. Do NOT use
+   `@theme inline` — that would bake values into the utilities
+   and break the dark-mode override.
+   ============================================================ */
+@theme {
+  /* Guardrail: drop Tailwind's stock palette & fonts so nobody can
+     reach for bg-blue-500 / text-red-600 — sage is the only accent,
+     never blue (design-system CLAUDE.md). Numeric spacing is kept. */
+  --color-*: initial;
+  --font-*: initial;
+
+  /* keywords Tailwind utilities still expect */
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* ── Fonts → font-display / font-body / font-mono ── */
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:    'Courier New', Courier, monospace;
+
+  /* ── Color — core → bg-/text-/border-ink, -accent, … ── */
+  --color-ink:           #1C2B1A;
+  --color-ink-soft:      #3D3D35;
+  --color-accent:        #6B8C6A;
+  --color-accent-subtle: #D5E5D4;
+  --color-accent-mist:   rgba(107, 140, 106, 0.12);
+  --color-accent-ink:    #2E5C2C;
+
+  /* ── Color — surfaces ── */
+  --color-canvas:        #F7F6F4;
+  --color-surface:       #FAFAF8;
+
+  /* ── Color — borders ── */
+  --color-border:        #E2DDD7;
+  --color-border-strong: #C5C0B8;
+
+  /* ── Color — text ── */
+  --color-secondary:     #8A897F;
+  --color-muted:         #A5A49A;
+
+  /* ── Color — semantic ── */
+  --color-danger:        #C17A5A;
+  --color-danger-subtle: #F0EAE0;
+  --color-warm:          #7A5C30;
+  --color-warm-subtle:   #F0EAE0;
+
+  /* ── Type scale → text-display … text-label (with paired leading) ── */
+  --text-display: 36px;
+  --text-display--line-height: 1.1;
+  --text-title:   24px;
+  --text-title--line-height: 1.2;
+  --text-heading: 16px;
+  --text-body:    14px;
+  --text-body--line-height: 1.65;
+  --text-small:   12px;
+  --text-label:   11px;
+
+  /* ── Weights → font-regular / font-medium (only 400 & 500 exist) ── */
+  --font-weight-regular: 400;
+  --font-weight-medium:  500;
+
+  /* ── Letter spacing → tracking-label / tracking-tight ── */
+  --tracking-label: 0.08em;
+  --tracking-tight: -0.01em;
+
+  /* ── Named spacing → p-md, gap-lg, m-xl … (numeric scale also kept) ── */
+  --spacing-xs:  4px;
+  --spacing-sm:  8px;
+  --spacing-md:  12px;
+  --spacing-lg:  20px;
+  --spacing-xl:  32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 72px;
+
+  /* ── Radius → rounded-sm … rounded-pill ── */
+  --radius-sm:   4px;
+  --radius-md:   6px;
+  --radius-lg:   10px;
+  --radius-xl:   16px;
+  --radius-pill: 999px;
+
+  /* ── Motion (from design-system motion.css) → duration-* / ease-* ── */
+  --duration-instant: 50ms;
+  --duration-fast:    120ms;
+  --duration-base:    200ms;
+  --duration-slow:    320ms;
+  --duration-relaxed: 480ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter:    cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit:     cubic-bezier(0.4, 0, 1, 1);
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-linear:   linear;
+
+  /* ── Breakpoints → drives sm: md: lg: xl: variants ── */
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+
+  /* ── Elevation → shadow-overlay (cards have NO shadow; this is for modals/toasts) ── */
+  --shadow-overlay: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* ============================================================
+   Dark mode — overrides the @theme vars by name. MUST stay
+   outside @theme. Never hand-author per-component dark styles;
+   the tokens flip and the utilities follow.
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-ink:           #E8E6E1;
+    --color-ink-soft:      #C8C6C0;
+    --color-accent:        #8AAD89;
+    --color-accent-subtle: #1E3020;
+    --color-accent-mist:   rgba(138, 173, 137, 0.15);
+    --color-accent-ink:    #A9CBA8;
+
+    --color-canvas:        #141A13;
+    --color-surface:       #1A211A;
+
+    --color-border:        #2A3329;
+    --color-border-strong: #3A4439;
+
+    --color-secondary:     #6E6E65;
+    --color-muted:         #4E4E47;
+
+    --color-danger:        #D4896A;
+    --color-danger-subtle: #2A1F1A;
+    --color-warm:          #C9A878;
+    --color-warm-subtle:   #2A1F1A;
+  }
+}
+
+/* ============================================================
+   Non-token globals (layout helpers, resets, skeleton, focus)
+   ============================================================ */
+
+/* Legacy shorthand aliases — components.css / components-new.css / responsive.css
+   still reference these names from the old tokens.css. @theme uses --spacing-* /
+   --font-weight-* naming; these aliases bridge the gap. New code should use @theme
+   utilities (gap-md, font-medium, etc.) rather than var(--space-md). */
+:root {
+  /* Spacing aliases (vendored component CSS uses --space-* not --spacing-*) */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  12px;
+  --space-lg:  20px;
+  --space-xl:  32px;
+  --space-2xl: 48px;
+  --space-3xl: 72px;
+
+  /* Font weight aliases */
+  --weight-regular: 400;
+  --weight-medium:  500;
+
+  /* Leading scale */
+  --leading-display: 1.1;
+  --leading-title:   1.2;
+  --leading-body:    1.65;
+  --leading-tight:   1.3;
+
+  /* Z-index scale */
+  --z-sticky:  100;
+  --z-overlay: 200;
+  --z-modal:   300;
+  --z-toast:   400;
+
+  /* Focus ring */
+  --focus-ring: 0 0 0 3px var(--color-accent-mist);
+
+  /* Border shorthands */
+  --border-default: 0.5px solid var(--color-border);
+  --border-strong:  0.5px solid var(--color-border-strong);
+  --border-accent:  0.5px solid var(--color-accent);
+  --border-dashed:  0.5px dashed var(--color-border-strong);
+
+  /* Layout constants */
+  --feed-max-width:    640px;
+  --sidebar-width:     188px;
+  --content-max-width: 1200px;
+}
+
+/* Public / auth pages */
 .container-page {
   width: 100%;
   max-width: 960px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: var(--spacing-lg);
+  padding-right: var(--spacing-lg);
 }
 
-/* Authenticated platform shell — wider than public pages to fit 3-column layout */
+/* Authenticated platform shell — wider to fit 3-column layout (Amendment 02) */
 .container-platform {
   width: 100%;
   max-width: 1080px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: var(--spacing-lg);
+  padding-right: var(--spacing-lg);
 }
 
 .container-feed {
@@ -38,18 +230,9 @@
   max-width: 640px;
 }
 
-/* ── Section spacing ─────────────────────────────────────── */
-.section-hero {
-  padding-top: 72px;
-  padding-bottom: 80px;
-}
+.section-hero { padding-top: 72px; padding-bottom: 80px; }
+.section-pad  { padding-top: 60px; padding-bottom: 60px; }
 
-.section-pad {
-  padding-top: 60px;
-  padding-bottom: 60px;
-}
-
-/* ── Hero grid ───────────────────────────────────────────── */
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -57,14 +240,12 @@
   align-items: center;
 }
 
-/* ── Value props grid ────────────────────────────────────── */
 .value-props-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 40px;
 }
 
-/* ── Base reset ──────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -81,16 +262,13 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-  min-height: 100vh;
-}
+body { min-height: 100vh; }
 
-/* ── Skeleton shimmer ────────────────────────────────────── */
+/* Skeleton shimmer */
 @keyframes shimmer {
   0%   { background-position: -200% 0; }
   100% { background-position:  200% 0; }
 }
-
 .skeleton {
   background: linear-gradient(
     90deg,
@@ -103,13 +281,13 @@ body {
   border-radius: 6px;
 }
 
-/* ── Focus ring ──────────────────────────────────────────── */
+/* Focus ring — box-shadow, never a border swap, never blue */
 :focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px var(--color-accent-mist);
 }
 
-/* ── Scrollbar ───────────────────────────────────────────── */
+/* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {

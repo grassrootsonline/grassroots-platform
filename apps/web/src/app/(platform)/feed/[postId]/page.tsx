@@ -50,7 +50,7 @@ export default function ThreadPage({ params }: { params: Promise<{ postId: strin
       <main className="flex-1 max-w-[560px] min-w-0 pb-10">
         <Link
           href="/feed"
-          className="inline-flex items-center gap-1.5 text-[13px] text-[var(--color-secondary)] hover:text-[var(--color-accent)] transition-colors duration-[120ms] mb-5"
+          className="inline-flex items-center gap-1.5 text-small text-secondary hover:text-accent transition-colors duration-fast mb-5"
         >
           <i className="ti ti-arrow-left text-[14px]" aria-hidden="true" />
           Back to feed
@@ -61,10 +61,10 @@ export default function ThreadPage({ params }: { params: Promise<{ postId: strin
         {/* Replies section */}
         <div className="mt-6">
           <div className="flex items-center gap-3 mb-4">
-            <h2 className="text-[13px] font-[500] uppercase tracking-[0.08em] text-[var(--color-accent)]">
+            <h2 className="text-small font-medium uppercase tracking-label text-accent">
               Replies
             </h2>
-            <div className="flex-1 h-[0.5px] bg-[var(--color-border)]" />
+            <div className="flex-1 h-[0.5px] bg-border" />
           </div>
 
           <div className="flex flex-col">
@@ -73,7 +73,7 @@ export default function ThreadPage({ params }: { params: Promise<{ postId: strin
                 key={reply.id}
                 className={[
                   'flex items-start gap-3 py-4',
-                  i < replies.length - 1 ? 'border-b border-[0.5px] border-[var(--color-border)]' : '',
+                  i < replies.length - 1 ? 'border-b border-[0.5px] border-border' : '',
                 ].join(' ')}
               >
                 <Link href={`/profile/${reply.author.username}`}>
@@ -83,16 +83,16 @@ export default function ThreadPage({ params }: { params: Promise<{ postId: strin
                   <div className="flex items-center gap-1 mb-1">
                     <Link
                       href={`/profile/${reply.author.username}`}
-                      className="text-[14px] font-[500] text-[var(--color-ink)] hover:text-[var(--color-accent)] transition-colors duration-[120ms]"
+                      className="text-body font-medium text-ink hover:text-accent transition-colors duration-fast"
                     >
                       {reply.author.name}
                     </Link>
-                    <span className="text-[var(--color-secondary)] text-[13px]">·</span>
-                    <span className="text-[13px] text-[var(--color-secondary)]">
+                    <span className="text-secondary text-small">·</span>
+                    <span className="text-small text-secondary">
                       {formatTime(reply.createdAt)}
                     </span>
                   </div>
-                  <p className="text-[14px] text-[var(--color-ink-soft)] leading-[1.65]">
+                  <p className="text-body text-ink-soft leading-[1.65]">
                     {reply.content}
                   </p>
                   <div className="flex items-center gap-4 mt-2.5">
@@ -100,12 +100,12 @@ export default function ThreadPage({ params }: { params: Promise<{ postId: strin
                       onClick={() =>
                         setReplyLikes((l) => ({ ...l, [reply.id]: (l[reply.id] ?? 0) + 1 }))
                       }
-                      className="flex items-center gap-1.5 text-[12px] text-[var(--color-secondary)] hover:text-[var(--color-accent)] transition-colors duration-[120ms]"
+                      className="flex items-center gap-1.5 text-small text-secondary hover:text-accent transition-colors duration-fast"
                     >
                       <i className="ti ti-heart text-[14px]" aria-hidden="true" />
                       <span>{reply.reactionCount + (replyLikes[reply.id] ?? 0)}</span>
                     </button>
-                    <button className="text-[12px] text-[var(--color-secondary)] hover:text-[var(--color-accent)] transition-colors duration-[120ms]">
+                    <button className="text-small text-secondary hover:text-accent transition-colors duration-fast">
                       Reply
                     </button>
                   </div>
@@ -123,7 +123,7 @@ export default function ThreadPage({ params }: { params: Promise<{ postId: strin
               onChange={(e) => setReplyText(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleReply()}
               placeholder="Write a reply…"
-              className="flex-1 h-9 px-4 text-[14px] bg-[var(--color-canvas)] border border-[0.5px] border-[var(--color-border-strong)] rounded-[var(--radius-pill)] outline-none focus:border-[var(--color-accent)] focus:shadow-[var(--focus-ring)] transition-all duration-[120ms] placeholder:text-[var(--color-muted)]"
+              className="flex-1 h-9 px-4 text-body bg-canvas border-[0.5px] border-border-strong rounded-pill outline-none focus:border-accent focus:shadow-[var(--focus-ring)] transition-colors duration-fast placeholder:text-muted"
             />
             <Button size="sm" onClick={handleReply} disabled={!replyText.trim()}>
               Reply

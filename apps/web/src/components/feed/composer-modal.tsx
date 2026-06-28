@@ -61,19 +61,19 @@ export function ComposerModal({ open, onClose, onPublish, user }: ComposerModalP
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.32, ease: [0.34, 1.56, 0.64, 1] }}
-            className="fixed top-[12vh] left-1/2 -translate-x-1/2 w-full max-w-[560px] bg-[var(--color-surface)] rounded-[var(--radius-xl)] shadow-[var(--shadow-overlay)] z-[var(--z-modal)] overflow-hidden"
+            className="fixed top-[12vh] left-1/2 -translate-x-1/2 w-full max-w-[560px] bg-surface rounded-xl shadow-overlay z-[var(--z-modal)] overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-[0.5px] border-[var(--color-border)]">
+            <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-[0.5px] border-border">
               <h2
-                className="text-[18px] text-[var(--color-ink)]"
+                className="text-[18px] text-ink"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 Create post
               </h2>
               <button
                 onClick={onClose}
-                className="w-8 h-8 flex items-center justify-center rounded-[var(--radius-md)] text-[var(--color-secondary)] hover:bg-[var(--color-surface)] transition-colors duration-[120ms]"
+                className="w-8 h-8 flex items-center justify-center rounded-md text-secondary hover:bg-surface transition-colors duration-fast"
                 aria-label="Close"
               >
                 <i className="ti ti-x text-[16px]" aria-hidden="true" />
@@ -88,13 +88,13 @@ export function ComposerModal({ open, onClose, onPublish, user }: ComposerModalP
                 value={content}
                 onChange={handleTextareaChange}
                 placeholder="What are you working on?"
-                className="flex-1 text-[16px] text-[var(--color-ink)] placeholder:text-[var(--color-muted)] bg-transparent border-none outline-none resize-none leading-[var(--leading-body)] min-h-[96px]"
+                className="flex-1 text-[16px] text-ink placeholder:text-muted bg-transparent border-none outline-none resize-none leading-[var(--leading-body)] min-h-[96px]"
                 autoFocus
               />
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-between px-5 py-3 border-t border-[0.5px] border-[var(--color-border)]">
+            <div className="flex items-center justify-between px-5 py-3 border-t border-[0.5px] border-border">
               <div className="flex items-center gap-1">
                 {[
                   { icon: 'photo', label: 'Add image' },
@@ -103,7 +103,7 @@ export function ComposerModal({ open, onClose, onPublish, user }: ComposerModalP
                 ].map(({ icon, label }) => (
                   <button
                     key={icon}
-                    className="w-7 h-7 flex items-center justify-center rounded-[var(--radius-md)] text-[var(--color-muted)] hover:bg-[var(--color-accent-subtle)] hover:text-[var(--color-accent-ink)] transition-colors duration-[120ms]"
+                    className="w-7 h-7 flex items-center justify-center rounded-md text-muted hover:bg-accent-subtle hover:text-accent-ink transition-colors duration-fast"
                     aria-label={label}
                   >
                     <i className={`ti ti-${icon}`} style={{ fontSize: '16px' }} aria-hidden="true" />
@@ -113,7 +113,7 @@ export function ComposerModal({ open, onClose, onPublish, user }: ComposerModalP
                 <select
                   value={projectId}
                   onChange={(e) => setProjectId(e.target.value)}
-                  className="ml-1 h-7 px-3 text-[12px] font-[500] text-[var(--color-accent)] bg-[var(--color-accent-subtle)] border border-[0.5px] border-[var(--color-accent)]/30 rounded-[var(--radius-pill)] outline-none cursor-pointer"
+                  className="ml-1 h-7 px-3 text-small font-medium text-accent bg-accent-subtle border-[0.5px] border-accent/30 rounded-pill outline-none cursor-pointer"
                 >
                   <option value="">No project</option>
                   {MOCK_PROJECTS.map((p) => (
