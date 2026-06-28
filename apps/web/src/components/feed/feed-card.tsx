@@ -59,7 +59,7 @@ export function FeedCard({ post, onOpenThread }: FeedCardProps) {
           <div className="flex items-center gap-1 flex-wrap">
             <Link
               href={`/profile/${post.author.username}`}
-              className="feed-card-name hover:text-[var(--color-accent)] transition-colors duration-[120ms]"
+              className="feed-card-name hover:text-accent transition-colors duration-fast"
             >
               {post.author.name}
             </Link>
@@ -73,7 +73,7 @@ export function FeedCard({ post, onOpenThread }: FeedCardProps) {
                   ? `/project/${post.project.slug}`
                   : `/community/${post.community!.slug}`
               }
-              className="text-[12px] text-[var(--color-accent)] hover:underline"
+              className="text-small text-accent hover:underline"
             >
               {post.project?.name ?? post.community?.name}
             </Link>
@@ -124,12 +124,12 @@ export function FeedCardSkeleton() {
     <div className="feed-card">
       <div className="feed-card-header">
         <div className="skeleton w-9 h-9 rounded-full flex-shrink-0" />
-        <div className="feed-card-meta" style={{ gap: '8px', display: 'flex', flexDirection: 'column' }}>
+        <div className="feed-card-meta flex flex-col gap-sm">
           <div className="skeleton h-3.5 w-32 rounded" />
           <div className="skeleton h-3 w-20 rounded" />
         </div>
       </div>
-      <div className="feed-card-body" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <div className="feed-card-body flex flex-col gap-sm">
         <div className="skeleton h-3.5 w-full rounded" />
         <div className="skeleton h-3.5 w-4/5 rounded" />
         <div className="skeleton h-3.5 w-3/5 rounded" />
@@ -142,3 +142,5 @@ export function FeedCardSkeleton() {
     </div>
   )
 }
+
+// NOTE: text-[16px] on Tabler <i> glyphs is an allowed per-glyph value — not a token.

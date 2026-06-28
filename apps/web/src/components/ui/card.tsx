@@ -6,7 +6,13 @@ interface CardProps {
 
 export function Card({ children, className = '', padding = true }: CardProps) {
   return (
-    <div className={['card', !padding ? '!p-0' : '', className].filter(Boolean).join(' ')}>
+    <div
+      className={[
+        'bg-surface border-[0.5px] border-border rounded-lg',
+        padding ? 'px-lg py-lg' : '',
+        className,
+      ].join(' ')}
+    >
       {children}
     </div>
   )
