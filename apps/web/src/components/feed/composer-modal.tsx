@@ -50,7 +50,7 @@ export function ComposerModal({ open, onClose, onPublish, user }: ComposerModalP
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
+            transition={{ duration: 0.12, ease: [0.2, 0, 0, 1] }}
             className="fixed inset-0 bg-[rgba(28,43,26,0.32)] z-[var(--z-overlay)]"
             onClick={onClose}
           />
@@ -60,7 +60,7 @@ export function ComposerModal({ open, onClose, onPublish, user }: ComposerModalP
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.15, ease: 'easeOut' }}
+            transition={{ duration: 0.32, ease: [0.34, 1.56, 0.64, 1] }}
             className="fixed top-[12vh] left-1/2 -translate-x-1/2 w-full max-w-[560px] bg-[var(--color-surface)] rounded-[var(--radius-xl)] shadow-[var(--shadow-overlay)] z-[var(--z-modal)] overflow-hidden"
           >
             {/* Header */}
@@ -73,7 +73,7 @@ export function ComposerModal({ open, onClose, onPublish, user }: ComposerModalP
               </h2>
               <button
                 onClick={onClose}
-                className="w-8 h-8 flex items-center justify-center rounded-[var(--radius-md)] text-[var(--color-secondary)] hover:bg-[var(--color-canvas)] transition-all duration-[120ms]"
+                className="w-8 h-8 flex items-center justify-center rounded-[var(--radius-md)] text-[var(--color-secondary)] hover:bg-[var(--color-surface)] transition-colors duration-[120ms]"
                 aria-label="Close"
               >
                 <i className="ti ti-x text-[16px]" aria-hidden="true" />
@@ -103,11 +103,8 @@ export function ComposerModal({ open, onClose, onPublish, user }: ComposerModalP
                 ].map(({ icon, label }) => (
                   <button
                     key={icon}
-                    className="btn btn-icon"
+                    className="w-7 h-7 flex items-center justify-center rounded-[var(--radius-md)] text-[var(--color-muted)] hover:bg-[var(--color-accent-subtle)] hover:text-[var(--color-accent-ink)] transition-colors duration-[120ms]"
                     aria-label={label}
-                    style={{ color: 'var(--color-muted)' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-secondary)' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted)' }}
                   >
                     <i className={`ti ti-${icon}`} style={{ fontSize: '16px' }} aria-hidden="true" />
                   </button>

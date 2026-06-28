@@ -8,12 +8,25 @@
 @source "../lib";
 
 @import './tokens.css';
+@import './motion.css';
 @import './design-system/components.css';
+@import './design-system/components-new.css';
+@import './design-system/responsive.css';
 
 /* ── Layout ──────────────────────────────────────────────── */
 .container-page {
   width: 100%;
   max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* Authenticated platform shell — wider than public pages to fit 3-column layout */
+.container-platform {
+  width: 100%;
+  max-width: 1080px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 20px;

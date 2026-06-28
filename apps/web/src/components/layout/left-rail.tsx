@@ -51,7 +51,7 @@ export function LeftRail({ user }: LeftRailProps) {
                 'flex items-center gap-3 px-3 py-2 rounded-[var(--radius-md)] text-[14px] transition-all duration-[120ms]',
                 active
                   ? 'bg-[var(--color-accent-subtle)] text-[var(--color-ink)] font-[500]'
-                  : 'text-[var(--color-secondary)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas)]',
+                  : 'text-[var(--color-secondary)] hover:text-[var(--color-ink)] hover:bg-[var(--color-surface)]',
               ].join(' ')}
             >
               <i
@@ -76,7 +76,7 @@ export function LeftRail({ user }: LeftRailProps) {
           <Link
             key={p.slug}
             href={`/project/${p.slug}`}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-[var(--radius-md)] text-[13px] text-[var(--color-secondary)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas)] transition-all duration-[120ms]"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-[var(--radius-md)] text-[13px] text-[var(--color-secondary)] hover:text-[var(--color-ink)] hover:bg-[var(--color-surface)] transition-all duration-[120ms]"
           >
             <i className="ti ti-circle-dot text-[var(--color-accent)] text-[14px]" aria-hidden="true" />
             {p.name}
@@ -89,7 +89,7 @@ export function LeftRail({ user }: LeftRailProps) {
         <div className="mt-auto pb-4">
           <Link
             href={`/profile/${user.username}`}
-            className="flex items-center gap-2.5 px-3 py-2 rounded-[var(--radius-md)] hover:bg-[var(--color-canvas)] transition-all duration-[120ms]"
+            className="flex items-center gap-2.5 px-3 py-2 rounded-[var(--radius-md)] hover:bg-[var(--color-surface)] transition-all duration-[120ms]"
           >
             <Avatar src={user.avatarUrl} name={user.name} size="sm" />
             <div className="min-w-0">

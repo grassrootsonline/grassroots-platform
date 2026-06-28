@@ -79,19 +79,19 @@ export const MOCK_WHO_TO_FOLLOW = [
   {
     name: 'Oren Etzioni',
     username: 'orenetz',
-    tagline: 'AI researcher, builder, skeptic.',
+    tagline: 'AI researcher & builder',
     avatarUrl: null,
   },
   {
     name: 'Liang Chen',
     username: 'liangchen',
-    tagline: 'Open-source LLM tools. Prev @together.ai',
+    tagline: 'Open-source LLM tools',
     avatarUrl: null,
   },
   {
     name: 'Nadia Solvay',
     username: 'nadiasolvay',
-    tagline: 'Multimodal models & robotics.',
+    tagline: 'Multimodal & robotics',
     avatarUrl: null,
   },
 ]
