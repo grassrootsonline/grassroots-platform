@@ -1,0 +1,49 @@
+/* ============================================
+   Grassroots — Color Tokens
+   ============================================ */
+
+:root {
+  /* Core palette */
+  --color-ink:            #1C2B1A; /* Primary text, filled buttons */
+  --color-ink-soft:       #3D3D35; /* Body copy */
+  --color-accent:         #6B8C6A; /* Interactive: focus, links, active states */
+  --color-accent-subtle:  #D5E5D4; /* Tint fills: avatar bg, accent badges */
+  --color-accent-mist:    rgba(107, 140, 106, 0.12); /* Focus ring glow */
+
+  /* Surfaces */
+  --color-canvas:         #F7F6F4; /* Page background */
+  --color-surface:        #FAFAF8; /* Cards, inputs, nav */
+
+  /* Borders */
+  --color-border:         #E2DDD7; /* Default hairline */
+  --color-border-strong:  #C5C0B8; /* Input borders, dividers on hover */
+
+  /* Text */
+  --color-secondary:      #8A897F; /* Secondary labels, timestamps */
+  --color-muted:          #A5A49A; /* Placeholder, tertiary */
+
+  /* Semantic */
+  --color-danger:         #C17A5A; /* Errors, destructive actions */
+  --color-danger-subtle:  #F0EAE0; /* Error background tint */
+
+  /* Dark mode overrides */
+  @media (prefers-color-scheme: dark) {
+    --color-ink:            #E8E6E1;
+    --color-ink-soft:       #C8C6C0;
+    --color-accent:         #8AAD89;
+    --color-accent-subtle:  #1E3020;
+    --color-accent-mist:    rgba(138, 173, 137, 0.15);
+
+    --color-canvas:         #141A13;
+    --color-surface:        #1A211A;
+
+    --color-border:         #2A3329;
+    --color-border-strong:  #3A4439;
+
+    --color-secondary:      #6E6E65;
+    --color-muted:          #4E4E47;
+
+    --color-danger:         #D4896A;
+    --color-danger-subtle:  #2A1F1A;
+  }
+}

@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grassroots — Design System Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+
+  <style>
+    /* ── Paste or @import your token + component files here in production ── */
+
+    /* TOKENS: colors */
+    :root {
+      --color-ink:            #1C2B1A;
+      --color-ink-soft:       #3D3D35;
+      --color-accent:         #6B8C6A;
+      --color-accent-subtle:  #D5E5D4;
+      --color-accent-mist:    rgba(107, 140, 106, 0.12);
+      --color-canvas:         #F7F6F4;
+      --color-surface:        #FAFAF8;
+      --color-border:         #E2DDD7;
+      --color-border-strong:  #C5C0B8;
+      --color-secondary:      #8A897F;
+      --color-muted:          #A5A49A;
+      --color-danger:         #C17A5A;
+      --color-danger-subtle:  #F0EAE0;
+
+      /* TOKENS: typography */
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono:    'Courier New', Courier, monospace;
+      --text-display: 36px; --text-title: 24px; --text-heading: 16px;
+      --text-body: 14px; --text-small: 12px; --text-label: 11px;
+      --leading-display: 1.1; --leading-title: 1.2;
+      --leading-body: 1.65; --leading-tight: 1.3;
+      --weight-regular: 400; --weight-medium: 500;
+      --tracking-label: 0.08em; --tracking-tight: -0.01em;
+
+      /* TOKENS: spacing */
+      --space-xs: 4px; --space-sm: 8px; --space-md: 12px;
+      --space-lg: 20px; --space-xl: 32px; --space-2xl: 48px; --space-3xl: 72px;
+      --radius-sm: 4px; --radius-md: 6px; --radius-lg: 10px;
+      --radius-xl: 16px; --radius-pill: 999px;
+      --border-default: 0.5px solid var(--color-border);
+      --border-strong:  0.5px solid var(--color-border-strong);
+      --border-accent:  0.5px solid var(--color-accent);
+      --border-dashed:  0.5px dashed var(--color-border-strong);
+      --focus-ring: 0 0 0 3px var(--color-accent-mist);
+      --feed-max-width: 640px; --sidebar-width: 240px; --content-max-width: 960px;
+      --z-base: 0; --z-raised: 10; --z-sticky: 100; --z-overlay: 200; --z-modal: 300; --z-toast: 400;
+
+      /* TOKENS: motion */
+      --duration-instant: 50ms; --duration-fast: 120ms; --duration-base: 200ms;
+      --duration-slow: 320ms; --duration-relaxed: 480ms;
+      --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+      --ease-enter:    cubic-bezier(0, 0, 0.2, 1);
+      --ease-exit:     cubic-bezier(0.4, 0, 1, 1);
+      --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+      --transition-colors: color var(--duration-fast) var(--ease-standard),
+                           background-color var(--duration-fast) var(--ease-standard),
+                           border-color var(--duration-fast) var(--ease-standard),
+                           opacity var(--duration-fast) var(--ease-standard);
+
+      /* TOKENS: responsive */
+      --touch-target: 44px;
+      --mobile-nav-height: 56px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-ink:           #E8E6E1; --color-ink-soft:      #C8C6C0;
+        --color-accent:        #8AAD89; --color-accent-subtle: #1E3020;
+        --color-accent-mist:   rgba(138, 173, 137, 0.15);
+        --color-canvas:        #141A13; --color-surface:       #1A211A;
+        --color-border:        #2A3329; --color-border-strong: #3A4439;
+        --color-secondary:     #6E6E65; --color-muted:         #4E4E47;
+        --color-danger:        #D4896A; --color-danger-subtle: #2A1F1A;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      :root {
+        --duration-instant: 0ms; --duration-fast: 0ms; --duration-base: 0ms;
+        --duration-slow: 0ms; --duration-relaxed: 0ms;
+      }
+    }
+
+    /* ── Keyframes ── */
+    @keyframes gr-fade-in   { from{opacity:0}      to{opacity:1} }
+    @keyframes gr-fade-out  { from{opacity:1}      to{opacity:0} }
+    @keyframes gr-scale-in  { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
+    @keyframes gr-scale-out { from{opacity:1;transform:scale(1)}   to{opacity:0;transform:scale(0.95)} }
+    @keyframes gr-slide-up  { from{opacity:0;transform:translateY(8px)}  to{opacity:1;transform:translateY(0)} }
+    @keyframes gr-sheet-up  { from{transform:translateY(100%)} to{transform:translateY(0)} }
+    @keyframes gr-sheet-down{ from{transform:translateY(0)} to{transform:translateY(100%)} }
+
+    /* ── Base reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      font-size: var(--text-body);
+      line-height: var(--leading-body);
+      color: var(--color-ink);
+      background: var(--color-canvas);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Reference page layout ── */
+    .ref-nav {
+      position: sticky; top: 0;
+      background: var(--color-surface);
+      border-bottom: var(--border-default);
+      z-index: var(--z-sticky);
+      padding: 0 var(--space-xl);
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .ref-nav-logo { font-family: var(--font-display); font-size: 18px; color: var(--color-ink); text-decoration: none; }
+    .ref-nav-links { display: flex; gap: var(--space-xl); list-style: none; }
+    .ref-nav-links a { font-size: var(--text-small); color: var(--color-secondary); text-decoration: none; transition: color var(--duration-fast) var(--ease-standard); }
+    .ref-nav-links a:hover { color: var(--color-ink); }
+
+    .ref-main { max-width: 860px; margin: 0 auto; padding: var(--space-2xl) var(--space-xl); }
+
+    .ref-section { margin-bottom: var(--space-3xl); }
+    .ref-section-header { margin-bottom: var(--space-xl); padding-bottom: var(--space-md); border-bottom: var(--border-default); }
+    .ref-label { font-size: var(--text-label); font-weight: var(--weight-medium); letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--color-accent); display: block; margin-bottom: var(--space-xs); }
+    .ref-title { font-family: var(--font-display); font-size: var(--text-title); color: var(--color-ink); line-height: var(--leading-title); margin-bottom: var(--space-xs); }
+    .ref-desc { font-size: var(--text-body); color: var(--color-secondary); line-height: var(--leading-body); }
+    .ref-row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--space-lg); margin-bottom: var(--space-lg); }
+    .ref-col { display: flex; flex-direction: column; gap: var(--space-md); }
+    .ref-chip { font-size: var(--text-small); color: var(--color-muted); display: block; margin-top: var(--space-xs); }
+    .ref-divider { border: none; border-top: var(--border-default); margin: var(--space-xl) 0; }
+
+    .ref-swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: var(--space-sm); }
+    .ref-swatch { border-radius: var(--radius-md); overflow: hidden; border: var(--border-default); }
+    .ref-swatch-block { height: 56px; }
+    .ref-swatch-meta { padding: var(--space-sm); background: var(--color-surface); }
+    .ref-swatch-name { font-size: var(--text-small); font-weight: var(--weight-medium); color: var(--color-ink); }
+    .ref-swatch-value { font-size: 10px; font-family: var(--font-mono); color: var(--color-muted); }
+
+    .ref-token-table { width: 100%; border-collapse: collapse; }
+    .ref-token-table td, .ref-token-table th { padding: var(--space-sm) var(--space-md); font-size: var(--text-small); border-bottom: var(--border-default); text-align: left; }
+    .ref-token-table th { font-weight: var(--weight-medium); color: var(--color-secondary); text-transform: uppercase; letter-spacing: var(--tracking-label); font-size: 10px; }
+    .ref-token-table td:first-child { font-family: var(--font-mono); color: var(--color-accent); }
+    .ref-token-table tr:last-child td { border-bottom: none; }
+
+    .ref-preview-box {
+      background: var(--color-surface);
+      border: var(--border-default);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+    }
+
+    .ref-mobile-hint {
+      display: inline-flex; align-items: center; gap: var(--space-xs);
+      font-size: var(--text-small); color: var(--color-secondary);
+      background: var(--color-accent-subtle); color: #2E5C2C;
+      border-radius: var(--radius-pill); padding: 3px 10px;
+      margin-bottom: var(--space-md);
+    }
+
+    /* ── Existing component styles (inlined) ── */
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:var(--space-xs); font-family:var(--font-body); font-size:var(--text-body); font-weight:var(--weight-medium); line-height:1; border-radius:var(--radius-md); padding:8px 16px; cursor:pointer; transition:background 120ms ease,border-color 120ms ease,opacity 120ms ease; text-decoration:none; white-space:nowrap; border:none; outline:none; }
+    .btn:focus-visible { box-shadow: var(--focus-ring); }
+    .btn-primary  { background:var(--color-ink); color:var(--color-canvas); }
+    .btn-primary:hover { opacity:0.88; }
+    .btn-secondary { background:transparent; color:var(--color-ink); border:var(--border-strong); }
+    .btn-secondary:hover { background:var(--color-surface); }
+    .btn-ghost { background:transparent; color:var(--color-accent); border:none; }
+    .btn-ghost:hover { background:var(--color-accent-subtle); }
+    .btn-danger { background:var(--color-danger); color:#fff; border:none; }
+    .btn-sm { font-size:var(--text-small); padding:5px 10px; border-radius:var(--radius-sm); }
+    .btn-lg { font-size:var(--text-heading); padding:12px 24px; border-radius:var(--radius-lg); }
+    .btn-icon { padding:7px; border-radius:var(--radius-md); }
+
+    .badge { display:inline-flex; align-items:center; gap:var(--space-xs); padding:3px 9px; border-radius:var(--radius-pill); font-size:var(--text-label); font-weight:var(--weight-medium); letter-spacing:var(--tracking-label); text-transform:uppercase; white-space:nowrap; }
+    .badge-default { background:#EAE7E1; color:#5A5950; }
+    .badge-accent  { background:var(--color-accent-subtle); color:#2E5C2C; }
+    .badge-warm    { background:#F0EAE0; color:#7A5C30; }
+    .badge-muted   { background:var(--color-surface); color:var(--color-secondary); border:var(--border-default); }
+    .badge-danger  { background:var(--color-danger-subtle); color:var(--color-danger); }
+
+    .input { display:block; width:100%; font-family:var(--font-body); font-size:var(--text-body); color:var(--color-ink); background:var(--color-surface); border:var(--border-strong); border-radius:var(--radius-md); padding:8px 12px; outline:none; transition:border-color 120ms ease,box-shadow 120ms ease; }
+    .input::placeholder { color:var(--color-muted); }
+    .input:hover { border-color:var(--color-accent); }
+    .input:focus { border-color:var(--color-accent); box-shadow:var(--focus-ring); }
+    .input-error { border-color:var(--color-danger); }
+    .field { display:flex; flex-direction:column; gap:var(--space-xs); }
+    .field-label { font-size:var(--text-small); font-weight:var(--weight-medium); color:var(--color-ink); }
+    .field-hint { font-size:var(--text-small); color:var(--color-secondary); }
+    .field-error { font-size:var(--text-small); color:var(--color-danger); }
+
+    .avatar { display:inline-flex; align-items:center; justify-content:center; border-radius:var(--radius-pill); font-family:var(--font-body); font-weight:var(--weight-medium); flex-shrink:0; background:var(--color-accent-subtle); color:#2E5C2C; overflow:hidden; user-select:none; }
+    .avatar-sm { width:24px; height:24px; font-size:10px; }
+    .avatar-md { width:36px; height:36px; font-size:13px; }
+    .avatar-lg { width:48px; height:48px; font-size:16px; }
+    .avatar-xl { width:72px; height:72px; font-size:22px; }
+
+    .feed-card { background:var(--color-surface); border:var(--border-default); border-radius:var(--radius-lg); padding:var(--space-lg) 20px; transition:border-color 120ms ease; }
+    .feed-card:hover { border-color:var(--color-border-strong); }
+    .feed-card-header { display:flex; align-items:center; gap:var(--space-md); margin-bottom:var(--space-md); }
+    .feed-card-meta { flex:1; min-width:0; }
+    .feed-card-name { font-size:var(--text-body); font-weight:var(--weight-medium); color:var(--color-ink); }
+    .feed-card-time { font-size:var(--text-small); color:var(--color-secondary); }
+    .feed-card-body { font-size:var(--text-body); line-height:var(--leading-body); color:var(--color-ink-soft); margin-bottom:var(--space-md); }
+    .feed-card-actions { display:flex; gap:var(--space-lg); padding-top:var(--space-sm); border-top:var(--border-default); }
+    .action-btn { display:inline-flex; align-items:center; gap:var(--space-xs); font-family:var(--font-body); font-size:var(--text-small); color:var(--color-secondary); background:none; border:none; cursor:pointer; padding:0; transition:color 120ms ease; }
+    .action-btn:hover { color:var(--color-accent); }
+    .action-btn.active { color:var(--color-accent); }
+
+    .toast { display:inline-flex; align-items:center; gap:var(--space-md); padding:var(--space-md) var(--space-lg); background:var(--color-ink); color:var(--color-canvas); border-radius:var(--radius-lg); font-size:var(--text-body); }
+    .toast-success { background:#2E5C2C; }
+    .toast-danger  { background:var(--color-danger); }
+
+    .notif { display:flex; align-items:flex-start; gap:var(--space-md); padding:var(--space-md) var(--space-lg); border-radius:var(--radius-md); transition:background 100ms ease; }
+    .notif:hover { background:var(--color-surface); }
+    .notif-dot { width:7px; height:7px; border-radius:var(--radius-pill); background:var(--color-accent); margin-top:5px; flex-shrink:0; }
+    .notif-dot.read { background:transparent; border:1.5px solid var(--color-border-strong); }
+    .notif-text { font-size:var(--text-body); color:var(--color-ink-soft); line-height:var(--leading-tight); }
+    .notif-time { font-size:var(--text-small); color:var(--color-muted); margin-top:var(--space-xs); }
+
+    .empty-state { display:flex; flex-direction:column; align-items:center; text-align:center; padding:var(--space-2xl) var(--space-xl); border:var(--border-dashed); border-radius:var(--radius-lg); }
+    .empty-state-icon { font-size:28px; color:var(--color-border-strong); margin-bottom:var(--space-md); }
+    .empty-state-title { font-size:var(--text-heading); font-weight:var(--weight-medium); color:var(--color-ink); margin-bottom:var(--space-xs); }
+    .empty-state-body { font-size:var(--text-body); color:var(--color-secondary); margin-bottom:var(--space-lg); max-width:280px; }
+
+    /* ── NEW: Tabs ── */
+    .tabs { display:flex; flex-direction:column; width:100%; }
+    .tab-list { display:flex; align-items:flex-end; gap:0; border-bottom:var(--border-default); overflow-x:auto; scrollbar-width:none; }
+    .tab-list::-webkit-scrollbar { display:none; }
+    .tab { display:inline-flex; align-items:center; gap:var(--space-xs); padding:var(--space-sm) var(--space-lg); font-family:var(--font-body); font-size:var(--text-body); font-weight:var(--weight-regular); color:var(--color-secondary); background:none; border:none; border-bottom:2px solid transparent; cursor:pointer; white-space:nowrap; transition:color var(--duration-fast) var(--ease-standard),border-color var(--duration-fast) var(--ease-standard); margin-bottom:-0.5px; outline:none; }
+    .tab:hover { color:var(--color-ink); }
+    .tab.active { color:var(--color-ink); font-weight:var(--weight-medium); border-bottom-color:var(--color-accent); }
+    .tab:focus-visible { box-shadow:var(--focus-ring); border-radius:var(--radius-sm) var(--radius-sm) 0 0; }
+    .tab-badge { display:inline-flex; align-items:center; justify-content:center; min-width:18px; height:18px; padding:0 5px; border-radius:var(--radius-pill); background:var(--color-accent-subtle); color:#2E5C2C; font-size:10px; font-weight:var(--weight-medium); }
+    .tab.active .tab-badge { background:var(--color-accent); color:var(--color-canvas); }
+    .tab-panel { padding-top:var(--space-lg); animation:gr-fade-in var(--duration-base) var(--ease-enter) both; }
+
+    .tab-list-pill { display:flex; align-items:center; gap:var(--space-xs); border-bottom:none; overflow-x:auto; scrollbar-width:none; padding:var(--space-xs) 0; }
+    .tab-list-pill::-webkit-scrollbar { display:none; }
+    .tab-pill { display:inline-flex; align-items:center; gap:var(--space-xs); padding:5px var(--space-md); font-family:var(--font-body); font-size:var(--text-small); font-weight:var(--weight-medium); color:var(--color-secondary); background:none; border:var(--border-default); border-radius:var(--radius-pill); cursor:pointer; white-space:nowrap; transition:var(--transition-colors); outline:none; }
+    .tab-pill:hover { color:var(--color-ink); border-color:var(--color-border-strong); background:var(--color-surface); }
+    .tab-pill.active { color:var(--color-canvas); background:var(--color-ink); border-color:var(--color-ink); }
+    .tab-pill:focus-visible { box-shadow:var(--focus-ring); }
+
+    /* ── NEW: Dropdown ── */
+    .dropdown { position:relative; display:inline-flex; }
+    .dropdown-menu { position:absolute; top:calc(100% + var(--space-xs)); left:0; min-width:180px; background:var(--color-surface); border:var(--border-default); border-radius:var(--radius-lg); padding:var(--space-xs) 0; z-index:var(--z-overlay); box-shadow:0 4px 16px rgba(28,43,26,0.08),0 1px 4px rgba(28,43,26,0.04); animation:gr-slide-up var(--duration-base) var(--ease-enter) both; }
+    .dropdown-menu.align-end { left:auto; right:0; }
+    .dropdown-menu.hidden { display:none; }
+    .dropdown-item { display:flex; align-items:center; gap:var(--space-sm); width:100%; padding:var(--space-sm) var(--space-md); font-family:var(--font-body); font-size:var(--text-body); color:var(--color-ink-soft); background:none; border:none; cursor:pointer; text-decoration:none; text-align:left; transition:background var(--duration-fast) var(--ease-standard),color var(--duration-fast) var(--ease-standard); outline:none; }
+    .dropdown-item:hover,.dropdown-item:focus-visible { background:var(--color-canvas); color:var(--color-ink); }
+    .dropdown-item i { font-size:16px; color:var(--color-secondary); flex-shrink:0; }
+    .dropdown-item.danger { color:var(--color-danger); }
+    .dropdown-item.danger i { color:var(--color-danger); }
+    .dropdown-item.danger:hover { background:var(--color-danger-subtle); }
+    .dropdown-divider { height:0.5px; background:var(--color-border); margin:var(--space-xs) 0; }
+    .dropdown-label { padding:var(--space-xs) var(--space-md); font-size:var(--text-label); font-weight:var(--weight-medium); letter-spacing:var(--tracking-label); text-transform:uppercase; color:var(--color-muted); }
+
+    /* ── NEW: Tooltip ── */
+    .tooltip-wrapper { position:relative; display:inline-flex; }
+    .tooltip { position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%) translateY(4px); background:var(--color-ink); color:var(--color-canvas); font-family:var(--font-body); font-size:var(--text-small); padding:5px var(--space-sm); border-radius:var(--radius-sm); white-space:nowrap; pointer-events:none; z-index:var(--z-overlay); opacity:0; transition:opacity var(--duration-fast) var(--ease-standard),transform var(--duration-fast) var(--ease-standard); }
+    .tooltip::after { content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%); border:4px solid transparent; border-top-color:var(--color-ink); }
+    .tooltip-wrapper:hover .tooltip,.tooltip-wrapper:focus-within .tooltip { opacity:1; transform:translateX(-50%) translateY(0); }
+    @media (prefers-color-scheme: dark) {
+      .tooltip { background:var(--color-surface); color:var(--color-ink); border:var(--border-default); }
+      .tooltip::after { border-top-color:var(--color-surface); }
+    }
+
+    /* ── NEW: Command palette ── */
+    .command-backdrop { position:fixed; inset:0; background:rgba(28,43,26,0.32); z-index:var(--z-modal); display:flex; align-items:flex-start; justify-content:center; padding-top:15vh; animation:gr-fade-in var(--duration-base) var(--ease-enter) both; }
+    .command-backdrop.hidden { display:none; }
+    .command-palette { width:560px; max-width:calc(100vw - 64px); background:var(--color-surface); border:var(--border-default); border-radius:var(--radius-xl); overflow:hidden; animation:gr-scale-in var(--duration-base) var(--ease-enter) both; }
+    .command-input-row { display:flex; align-items:center; gap:var(--space-sm); padding:var(--space-md) var(--space-lg); border-bottom:var(--border-default); }
+    .command-input-row i { font-size:18px; color:var(--color-secondary); flex-shrink:0; }
+    .command-input { flex:1; font-family:var(--font-body); font-size:var(--text-body); color:var(--color-ink); background:none; border:none; outline:none; padding:0; }
+    .command-input::placeholder { color:var(--color-muted); }
+    .command-shortcut-hint { font-size:var(--text-small); color:var(--color-muted); padding:2px 6px; border:var(--border-default); border-radius:var(--radius-sm); font-family:var(--font-mono); }
+    .command-results { max-height:360px; overflow-y:auto; padding:var(--space-xs) 0; }
+    .command-section-label { padding:var(--space-sm) var(--space-lg) var(--space-xs); font-size:var(--text-label); font-weight:var(--weight-medium); letter-spacing:var(--tracking-label); text-transform:uppercase; color:var(--color-muted); }
+    .command-item { display:flex; align-items:center; gap:var(--space-md); padding:var(--space-sm) var(--space-lg); cursor:pointer; transition:background var(--duration-fast) var(--ease-standard); outline:none; text-decoration:none; }
+    .command-item:hover,.command-item.is-active { background:var(--color-canvas); }
+    .command-item.is-active { background:var(--color-accent-subtle); }
+    .command-item-icon { width:32px; height:32px; border-radius:var(--radius-md); background:var(--color-canvas); border:var(--border-default); display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--color-secondary); font-size:15px; }
+    .command-item.is-active .command-item-icon { background:var(--color-accent-subtle); border-color:var(--color-accent); color:var(--color-accent); }
+    .command-item-body { flex:1; min-width:0; }
+    .command-item-title { font-size:var(--text-body); color:var(--color-ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .command-item-subtitle { font-size:var(--text-small); color:var(--color-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .command-match { color:var(--color-accent); font-weight:var(--weight-medium); }
+    .command-item-shortcut { font-size:var(--text-small); color:var(--color-muted); font-family:var(--font-mono); padding:2px 5px; border:var(--border-default); border-radius:var(--radius-sm); flex-shrink:0; }
+    .command-footer { display:flex; align-items:center; gap:var(--space-lg); padding:var(--space-sm) var(--space-lg); border-top:var(--border-default); }
+    .command-footer-hint { display:flex; align-items:center; gap:var(--space-xs); font-size:var(--text-small); color:var(--color-muted); }
+    .command-footer-hint kbd { font-size:10px; font-family:var(--font-mono); padding:1px 5px; border:var(--border-default); border-radius:var(--radius-sm); color:var(--color-secondary); }
+
+    /* ── Bottom sheet ── */
+    .sheet-backdrop { position:fixed; inset:0; background:rgba(28,43,26,0.4); z-index:var(--z-overlay); animation:gr-fade-in var(--duration-base) var(--ease-enter) both; }
+    .sheet-backdrop.hidden { display:none; }
+    .sheet { position:fixed; left:0; right:0; bottom:0; background:var(--color-surface); border-radius:var(--radius-xl) var(--radius-xl) 0 0; border-top:var(--border-default); padding:var(--space-lg) var(--space-lg) calc(var(--space-lg) + var(--safe-bottom)); z-index:var(--z-modal); animation:gr-sheet-up var(--duration-slow) var(--ease-spring) both; max-height:85vh; overflow-y:auto; }
+    .sheet-handle { width:36px; height:4px; border-radius:var(--radius-pill); background:var(--color-border-strong); margin:0 auto var(--space-lg); }
+    .sheet-title { font-size:var(--text-heading); font-weight:var(--weight-medium); color:var(--color-ink); margin-bottom:var(--space-lg); }
+
+    @media (min-width: 768px) {
+      .sheet-backdrop { display:flex; align-items:center; justify-content:center; }
+      .sheet { position:static; border-radius:var(--radius-xl); border:var(--border-default); width:480px; max-height:80vh; animation:gr-scale-in var(--duration-base) var(--ease-enter) both; }
+      .sheet-handle { display:none; }
+    }
+
+    /* ── Motion preview ── */
+    .motion-demo-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:var(--space-md); }
+    .motion-demo-item { background:var(--color-surface); border:var(--border-default); border-radius:var(--radius-lg); padding:var(--space-lg); display:flex; flex-direction:column; align-items:center; gap:var(--space-sm); }
+    .motion-demo-label { font-size:var(--text-label); font-weight:var(--weight-medium); letter-spacing:var(--tracking-label); text-transform:uppercase; color:var(--color-muted); }
+    .motion-demo-value { font-size:var(--text-small); font-family:var(--font-mono); color:var(--color-accent); }
+    .motion-demo-bar { width:100%; height:4px; border-radius:var(--radius-pill); background:var(--color-border); overflow:hidden; }
+    .motion-demo-fill { height:100%; border-radius:var(--radius-pill); background:var(--color-accent); transform-origin:left; }
+
+    @media (max-width: 600px) {
+      .ref-nav-links { display:none; }
+      .ref-main { padding:var(--space-lg) var(--space-md); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Reference nav ── -->
+<nav class="ref-nav">
+  <a href="#" class="ref-nav-logo">Grassroots</a>
+  <ul class="ref-nav-links">
+    <li><a href="#tokens">Tokens</a></li>
+    <li><a href="#motion">Motion</a></li>
+    <li><a href="#tabs">Tabs</a></li>
+    <li><a href="#dropdowns">Dropdowns</a></li>
+    <li><a href="#tooltips">Tooltips</a></li>
+    <li><a href="#command">Search</a></li>
+    <li><a href="#sheets">Sheets</a></li>
+    <li><a href="#existing">Existing</a></li>
+  </ul>
+</nav>
+
+<main class="ref-main">
+
+  <!-- ── Hero ── -->
+  <div style="margin-bottom:var(--space-3xl); padding-bottom:var(--space-2xl); border-bottom:var(--border-default);">
+    <span class="ref-label">Design system</span>
+    <h1 style="font-family:var(--font-display); font-size:var(--text-display); line-height:var(--leading-display); color:var(--color-ink); margin-bottom:var(--space-md);">Component reference</h1>
+    <p style="font-size:var(--text-body); color:var(--color-secondary); max-width:480px; line-height:var(--leading-body);">Every component, token, and motion primitive for the Grassroots platform. Dark mode and reduced motion are handled automatically.</p>
+    <div style="display:flex; gap:var(--space-sm); margin-top:var(--space-lg); flex-wrap:wrap;">
+      <span class="badge badge-accent">v1.1 — expanded</span>
+      <span class="badge badge-default">Mobile-first</span>
+      <span class="badge badge-default">Dark mode</span>
+      <span class="badge badge-default">Reduced motion</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       SECTION: Color tokens
+  ═══════════════════════════════════ -->
+  <section class="ref-section" id="tokens">
+    <div class="ref-section-header">
+      <span class="ref-label">Foundation</span>
+      <h2 class="ref-title">Color tokens</h2>
+      <p class="ref-desc">All colors are CSS custom properties. Never hardcode hex values. The sage green accent is the system's only interactive color.</p>
+    </div>
+
+    <div class="ref-swatch-grid">
+      <div class="ref-swatch">
+        <div class="ref-swatch-block" style="background:#1C2B1A;"></div>
+        <div class="ref-swatch-meta"><div class="ref-swatch-name">ink</div><div class="ref-swatch-value">--color-ink</div></div>
+      </div>
+      <div class="ref-swatch">
+        <div class="ref-swatch-block" style="background:#6B8C6A;"></div>
+        <div class="ref-swatch-meta"><div class="ref-swatch-name">accent</div><div class="ref-swatch-value">--color-accent</div></div>
+      </div>
+      <div class="ref-swatch">
+        <div class="ref-swatch-block" style="background:#D5E5D4;"></div>
+        <div class="ref-swatch-meta"><div class="ref-swatch-name">accent subtle</div><div class="ref-swatch-value">--color-accent-subtle</div></div>
+      </div>
+      <div class="ref-swatch">
+        <div class="ref-swatch-block" style="background:#F7F6F4; border-bottom:0.5px solid #E2DDD7;"></div>
+        <div class="ref-swatch-meta"><div class="ref-swatch-name">canvas</div><div class="ref-swatch-value">--color-canvas</div></div>
+      </div>
+      <div class="ref-swatch">
+        <div class="ref-swatch-block" style="background:#FAFAF8; border-bottom:0.5px solid #E2DDD7;"></div>
+        <div class="ref-swatch-meta"><div class="ref-swatch-name">surface</div><div class="ref-swatch-value">--color-surface</div></div>
+      </div>
+      <div class="ref-swatch">
+        <div class="ref-swatch-block" style="background:#E2DDD7;"></div>
+        <div class="ref-swatch-meta"><div class="ref-swatch-name">border</div><div class="ref-swatch-value">--color-border</div></div>
+      </div>
+      <div class="ref-swatch">
+        <div class="ref-swatch-block" style="background:#8A897F;"></div>
+        <div class="ref-swatch-meta"><div class="ref-swatch-name">secondary</div><div class="ref-swatch-value">--color-secondary</div></div>
+      </div>
+      <div class="ref-swatch">
+        <div class="ref-swatch-block" style="background:#C17A5A;"></div>
+        <div class="ref-swatch-meta"><div class="ref-swatch-name">danger</div><div class="ref-swatch-value">--color-danger</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       SECTION: Motion
+  ═══════════════════════════════════ -->
+  <section class="ref-section" id="motion">
+    <div class="ref-section-header">
+      <span class="ref-label">New</span>
+      <h2 class="ref-title">Motion tokens</h2>
+      <p class="ref-desc">All animation flows through these tokens. Reduced motion collapses all durations to zero automatically — no per-component overrides needed.</p>
+    </div>
+
+    <div class="motion-demo-grid" style="margin-bottom:var(--space-lg);">
+      <div class="motion-demo-item">
+        <span class="motion-demo-label">Instant</span>
+        <span class="motion-demo-value">50ms</span>
+        <div class="motion-demo-bar"><div class="motion-demo-fill" style="width:5%;"></div></div>
+        <span class="ref-chip">Press states</span>
+      </div>
+      <div class="motion-demo-item">
+        <span class="motion-demo-label">Fast</span>
+        <span class="motion-demo-value">120ms</span>
+        <div class="motion-demo-bar"><div class="motion-demo-fill" style="width:25%;"></div></div>
+        <span class="ref-chip">Hover, focus</span>
+      </div>
+      <div class="motion-demo-item">
+        <span class="motion-demo-label">Base</span>
+        <span class="motion-demo-value">200ms</span>
+        <div class="motion-demo-bar"><div class="motion-demo-fill" style="width:42%;"></div></div>
+        <span class="ref-chip">Dropdowns, tooltips</span>
+      </div>
+      <div class="motion-demo-item">
+        <span class="motion-demo-label">Slow</span>
+        <span class="motion-demo-value">320ms</span>
+        <div class="motion-demo-bar"><div class="motion-demo-fill" style="width:67%;"></div></div>
+        <span class="ref-chip">Modals, palette</span>
+      </div>
+      <div class="motion-demo-item">
+        <span class="motion-demo-label">Relaxed</span>
+        <span class="motion-demo-value">480ms</span>
+        <div class="motion-demo-bar"><div class="motion-demo-fill" style="width:100%;"></div></div>
+        <span class="ref-chip">Page choreography</span>
+      </div>
+    </div>
+
+    <table class="ref-token-table">
+      <thead><tr><th>Token</th><th>Curve</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td>--ease-standard</td><td>cubic-bezier(0.2, 0, 0, 1)</td><td>Most UI motion</td></tr>
+        <tr><td>--ease-enter</td><td>cubic-bezier(0, 0, 0.2, 1)</td><td>Elements arriving</td></tr>
+        <tr><td>--ease-exit</td><td>cubic-bezier(0.4, 0, 1, 1)</td><td>Elements leaving</td></tr>
+        <tr><td>--ease-spring</td><td>cubic-bezier(0.34, 1.56, 0.64, 1)</td><td>Bottom sheets, badges</td></tr>
+        <tr><td>--ease-linear</td><td>linear</td><td>Spinners only</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       SECTION: Tabs
+  ═══════════════════════════════════ -->
+  <section class="ref-section" id="tabs">
+    <div class="ref-section-header">
+      <span class="ref-label">New component</span>
+      <h2 class="ref-title">Tabs</h2>
+      <p class="ref-desc">Two variants: underline tabs for primary navigation within a page, pill tabs for filter rows. Both scroll horizontally on mobile.</p>
+    </div>
+
+    <div class="ref-preview-box" style="margin-bottom:var(--space-lg);">
+      <p class="ref-chip" style="margin-bottom:var(--space-md); color:var(--color-secondary);">Underline tabs</p>
+      <div class="tabs">
+        <div class="tab-list" role="tablist">
+          <button class="tab active" role="tab" aria-selected="true" onclick="switchTab(this, 'tab-feed')">
+            <i class="ti ti-home" aria-hidden="true"></i>
+            Feed
+          </button>
+          <button class="tab" role="tab" aria-selected="false" onclick="switchTab(this, 'tab-communities')">
+            Communities
+            <span class="tab-badge">3</span>
+          </button>
+          <button class="tab" role="tab" aria-selected="false" onclick="switchTab(this, 'tab-saved')">Saved</button>
+          <button class="tab" role="tab" aria-selected="false" onclick="switchTab(this, 'tab-mentions')">
+            Mentions
+            <span class="tab-badge">12</span>
+          </button>
+        </div>
+        <div class="tab-panel" id="tab-feed">
+          <div class="feed-card">
+            <div class="feed-card-header">
+              <div class="avatar avatar-md">MR</div>
+              <div class="feed-card-meta">
+                <div class="feed-card-name">Maya Rodriguez</div>
+                <div class="feed-card-time">2 hours ago · <a href="#" style="color:var(--color-accent);">Community Design</a></div>
+              </div>
+            </div>
+            <div class="feed-card-body">Figma just shipped variables with multi-mode support. This changes how we think about design tokens at scale — one source of truth for light, dark, and every density.</div>
+            <div class="feed-card-actions">
+              <button class="action-btn active"><i class="ti ti-heart" aria-hidden="true"></i> 48</button>
+              <button class="action-btn"><i class="ti ti-message-circle" aria-hidden="true"></i> 12</button>
+              <button class="action-btn"><i class="ti ti-share" aria-hidden="true"></i> Share</button>
+            </div>
+          </div>
+        </div>
+        <div class="tab-panel" id="tab-communities" style="display:none;">
+          <p style="color:var(--color-secondary);">Communities panel content.</p>
+        </div>
+        <div class="tab-panel" id="tab-saved" style="display:none;">
+          <p style="color:var(--color-secondary);">Saved posts panel content.</p>
+        </div>
+        <div class="tab-panel" id="tab-mentions" style="display:none;">
+          <p style="color:var(--color-secondary);">Mentions panel content.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-preview-box">
+      <p class="ref-chip" style="margin-bottom:var(--space-md); color:var(--color-secondary);">Pill tabs — filter row</p>
+      <div class="tab-list-pill">
+        <button class="tab-pill active">All</button>
+        <button class="tab-pill">Design</button>
+        <button class="tab-pill">Engineering</button>
+        <button class="tab-pill">Product</button>
+        <button class="tab-pill">Community</button>
+        <button class="tab-pill">Events</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       SECTION: Dropdowns
+  ═══════════════════════════════════ -->
+  <section class="ref-section" id="dropdowns">
+    <div class="ref-section-header">
+      <span class="ref-label">New component</span>
+      <h2 class="ref-title">Dropdown menus</h2>
+      <p class="ref-desc">Contextual menus anchored to a trigger. Support left/right alignment and grouped sections. Slides in from the anchor point.</p>
+    </div>
+
+    <div class="ref-preview-box">
+      <div class="ref-row" style="align-items:flex-start;">
+
+        <div class="ref-col">
+          <span class="ref-chip">Standard — left aligned</span>
+          <div class="dropdown">
+            <button class="btn btn-secondary" onclick="toggleDropdown('dd1')">
+              Options <i class="ti ti-chevron-down" aria-hidden="true" style="font-size:13px;"></i>
+            </button>
+            <div class="dropdown-menu" id="dd1">
+              <button class="dropdown-item"><i class="ti ti-edit" aria-hidden="true"></i> Edit post</button>
+              <button class="dropdown-item"><i class="ti ti-bookmark" aria-hidden="true"></i> Save</button>
+              <button class="dropdown-item"><i class="ti ti-share" aria-hidden="true"></i> Share</button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item danger"><i class="ti ti-trash" aria-hidden="true"></i> Delete post</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ref-col">
+          <span class="ref-chip">With sections — right aligned</span>
+          <div class="dropdown">
+            <div class="avatar avatar-md" style="cursor:pointer;" onclick="toggleDropdown('dd2')" tabindex="0">MR</div>
+            <div class="dropdown-menu align-end" id="dd2">
+              <div class="dropdown-label">Maya Rodriguez</div>
+              <a href="#" class="dropdown-item"><i class="ti ti-user" aria-hidden="true"></i> View profile</a>
+              <a href="#" class="dropdown-item"><i class="ti ti-settings" aria-hidden="true"></i> Settings</a>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item danger"><i class="ti ti-logout" aria-hidden="true"></i> Sign out</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       SECTION: Tooltips
+  ═══════════════════════════════════ -->
+  <section class="ref-section" id="tooltips">
+    <div class="ref-section-header">
+      <span class="ref-label">New component</span>
+      <h2 class="ref-title">Tooltips</h2>
+      <p class="ref-desc">Appear on hover and focus. For icon-only controls that need a label. Never repeat text that's already visible. Four position variants.</p>
+    </div>
+
+    <div class="ref-preview-box">
+      <div class="ref-row" style="justify-content:center; padding:var(--space-2xl) 0;">
+
+        <div class="tooltip-wrapper">
+          <button class="btn btn-secondary btn-icon" aria-label="Notifications">
+            <i class="ti ti-bell" aria-hidden="true"></i>
+          </button>
+          <span class="tooltip">Notifications</span>
+        </div>
+
+        <div class="tooltip-wrapper">
+          <button class="btn btn-secondary btn-icon" aria-label="Search">
+            <i class="ti ti-search" aria-hidden="true"></i>
+          </button>
+          <span class="tooltip">Search (⌘K)</span>
+        </div>
+
+        <div class="tooltip-wrapper">
+          <button class="btn btn-secondary btn-icon" aria-label="Bookmark">
+            <i class="ti ti-bookmark" aria-hidden="true"></i>
+          </button>
+          <span class="tooltip tooltip-bottom">Save for later</span>
+        </div>
+
+        <div class="tooltip-wrapper">
+          <button class="btn btn-danger btn-icon" aria-label="Delete">
+            <i class="ti ti-trash" aria-hidden="true"></i>
+          </button>
+          <span class="tooltip">Delete</span>
+        </div>
+
+      </div>
+      <p style="text-align:center; font-size:var(--text-small); color:var(--color-muted);">Hover any button to see its tooltip</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       SECTION: Command palette
+  ═══════════════════════════════════ -->
+  <section class="ref-section" id="command">
+    <div class="ref-section-header">
+      <span class="ref-label">New component</span>
+      <h2 class="ref-title">Search &amp; command palette</h2>
+      <p class="ref-desc">Opens via ⌘K. Searches people, communities, posts, and actions in one place. On mobile it slides up as a bottom sheet.</p>
+    </div>
+
+    <div class="ref-preview-box" style="position:relative;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--space-lg);">
+        <span style="font-size:var(--text-small); color:var(--color-secondary);">Trigger the palette:</span>
+        <button class="btn btn-secondary btn-sm" onclick="openCommand()">
+          <i class="ti ti-search" aria-hidden="true"></i> Open search <kbd style="font-family:var(--font-mono); font-size:10px; opacity:0.6;">⌘K</kbd>
+        </button>
+      </div>
+
+      <!-- Static preview of palette -->
+      <div class="command-palette" style="animation:none;">
+        <div class="command-input-row">
+          <i class="ti ti-search" aria-hidden="true"></i>
+          <input class="command-input" type="text" placeholder="Search people, communities, posts…" value="des" readonly />
+          <span class="command-shortcut-hint">esc</span>
+        </div>
+        <div class="command-results">
+          <div class="command-section-label">Communities</div>
+          <div class="command-item is-active">
+            <div class="command-item-icon"><i class="ti ti-plant" aria-hidden="true"></i></div>
+            <div class="command-item-body">
+              <div class="command-item-title"><span class="command-match">Des</span>ign Systems</div>
+              <div class="command-item-subtitle">2.4k members · Following</div>
+            </div>
+          </div>
+          <div class="command-item">
+            <div class="command-item-icon"><i class="ti ti-palette" aria-hidden="true"></i></div>
+            <div class="command-item-body">
+              <div class="command-item-title">Community <span class="command-match">Des</span>ign</div>
+              <div class="command-item-subtitle">840 members</div>
+            </div>
+          </div>
+          <div class="command-section-label">People</div>
+          <div class="command-item">
+            <div class="command-item-icon" style="background:var(--color-accent-subtle); color:#2E5C2C; font-weight:500; font-size:13px;">JD</div>
+            <div class="command-item-body">
+              <div class="command-item-title">Jordan <span class="command-match">Des</span>ai</div>
+              <div class="command-item-subtitle">Product designer · Following</div>
+            </div>
+          </div>
+          <div class="command-section-label">Actions</div>
+          <div class="command-item">
+            <div class="command-item-icon"><i class="ti ti-pencil" aria-hidden="true"></i></div>
+            <div class="command-item-body">
+              <div class="command-item-title">New post</div>
+            </div>
+            <span class="command-item-shortcut">⌘N</span>
+          </div>
+        </div>
+        <div class="command-footer">
+          <span class="command-footer-hint"><kbd>↑↓</kbd> navigate</span>
+          <span class="command-footer-hint"><kbd>↵</kbd> open</span>
+          <span class="command-footer-hint"><kbd>esc</kbd> close</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live palette (triggered) -->
+    <div class="command-backdrop hidden" id="command-live" onclick="closeCommand(event)">
+      <div class="command-palette" onclick="event.stopPropagation()">
+        <div class="command-input-row">
+          <i class="ti ti-search" aria-hidden="true"></i>
+          <input class="command-input" id="command-live-input" type="text" placeholder="Search people, communities, posts…" oninput="filterCommand(this.value)" />
+          <span class="command-shortcut-hint">esc</span>
+        </div>
+        <div class="command-results" id="command-live-results">
+          <div class="command-section-label">Recent</div>
+          <div class="command-item"><div class="command-item-icon"><i class="ti ti-clock" aria-hidden="true"></i></div><div class="command-item-body"><div class="command-item-title">Design Systems community</div></div></div>
+          <div class="command-item"><div class="command-item-icon"><i class="ti ti-clock" aria-hidden="true"></i></div><div class="command-item-body"><div class="command-item-title">Maya Rodriguez</div></div></div>
+          <div class="command-section-label">Actions</div>
+          <div class="command-item"><div class="command-item-icon"><i class="ti ti-pencil" aria-hidden="true"></i></div><div class="command-item-body"><div class="command-item-title">New post</div></div><span class="command-item-shortcut">⌘N</span></div>
+          <div class="command-item"><div class="command-item-icon"><i class="ti ti-settings" aria-hidden="true"></i></div><div class="command-item-body"><div class="command-item-title">Settings</div></div></div>
+        </div>
+        <div class="command-footer">
+          <span class="command-footer-hint"><kbd>↑↓</kbd> navigate</span>
+          <span class="command-footer-hint"><kbd>↵</kbd> open</span>
+          <span class="command-footer-hint"><kbd>esc</kbd> close</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       SECTION: Bottom sheets
+  ═══════════════════════════════════ -->
+  <section class="ref-section" id="sheets">
+    <div class="ref-section-header">
+      <span class="ref-label">New component</span>
+      <h2 class="ref-title">Bottom sheet / modal</h2>
+      <p class="ref-desc">Slides up from the bottom on mobile with spring easing. Renders as a centered modal on desktop. One component, two behaviours.</p>
+    </div>
+
+    <div class="ref-preview-box">
+      <div class="ref-mobile-hint"><i class="ti ti-device-mobile" aria-hidden="true"></i> Slides up from bottom on mobile</div>
+      <button class="btn btn-secondary" onclick="openSheet()">Open share sheet</button>
+    </div>
+
+    <!-- Sheet overlay -->
+    <div class="sheet-backdrop hidden" id="sheet-demo" onclick="closeSheet(event)">
+      <div class="sheet" onclick="event.stopPropagation()">
+        <div class="sheet-handle"></div>
+        <div class="sheet-title">Share this post</div>
+
+        <div style="display:flex; flex-direction:column; gap:var(--space-xs);">
+          <button class="dropdown-item" style="border-radius:var(--radius-md); padding:var(--space-md);">
+            <i class="ti ti-link" aria-hidden="true"></i> Copy link
+          </button>
+          <button class="dropdown-item" style="border-radius:var(--radius-md); padding:var(--space-md);">
+            <i class="ti ti-message-circle" aria-hidden="true"></i> Send in a message
+          </button>
+          <button class="dropdown-item" style="border-radius:var(--radius-md); padding:var(--space-md);">
+            <i class="ti ti-bookmark" aria-hidden="true"></i> Save to bookmarks
+          </button>
+        </div>
+
+        <div style="margin-top:var(--space-lg);">
+          <button class="btn btn-secondary" style="width:100%;" onclick="closeSheet()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       SECTION: Existing components
+  ═══════════════════════════════════ -->
+  <section class="ref-section" id="existing">
+    <div class="ref-section-header">
+      <span class="ref-label">Core library</span>
+      <h2 class="ref-title">Existing components</h2>
+      <p class="ref-desc">All original Grassroots components, now with motion tokens applied and responsive touch targets.</p>
+    </div>
+
+    <!-- Buttons -->
+    <h3 style="font-size:var(--text-heading); font-weight:var(--weight-medium); color:var(--color-ink); margin-bottom:var(--space-md);">Buttons</h3>
+    <div class="ref-preview-box" style="margin-bottom:var(--space-lg);">
+      <div class="ref-row">
+        <div class="ref-col">
+          <button class="btn btn-primary">Follow</button>
+          <span class="ref-chip">btn-primary — one per view</span>
+        </div>
+        <div class="ref-col">
+          <button class="btn btn-secondary">Share</button>
+          <span class="ref-chip">btn-secondary — default</span>
+        </div>
+        <div class="ref-col">
+          <button class="btn btn-ghost">Skip for now</button>
+          <span class="ref-chip">btn-ghost — tertiary</span>
+        </div>
+        <div class="ref-col">
+          <button class="btn btn-danger">Delete post</button>
+          <span class="ref-chip">btn-danger — destructive only</span>
+        </div>
+        <div class="ref-col">
+          <button class="btn btn-secondary btn-icon" aria-label="Notifications">
+            <i class="ti ti-bell" aria-hidden="true"></i>
+          </button>
+          <span class="ref-chip">btn-icon</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <h3 style="font-size:var(--text-heading); font-weight:var(--weight-medium); color:var(--color-ink); margin-bottom:var(--space-md);">Badges</h3>
+    <div class="ref-preview-box" style="margin-bottom:var(--space-lg);">
+      <div class="ref-row">
+        <span class="badge badge-default">General</span>
+        <span class="badge badge-accent">Following</span>
+        <span class="badge badge-warm">New</span>
+        <span class="badge badge-muted">Draft</span>
+        <span class="badge badge-danger">Removed</span>
+      </div>
+    </div>
+
+    <!-- Notifications -->
+    <h3 style="font-size:var(--text-heading); font-weight:var(--weight-medium); color:var(--color-ink); margin-bottom:var(--space-md);">Notifications</h3>
+    <div class="ref-preview-box" style="margin-bottom:var(--space-lg);">
+      <div class="notif">
+        <div class="notif-dot"></div>
+        <div>
+          <div class="notif-text"><span style="font-weight:500;">Jonah Kim</span> liked your post.</div>
+          <div class="notif-time">5 min ago</div>
+        </div>
+      </div>
+      <div class="notif">
+        <div class="notif-dot read"></div>
+        <div>
+          <div class="notif-text">3 people started following you.</div>
+          <div class="notif-time">Yesterday</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toasts -->
+    <h3 style="font-size:var(--text-heading); font-weight:var(--weight-medium); color:var(--color-ink); margin-bottom:var(--space-md);">Toasts</h3>
+    <div class="ref-preview-box" style="margin-bottom:var(--space-lg);">
+      <div class="ref-col">
+        <div class="toast">Post published.</div>
+        <div class="toast toast-success"><i class="ti ti-check" aria-hidden="true"></i> Changes saved.</div>
+        <div class="toast toast-danger"><i class="ti ti-alert-circle" aria-hidden="true"></i> Couldn't connect. Try again.</div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <h3 style="font-size:var(--text-heading); font-weight:var(--weight-medium); color:var(--color-ink); margin-bottom:var(--space-md);">Empty state</h3>
+    <div class="ref-preview-box" style="margin-bottom:var(--space-lg);">
+      <div class="empty-state">
+        <div class="empty-state-icon"><i class="ti ti-photo" aria-hidden="true"></i></div>
+        <div class="empty-state-title">Your feed is quiet</div>
+        <div class="empty-state-body">Follow people and communities to see their posts here.</div>
+        <button class="btn btn-primary btn-sm">Explore communities</button>
+      </div>
+    </div>
+
+    <!-- Feed card -->
+    <h3 style="font-size:var(--text-heading); font-weight:var(--weight-medium); color:var(--color-ink); margin-bottom:var(--space-md);">Feed card</h3>
+    <div style="max-width:var(--feed-max-width);">
+      <article class="feed-card">
+        <header class="feed-card-header">
+          <div class="avatar avatar-md">MR</div>
+          <div class="feed-card-meta">
+            <div class="feed-card-name">Maya Rodriguez</div>
+            <div class="feed-card-time">2 hours ago · <a href="#" style="color:var(--color-accent);">Community Design</a></div>
+          </div>
+          <div class="dropdown" style="margin-left:auto;">
+            <button class="btn btn-secondary btn-icon" aria-label="Post options" onclick="toggleDropdown('card-dd')">
+              <i class="ti ti-dots" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown-menu align-end hidden" id="card-dd">
+              <button class="dropdown-item"><i class="ti ti-bookmark" aria-hidden="true"></i> Save post</button>
+              <button class="dropdown-item"><i class="ti ti-flag" aria-hidden="true"></i> Report</button>
+            </div>
+          </div>
+        </header>
+        <div class="feed-card-body">Just shipped the new command palette for Grassroots — ⌘K to search across people, communities, and posts in one place. Soft-launching with a small group today before rolling it out widely.</div>
+        <footer class="feed-card-actions">
+          <button class="action-btn active"><i class="ti ti-heart" aria-hidden="true"></i> 48</button>
+          <button class="action-btn"><i class="ti ti-message-circle" aria-hidden="true"></i> 12</button>
+          <button class="action-btn" onclick="openSheet()"><i class="ti ti-share" aria-hidden="true"></i> Share</button>
+        </footer>
+      </article>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  /* ── Tab switching ── */
+  function switchTab(btn, panelId) {
+    const list = btn.closest('.tab-list');
+    list.querySelectorAll('.tab').forEach(t => {
+      t.classList.remove('active');
+      t.setAttribute('aria-selected', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+
+    const tabs = btn.closest('.tabs');
+    tabs.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
+    const panel = document.getElementById(panelId);
+    if (panel) { panel.style.display = ''; panel.style.animation = 'gr-fade-in 200ms cubic-bezier(0,0,0.2,1) both'; }
+  }
+
+  /* ── Dropdown ── */
+  function toggleDropdown(id) {
+    const menu = document.getElementById(id);
+    const isHidden = menu.classList.contains('hidden') || menu.style.display === 'none';
+    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
+    if (isHidden) menu.classList.remove('hidden');
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.dropdown')) {
+      document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
+    }
+  });
+
+  /* ── Command palette ── */
+  function openCommand() {
+    const bd = document.getElementById('command-live');
+    bd.classList.remove('hidden');
+    document.getElementById('command-live-input').focus();
+  }
+
+  function closeCommand(e) {
+    if (!e || e.target === document.getElementById('command-live')) {
+      document.getElementById('command-live').classList.add('hidden');
+      document.getElementById('command-live-input').value = '';
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openCommand(); }
+    if (e.key === 'Escape') {
+      document.getElementById('command-live').classList.add('hidden');
+      document.getElementById('sheet-demo').classList.add('hidden');
+    }
+  });
+
+  /* ── Sheet ── */
+  function openSheet() {
+    document.getElementById('sheet-demo').classList.remove('hidden');
+  }
+
+  function closeSheet(e) {
+    if (!e || e.target === document.getElementById('sheet-demo')) {
+      document.getElementById('sheet-demo').classList.add('hidden');
+    }
+  }
+
+  /* ── Pill tab filter (non-exclusive) ── */
+  document.querySelectorAll('.tab-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.tab-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
