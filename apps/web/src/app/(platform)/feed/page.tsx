@@ -87,8 +87,8 @@ export default function FeedPage() {
           </motion.div>
         </main>
 
-        {/* Right rail */}
-        <aside className="w-[212px] flex-shrink-0 sticky top-[80px] self-start flex flex-col gap-4">
+        {/* Right rail — hidden below 1024px per responsive.css --bp-lg breakpoint */}
+        <aside className="w-[212px] flex-shrink-0 sticky top-[80px] self-start hidden lg:flex flex-col gap-4">
           {/* Trending projects */}
           <Card>
             <h3

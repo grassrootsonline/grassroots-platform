@@ -23,7 +23,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
           Development build · seeded data
         </div>
       )}
-      <div className="container-page pt-5">
+      <div className="container-platform pt-5">
         {children}
       </div>
       <Toaster />
