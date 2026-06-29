@@ -7,7 +7,7 @@
 .backLink {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-sm);
   font-size: var(--text-small);
   color: var(--color-secondary);
   text-decoration: none;
@@ -20,7 +20,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--space-base);
 }
 .profileActions {
   display: flex;
@@ -42,7 +42,7 @@
 .profileBio {
   font-size: var(--text-body);
   color: var(--color-ink-soft);
-  margin-top: 10px;
+  margin-top: var(--space-md);
   line-height: 1.6;
 }
 .stats {
@@ -57,7 +57,7 @@
   gap: var(--space-xs);
 }
 .statValue {
-  font-size: 17px;
+  font-size: var(--text-stat);
   font-weight: var(--weight-medium);
   color: var(--color-ink);
 }
@@ -65,7 +65,7 @@
 .tabBar {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: var(--space-relaxed);
   border-bottom: var(--border-default);
   margin-bottom: var(--space-lg);
 }
@@ -95,14 +95,14 @@
 .projectsGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: var(--space-base);
 }
 .projectCard {
   display: block;
   background: var(--color-surface);
   border: var(--border-default);
   border-radius: var(--radius-lg);
-  padding: 16px;
+  padding: var(--space-base);
   text-decoration: none;
   transition: var(--transition-colors);
 }
@@ -115,7 +115,7 @@
 }
 .projectCardIcon { font-size: 16px; color: var(--color-accent); }
 .projectCardName {
-  font-size: 15px;
+  font-size: var(--text-heading);
   font-weight: var(--weight-medium);
   color: var(--color-ink);
 }

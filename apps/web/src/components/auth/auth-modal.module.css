@@ -15,23 +15,23 @@
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-overlay);
   z-index: var(--z-modal);
-  padding: 28px;
+  padding: var(--space-xl);
 }
 .heading {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: var(--text-title);
   color: var(--color-ink);
   margin-bottom: var(--space-xs);
 }
 .subtitle {
   font-size: var(--text-body);
   color: var(--color-secondary);
-  margin-bottom: 24px;
+  margin-bottom: var(--space-relaxed);
 }
 .form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-base);
 }
 .submitBtn {
   width: 100%;

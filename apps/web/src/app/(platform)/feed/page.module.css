@@ -1,6 +1,6 @@
 .layout {
   display: flex;
-  gap: 24px;
+  gap: var(--space-relaxed);
 }
 .feed {
   flex: 1;
@@ -16,7 +16,7 @@
 .composerInput {
   flex: 1;
   height: 40px;
-  padding: 0 16px;
+  padding: 0 var(--space-base);
   font-family: var(--font-body);
   font-size: var(--text-body);
   color: var(--color-muted);

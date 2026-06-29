@@ -7,7 +7,7 @@
 .backLink {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-sm);
   font-size: var(--text-small);
   color: var(--color-secondary);
   text-decoration: none;
@@ -15,12 +15,12 @@
   transition: var(--transition-colors);
 }
 .backLink:hover { color: var(--color-accent); }
-.replies { margin-top: 24px; }
+.replies { margin-top: var(--space-relaxed); }
 .repliesHeader {
   display: flex;
   align-items: center;
   gap: var(--space-md);
-  margin-bottom: 16px;
+  margin-bottom: var(--space-base);
 }
 .repliesLabel {
   font-size: var(--text-small);
@@ -39,7 +39,7 @@
   display: flex;
   align-items: flex-start;
   gap: var(--space-md);
-  padding: 16px 0;
+  padding: var(--space-base) 0;
   border-bottom: var(--border-default);
 }
 .reply:last-child { border-bottom: none; }
@@ -68,13 +68,13 @@
 .replyActions {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-top: 10px;
+  gap: var(--space-base);
+  margin-top: var(--space-md);
 }
 .replyActionBtn {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-sm);
   font-size: var(--text-small);
   color: var(--color-secondary);
   background: none;
@@ -92,7 +92,7 @@
 .composerInput {
   flex: 1;
   height: 36px;
-  padding: 0 16px;
+  padding: 0 var(--space-base);
   font-family: var(--font-body);
   font-size: var(--text-body);
   background: var(--color-canvas);
