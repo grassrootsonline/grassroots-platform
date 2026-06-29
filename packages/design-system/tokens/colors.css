@@ -41,6 +41,9 @@
   --surface-card:    var(--color-surface);
   --interactive:     var(--color-accent);
 
+  /* Scrim — provisional; pending Claude Design Amendment 06 (see handoffs/002) */
+  --color-scrim: rgba(0, 0, 0, 0.40);
+
   /* ---- Dark mode overrides ---- */
   /* Dark mode — warm "anthropic" grey neutrals (was green-tinted); the sage
      accent is kept so the look reads as green-on-black, not green-on-green. */
