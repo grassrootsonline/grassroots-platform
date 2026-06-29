@@ -3,6 +3,27 @@
 Changes to `packages/design-system/`. Consolidates Amendments 01–06 from `design-handoffs/core-social-mvp/`. Amendment files there are historical records — the live source of truth is the CSS in this folder.
 
 ---
+## [07] — 2026-06-29 · Spacing and type scale additions
+
+Fills gaps in the spacing and type scales that product CSS modules were covering with hardcoded px values.
+
+**`tokens/spacing.css`:**
+- `--space-base: 16px` — the 8-point grid base unit. Standard component padding (card inner padding, composer input inset, profile card padding) and tight layout gaps. Sits between `--space-md` (12px) and `--space-lg` (20px).
+- `--space-relaxed: 24px` — comfortable layout gap. Column gaps, tab bar spacing, between-section margins. Sits between `--space-lg` (20px) and `--space-xl` (32px).
+
+**`tokens/typography.css`:**
+- `--text-stat: 17px` — numeric emphasis token for profile stat values (follower count, following count, post count). Distinct from `--text-heading` (16px) — the 1px is meaningful for numeral rendering; always paired with `font-body` and `weight-medium`.
+
+**No new tokens — resolved by rounding:**
+- `6px` → `var(--space-sm)` (8px) — icon-row gaps; 2px imperceptible
+- `10px` → `var(--space-md)` (12px) — bio/action margins; minor rounding
+- `28px` → `var(--space-xl)` (32px) — auth modal panel padding; 4px more is fine
+- Auth modal heading `font-display` at `22px` → `var(--text-title)` (24px) with `font-display` — auth is a display moment; 2px imperceptible on display type
+- Composer modal heading `font-display` at `18px` → **`var(--font-body)` at `var(--text-heading)`** — a composer modal is functional UI, not a display moment; `font-display` does not belong here (DS rule: DM Serif Display reserved for wordmark and one–two display moments per page)
+
+**App follow-up required:** Handoff 008 will sweep product CSS modules to replace all hardcoded px values with the new tokens above, and apply the font/size corrections to `composer-modal.module.css` and `auth-modal.module.css`.
+
+---
 
 ## [06] — 2026-06-29 · Shadow, scrim, and accent-border tokens
 
