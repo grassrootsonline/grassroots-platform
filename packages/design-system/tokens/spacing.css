@@ -22,16 +22,19 @@
   --radius-pill: 999px; /* Avatar chips, pill badges */
 
   /* ---- Borders (always 0.5px, system-wide) ---- */
-  --border-default: 0.5px solid var(--color-border);
-  --border-strong:  0.5px solid var(--color-border-strong);
-  --border-accent:  0.5px solid var(--color-accent);
-  --border-dashed:  0.5px dashed var(--color-border-strong);
+  --border-default:        0.5px solid var(--color-border);
+  --border-strong:         0.5px solid var(--color-border-strong);
+  --border-accent:         0.5px solid var(--color-accent);         /* Fully-opaque sage — focus, active states */
+  --border-accent-subtle:  0.5px solid rgba(107, 140, 106, 0.30);  /* 30%-opacity sage — affiliated/selected, not focused. Dark override in colors.css */
+  --border-dashed:         0.5px dashed var(--color-border-strong);
 
   /* ---- Focus ring (box-shadow, never border) ---- */
   --focus-ring: 0 0 0 3px var(--color-accent-mist);
 
-  /* ---- Elevation (used sparingly — toasts/modals only) ---- */
-  --shadow-overlay: 0 4px 16px rgba(0, 0, 0, 0.12);
+  /* ---- Elevation (modals/toasts/dropdowns only — cards have no shadow)
+     Dark-mode overrides live in tokens/colors.css @media block. ---- */
+  --shadow-overlay:  0 4px 24px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.07);  /* Modals, command palette — z-300 */
+  --shadow-dropdown: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);  /* Dropdown menus — z-200 */
 
   /* ---- Layout ---- */
   --feed-max-width:    640px; /* Single-column feed */
