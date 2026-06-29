@@ -65,7 +65,7 @@ All colors are CSS custom properties. **Never hardcode a hex value in component 
 
 **The accent is sage green, not blue.** This is the system's primary personality choice. Do not introduce blue as an interactive color. Do not use `#0000ff`, `#3B82F6`, or any blue for hover, focus, or active states.
 
-Dark mode is handled automatically via `@media (prefers-color-scheme: dark)` overrides in `colors.css`. Never write manual dark mode overrides in component code — trust the tokens.
+Dark mode is handled automatically via `@media (prefers-color-scheme: dark)` overrides in `colors.css` — the tokens flip themselves. The dark neutrals are a warm "anthropic" grey (canvas → `#1A1917`, surface → `#232220`) so the sage accent (→ `#8AAD89`) reads as green-on-black rather than green-on-green. Never write manual dark mode overrides in component code — trust the tokens.
 
 ---
 
