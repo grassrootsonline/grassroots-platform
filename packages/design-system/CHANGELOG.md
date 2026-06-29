@@ -4,22 +4,30 @@ Changes to `packages/design-system/`. Consolidates Amendments 01–06 from `desi
 
 ---
 
-## [06] — 2026-06-29 · Shadow and overlay tokens
+## [06] — 2026-06-29 · Shadow, scrim, and accent-border tokens
 
-Added the elevation and scrim token layer.
+Added the elevation and scrim token layer. Finalizes provisional values from handoff 001.
 
 **`tokens/spacing.css`:**
-- `--shadow-overlay` — box-shadow for modals, command palette, notification panel (z-300)
-- `--shadow-dropdown` — box-shadow for dropdown menus (z-200)
-- `--border-accent-subtle` — 30%-opacity sage hairline border for affiliated/selected states (contrast: `--border-accent` is fully opaque, for focus/active)
+- `--shadow-overlay: 0 4px 24px rgba(0,0,0,0.12), 0 1px 6px rgba(0,0,0,0.07)` — box-shadow for modals, command palette, notification panel (z-300). Supersedes old single-layer `0 4px 16px rgba(0,0,0,0.12)` (now two-layer for better edge definition). Dark-mode override in `colors.css`.
+- `--shadow-dropdown: 0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)` — box-shadow for dropdown menus (z-200). Proportionally lighter than overlay. Dark-mode override in `colors.css`.
+- `--border-accent-subtle: 0.5px solid rgba(107, 140, 106, 0.30)` — 30%-opacity sage hairline for affiliated/selected states (e.g. composer `.projectSelect`). Contrast: `--border-accent` is fully opaque sage, for focus/active states only. Dark-mode override in `colors.css`.
 
 **`tokens/colors.css`:**
-- `--color-scrim` — neutral `rgba(0,0,0,0.40)` backdrop for modal, sheet, and command-palette overlays; no dark override needed
-- Shadow dark-mode overrides: both shadow tokens use ~2.5× higher opacity in dark mode to maintain perceptual contrast on warm-grey dark surfaces
+- `--color-scrim: rgba(0,0,0,0.40)` — neutral black backdrop for modal, sheet, and command-palette overlays. No dark override needed — neutral black is correct in both themes.
+- `--shadow-overlay` dark: `0 4px 24px rgba(0,0,0,0.32), 0 1px 6px rgba(0,0,0,0.18)` — ~2.5× opacity to maintain perceptual contrast on warm-grey dark surfaces.
+- `--shadow-dropdown` dark: `0 4px 16px rgba(0,0,0,0.24), 0 1px 4px rgba(0,0,0,0.12)`.
+- `--border-accent-subtle` dark: `0.5px solid rgba(138, 173, 137, 0.30)` — dark-mode accent RGB at same 30% opacity so the border follows the accent color shift.
 
-**Removals:** hardcoded `rgba(28, 43, 26, …)` scrim values removed from `components-new.css` and `responsive.css`; all references now use `var(--color-scrim)` and `var(--shadow-dropdown)`.
+**Removals:** hardcoded `rgba(28, 43, 26, …)` scrims removed from `components-new.css` and `responsive.css`; `rgba(107, 140, 106, 0.30)` border removed from `composer-modal.module.css`. All references now use the tokens above.
 
----
+**App follow-up required:** The dark-mode overrides for `--shadow-overlay`, `--shadow-dropdown`, and `--border-accent-subtle` must also be mirrored in `apps/web/src/styles/globals.css` under the `[data-theme="dark"]` block (the dev theme switcher uses `data-theme`, not `prefers-color-scheme`). Add:
+```css
+--shadow-overlay:        0 4px 24px rgba(0, 0, 0, 0.32), 0 1px 6px rgba(0, 0, 0, 0.18);
+--shadow-dropdown:       0 4px 16px rgba(0, 0, 0, 0.24), 0 1px 4px rgba(0, 0, 0, 0.12);
+--border-accent-subtle:  0.5px solid rgba(138, 173, 137, 0.30);
+```
+
 
 ## [05] — 2026-06-29 · Dark mode neutral palette (green-on-black)
 
