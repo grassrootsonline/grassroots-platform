@@ -662,7 +662,7 @@ Animations serve communication, not decoration. Every animated transition must h
 
 ### 12.2 Framer Motion standards
 
-> These comply with the design system's motion rule (`packages/design-system/motion.css` + its guide), which is binding and wins on any conflict: **restrained, functional motion only — no spring, no bounce, and no scale/shrink on press or interactive state.** Durations/easing come from the motion tokens (`--duration-*`, `--ease-*`); press and state changes use **opacity/color**, not transforms.
+> These comply with the design system's motion rule (`packages/design-system/motion.css` + its guide), which is binding and wins on any conflict: **restrained, functional motion only — no spring or bounce on interactive controls (buttons, cards, hover, press states).** Bottom sheet entrance (`.animate-sheet-up`) is the one permitted use of `--ease-spring`, where slight overshoot on arrival is physically grounded. Durations/easing come from the motion tokens (`--duration-*`, `--ease-*`); press and state changes use **opacity/color**, not transforms.
 
 | Element | Spec |
 |---|---|
