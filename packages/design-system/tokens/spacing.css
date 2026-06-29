@@ -28,6 +28,10 @@
   /* Focus ring */
   --focus-ring: 0 0 0 3px var(--color-accent-mist);
 
+  /* Shadows — provisional; pending Claude Design Amendment 06 (see handoffs/002) */
+  --shadow-overlay:  0 4px 24px rgba(0, 0, 0, 0.10), 0 1px 6px rgba(0, 0, 0, 0.06);
+  --shadow-dropdown: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+
   /* Layout */
   --feed-max-width:    640px; /* Single-column feed */
   --sidebar-width:     240px; /* Left nav / sidebar */
