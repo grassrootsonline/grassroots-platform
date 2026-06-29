@@ -113,7 +113,7 @@ body { min-height: 100vh; }
 /* ── Dev theme switcher ─────────────────────────────────────────────────────
    Attribute selectors have specificity (0,2,0) vs the media-query :root
    block at (0,1,0), so these always win — regardless of system preference.
-   Values mirror the v05 canonical fixture in tokens/colors.css.
+   Values mirror tokens/colors.css — updated through Amendment 06.
    ─────────────────────────────────────────────────────────────────────── */
 :root[data-theme="dark"] {
   --color-ink:            #ECEAE3;
@@ -132,6 +132,9 @@ body { min-height: 100vh; }
   --color-danger-subtle:  #2E211A;
   --color-warm:           #C9A878;
   --color-warm-subtle:    #2E211A;
+  --shadow-overlay:        0 4px 24px rgba(0, 0, 0, 0.32), 0 1px 6px rgba(0, 0, 0, 0.18);
+  --shadow-dropdown:       0 4px 16px rgba(0, 0, 0, 0.24), 0 1px 4px rgba(0, 0, 0, 0.12);
+  --border-accent-subtle:  0.5px solid rgba(138, 173, 137, 0.30);
 }
 
 :root[data-theme="light"] {
@@ -151,6 +154,7 @@ body { min-height: 100vh; }
   --color-danger-subtle:  #F0EAE0;
   --color-warm:           #7A5C30;
   --color-warm-subtle:    #F0EAE0;
+  --border-accent-subtle:  0.5px solid rgba(107, 140, 106, 0.30);
 }
 
 /* ── Tooltip structural overrides for data-theme attribute ──────────────────
