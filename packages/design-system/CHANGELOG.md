@@ -28,6 +28,7 @@ Added the elevation and scrim token layer. Finalizes provisional values from han
 --border-accent-subtle:  0.5px solid rgba(138, 173, 137, 0.30);
 ```
 
+---
 
 ## [05] — 2026-06-29 · Dark mode neutral palette (green-on-black)
 
