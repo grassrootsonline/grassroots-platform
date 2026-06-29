@@ -1,8 +1,8 @@
 /* ============================================
    Grassroots — Spacing & Layout Tokens
    Amendment 06: finalized --shadow-overlay, --shadow-dropdown,
-   --border-accent-subtle. Supersedes the provisional values from
-   handoff 001. Reference: Amendment 06.
+   --border-accent-subtle. Supersedes the provisional /* provisional */
+   values from handoff 001. Reference: Amendment 06.
    ============================================ */
 
 :root {

@@ -78,8 +78,15 @@
     --color-warm:           #C9A878;
     --color-warm-subtle:    #2E211A;
 
-    /* Shadow dark-mode overrides — Amendment 06 */
+    /* Shadow dark-mode overrides — Amendment 06
+       ~2.5× higher opacity to maintain perceptual contrast on warm-grey dark surfaces */
     --shadow-overlay:  0 4px 24px rgba(0, 0, 0, 0.32), 0 1px 6px rgba(0, 0, 0, 0.18);
     --shadow-dropdown: 0 4px 16px rgba(0, 0, 0, 0.24), 0 1px 4px rgba(0, 0, 0, 0.12);
+
+    /* Border accent subtle dark-mode override — Amendment 06
+       Light value uses --color-accent (#6B8C6A = rgb 107,140,106) at 30% opacity.
+       Dark value uses --color-accent dark (#8AAD89 = rgb 138,173,137) at same 30%.
+       Mirror this in apps/web/src/styles/globals.css [data-theme="dark"] block too. */
+    --border-accent-subtle: 0.5px solid rgba(138, 173, 137, 0.30);
   }
 }
