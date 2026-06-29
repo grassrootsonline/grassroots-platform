@@ -115,25 +115,25 @@ body { min-height: 100vh; }
 /* ── Dev theme switcher ─────────────────────────────────────────────────────
    Attribute selectors have specificity (0,2,0) vs the media-query :root
    block at (0,1,0), so these always win — regardless of system preference.
-   Values mirror the v04 canonical fixture in tokens/colors.css.
+   Values mirror the v05 canonical fixture in tokens/colors.css.
    ─────────────────────────────────────────────────────────────────────── */
 :root[data-theme="dark"] {
-  --color-ink:            #E8E6E1;
-  --color-ink-soft:       #C8C6C0;
+  --color-ink:            #ECEAE3;
+  --color-ink-soft:       #C9C6BD;
   --color-accent:         #8AAD89;
-  --color-accent-subtle:  #1E3020;
+  --color-accent-subtle:  #26301E;
   --color-accent-mist:    rgba(138, 173, 137, 0.15);
   --color-accent-ink:     #A9CBA8;
-  --color-canvas:         #141A13;
-  --color-surface:        #1A211A;
-  --color-border:         #2A3329;
-  --color-border-strong:  #3A4439;
-  --color-secondary:      #6E6E65;
-  --color-muted:          #4E4E47;
+  --color-canvas:         #1A1917;
+  --color-surface:        #232220;
+  --color-border:         #34322E;
+  --color-border-strong:  #46443F;
+  --color-secondary:      #8F8C83;
+  --color-muted:          #615E57;
   --color-danger:         #D4896A;
-  --color-danger-subtle:  #2A1F1A;
+  --color-danger-subtle:  #2E211A;
   --color-warm:           #C9A878;
-  --color-warm-subtle:    #2A1F1A;
+  --color-warm-subtle:    #2E211A;
 }
 
 :root[data-theme="light"] {
