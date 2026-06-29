@@ -205,7 +205,7 @@
 .sheet-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(28, 43, 26, 0.4);
+  background: var(--color-scrim);
   z-index: var(--z-overlay);
   animation: gr-fade-in var(--duration-base) var(--ease-enter) both;
 }

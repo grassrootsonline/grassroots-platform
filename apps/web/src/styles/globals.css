@@ -154,3 +154,32 @@ body { min-height: 100vh; }
   --color-warm:           #7A5C30;
   --color-warm-subtle:    #F0EAE0;
 }
+
+/* ── Tooltip structural overrides for data-theme attribute ──────────────────
+   components-new.css controls tooltip appearance in @media (prefers-color-scheme)
+   blocks, but those do not respond to the [data-theme] attribute. Mirror the
+   same structural rules here so the dev theme switcher works correctly.
+   ─────────────────────────────────────────────────────────────────────── */
+[data-theme="dark"] .tooltip {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  border: var(--border-default);
+}
+[data-theme="dark"] .tooltip::after {
+  border-top-color: var(--color-surface);
+}
+[data-theme="dark"] .tooltip.tooltip-bottom::after {
+  border-bottom-color: var(--color-surface);
+}
+
+[data-theme="light"] .tooltip {
+  background: var(--color-ink);
+  color: var(--color-canvas);
+  border: none;
+}
+[data-theme="light"] .tooltip::after {
+  border-top-color: var(--color-ink);
+}
+[data-theme="light"] .tooltip.tooltip-bottom::after {
+  border-bottom-color: var(--color-ink);
+}
