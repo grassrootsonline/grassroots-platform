@@ -5,7 +5,7 @@
 
 You are building **Project Grassroots**, the AI builders' social platform. Two documents are authoritative and override anything you'd otherwise assume:
 
-- **Engineering** → `design-handoffs/<feature>/ARCHITECTURE.md` (Next.js 15 App Router, Supabase/Postgres, Drizzle, Upstash Redis, Framer Motion). Stack, schema, API, caching, permissions, and coding standards live there.
+- **Engineering** → `docs/ARCHITECTURE.md` (Next.js 15 App Router, Supabase/Postgres, Drizzle, Upstash Redis, Framer Motion). Stack, schema, API, caching, permissions, and coding standards live there.
 - **Visual style** → `packages/design-system/CLAUDE.md`. That file is binding. If visual guidance ever conflicts, `packages/design-system/CLAUDE.md` wins on style and `ARCHITECTURE.md` wins on engineering.
 
 ## Design system — always the source of truth
@@ -32,11 +32,12 @@ This project uses **native CSS** with design system tokens. There is no Tailwind
 
 ## Design handoffs
 
-Designs arrive under `design-handoffs/<feature>/` (see that folder's README). To implement one:
+Visual prototypes live under `design-handoffs/<feature>/prototypes/` — treat them as read-only references. Amendment files in that folder are historical; the current design system state is `packages/design-system/` and its `CHANGELOG.md`.
 
-1. Read `packages/design-system/CLAUDE.md` + the feature `README.md`; open its `prototypes/` for look and behavior. The HTML prototype is a **reference** — recreate it as React components using design system classes and CSS Modules.
-2. Build it for real per `ARCHITECTURE.md`: RSC by default, Server Actions for writes (`requireSession()` → `checkPermission()` → Zod → mutate → `revalidateTag()`), layout-accurate `*Skeleton`s, optimistic UI, the Framer Motion specs.
-3. Amendments (`AMENDMENT-*.md` in a feature folder) change only what they describe — keep the diff small.
+To implement a design change:
+1. Read `packages/design-system/CLAUDE.md` for style rules; open the relevant prototype in `design-handoffs/<feature>/prototypes/` for look and behavior.
+2. Build it for real per `docs/ARCHITECTURE.md`: RSC by default, Server Actions for writes (`requireSession()` → `checkPermission()` → Zod → mutate → `revalidateTag()`), layout-accurate `*Skeleton`s, optimistic UI, the Framer Motion specs.
+3. New design system changes arrive as advisor handoffs in `handoffs/` — read those documents for scope and implementation steps.
 
 ## Data & environments — seeded vs. live
 
