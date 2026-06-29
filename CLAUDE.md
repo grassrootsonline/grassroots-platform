@@ -25,10 +25,20 @@ Non-negotiables from the guide: sentence-case copy; Inter weights **400/500 only
 This project uses **native CSS** with design system tokens. There is no Tailwind or other utility-class library.
 
 - **`apps/web/src/styles/globals.css`** imports the design system directly and adds platform-level layout helpers (`.container-platform`, `.container-feed`, `.skeleton`, etc.). Do not import or vendor design system files anywhere else.
-- **CSS Modules** (`*.module.css` co-located with components) for all component-scoped styles. Reference design system tokens via `var(--color-ink)`, `var(--space-md)`, `var(--border-default)` etc. — never hardcode values.
+- **CSS Modules** (`*.module.css` co-located with components) for all component-scoped styles. Reference design system tokens via `var(--color-ink)`, `var(--space-md)`, `var(--border-default)` etc. **Hardcoded values are never allowed** — no raw px, hex, rgba, or numeric literals in any CSS Module or component style.
 - **Design system component classes** (`.btn`, `.btn-primary`, `.feed-card`, `.avatar`, `.tab`, `.input`, etc.) are available globally. Use them in React `className` props directly.
 - **Inline `style` prop** for genuinely dynamic values only (e.g. `style={{ width: progress + '%' }}`).
 - **No Tailwind classes** anywhere in the codebase. `tailwindcss` and `@tailwindcss/postcss` have been removed.
+
+### Token requests — stop before hardcoding
+
+If a component requires a value that has no design system token, **do not hardcode it**. Stop and raise a token request first:
+
+1. Check `packages/design-system/tokens/` — the token may exist under a name you haven't encountered.
+2. If no token covers the need, open a new handoff document in `handoffs/` addressed to `claude-design`, describing the component, the value needed, and why no existing token fits.
+3. Wait for the token to be defined and merged before implementing the style.
+
+The only exception is `font-size: 16px` on text inputs — this is a browser compatibility requirement (prevents iOS Safari zoom on focus) and must remain hardcoded.
 
 ## Design handoffs
 
@@ -52,7 +62,17 @@ Implement this as one interface (e.g. `getDataClient()`) with two implementation
 
 - Branch model: `main` (production) ← `development` (integration, seeded) ← `feature/<short-description>` (seeded). Each branch gets its own Vercel preview.
 - Work on a `feature/*` branch off `development` (or directly on `development` for small changes). **Push and stop — do not merge to `main`, do not open a PR.** The maintainer reviews the Vercel preview and merges manually.
+- **Before starting any task, verify the working branch is up to date.** Run `git status` to confirm no unexpected changes, then `git pull origin <branch>` to pull latest from the remote. If the branch is behind, pull before touching any files. Never implement on a stale branch.
 - Conventional Commits (`feat:`, `fix:`, `chore:`, `refactor:`, `perf:`, `docs:`). Keep CI green (lint + type-check + tests). Direct pushes to `main` are prohibited.
+- **Every commit must have both a title and a body.** The title follows Conventional Commits format. The body explains what changed and why — one or more sentences, written for a reviewer seeing only the commit log. A commit with a title only is not acceptable.
+
+  ```
+  fix: replace hardcoded shadow value in dropdown-menu
+
+  --shadow-dropdown token was missing from spacing.css after the Amendment 07
+  merge. Restoring the Amendment 06 two-layer value ensures dropdowns have
+  correct elevation in light mode. Dark-mode override in colors.css was unaffected.
+  ```
 
 ---
 
