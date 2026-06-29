@@ -96,7 +96,7 @@
   font-weight: var(--weight-medium);
   color: var(--color-accent);
   background: var(--color-accent-subtle);
-  border: var(--border-accent);
+  border: var(--border-accent-subtle);
   border-radius: var(--radius-pill);
   outline: none;
   cursor: pointer;

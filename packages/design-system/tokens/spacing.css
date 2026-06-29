@@ -1,9 +1,12 @@
 /* ============================================
    Grassroots — Spacing & Layout Tokens
+   Amendment 06: finalized --shadow-overlay, --shadow-dropdown,
+   --border-accent-subtle. Supersedes the provisional /* provisional */
+   values from handoff 001. Reference: Amendment 06.
    ============================================ */
 
 :root {
-  /* Spacing scale */
+  /* ---- Spacing scale ---- */
   --space-xs:  4px;
   --space-sm:  8px;
   --space-md:  12px;
@@ -12,36 +15,40 @@
   --space-2xl: 48px;
   --space-3xl: 72px;
 
-  /* Border radius */
-  --radius-sm:   4px;  /* Badges, small tags */
-  --radius-md:   6px;  /* Buttons, inputs */
-  --radius-lg:   10px; /* Cards, panels */
-  --radius-xl:   16px; /* Modals, sheets */
+  /* ---- Border radius ---- */
+  --radius-sm:   4px;   /* Badges, small tags */
+  --radius-md:   6px;   /* Buttons, inputs */
+  --radius-lg:   10px;  /* Cards, panels */
+  --radius-xl:   16px;  /* Modals, sheets */
   --radius-pill: 999px; /* Avatar chips, pill badges */
 
-  /* Borders */
-  --border-default: 0.5px solid var(--color-border);
-  --border-strong:  0.5px solid var(--color-border-strong);
-  --border-accent:  0.5px solid var(--color-accent);
-  --border-dashed:  0.5px dashed var(--color-border-strong);
+  /* ---- Borders (always 0.5px, system-wide) ---- */
+  --border-default:        0.5px solid var(--color-border);
+  --border-strong:         0.5px solid var(--color-border-strong);
+  --border-accent:         0.5px solid var(--color-accent);          /* Fully-opaque sage — focus, active states */
+  --border-accent-subtle:  0.5px solid rgba(107, 140, 106, 0.30);   /* 30%-opacity sage — affiliated/selected, not focused */
+  --border-dashed:         0.5px dashed var(--color-border-strong);
 
-  /* Focus ring */
+  /* ---- Focus ring (box-shadow, never border) ---- */
   --focus-ring: 0 0 0 3px var(--color-accent-mist);
 
-  /* Shadows — provisional; pending Claude Design Amendment 06 (see handoffs/002) */
-  --shadow-overlay:  0 4px 24px rgba(0, 0, 0, 0.10), 0 1px 6px rgba(0, 0, 0, 0.06);
-  --shadow-dropdown: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+  /* ---- Elevation (modals and toasts only — cards have no shadow) ----
+     Dark-mode overrides live in tokens/colors.css @media block.
+     Amendment 06: two-level shadow system, aligns primary opacity with
+     the documented 0.12. The old single-value --shadow-overlay is superseded. */
+  --shadow-overlay:  0 4px 24px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.07);  /* Modals, command palette — z-300 */
+  --shadow-dropdown: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);  /* Dropdown menus — z-200 */
 
-  /* Layout */
+  /* ---- Layout ---- */
   --feed-max-width:    640px; /* Single-column feed */
   --sidebar-width:     240px; /* Left nav / sidebar */
   --content-max-width: 960px; /* Overall page container */
 
-  /* Z-index stack */
+  /* ---- Z-index stack ---- */
   --z-base:    0;
   --z-raised:  10;
   --z-sticky:  100;
-  --z-overlay: 200;
-  --z-modal:   300;
-  --z-toast:   400;
+  --z-overlay: 200; /* Dropdowns */
+  --z-modal:   300; /* Modals, command palette */
+  --z-toast:   400; /* Toasts */
 }
