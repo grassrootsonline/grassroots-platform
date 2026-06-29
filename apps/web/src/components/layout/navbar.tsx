@@ -20,7 +20,7 @@ export function Navbar({ user }: NavbarProps) {
 
   return (
     <header className="navbar">
-      <div className={`container-page ${s.inner}`}>
+      <div className={`container-platform ${s.inner}`}>
       <Link
         href={user ? '/feed' : '/'}
         className="navbar-logo"
