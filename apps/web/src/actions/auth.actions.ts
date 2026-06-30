@@ -1,0 +1,117 @@
+'use server';
+
+import { z } from 'zod';
+import { createServerClient } from '@/lib/supabase/server';
+import { db } from '@grassroots/db';
+import { users, userProfiles } from '@grassroots/db/schema';
+import { redirect } from 'next/navigation';
+
+// ─── Signup ───────────────────────────────────────────────────────────────────
+
+const SignupSchema = z.object({
+  displayName: z.string().min(1).max(100),
+  username: z
+    .string()
+    .min(3)
+    .max(30)
+    .regex(/^[a-z0-9_]+$/, 'Handle may only contain lowercase letters, numbers, and underscores'),
+  email: z.string().email(),
+  password: z.string().min(10, 'Password must be at least 10 characters.'),
+});
+
+export async function signupAction(formData: FormData) {
+  const parsed = SignupSchema.safeParse({
+    displayName: formData.get('displayName'),
+    username: formData.get('username'),
+    email: formData.get('email'),
+    password: formData.get('password'),
+  });
+
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0].message };
+  }
+
+  const { displayName, username, email, password } = parsed.data;
+  const supabase = await createServerClient();
+
+  // Check username availability before creating auth user
+  const existing = await db.query.users.findFirst({
+    where: (u, { eq }) => eq(u.username, username),
+    columns: { id: true },
+  });
+  if (existing) {
+    return { error: 'That username is taken. Try another.' };
+  }
+
+  // Create Supabase auth user
+  const { data: authData, error: authError } = await supabase.auth.signUp({
+    email,
+    password,
+    options: { data: { display_name: displayName, username } },
+  });
+
+  if (authError) {
+    if (authError.code === 'user_already_exists') {
+      return { error: 'An account with that email already exists. Sign in instead?' };
+    }
+    return { error: authError.message };
+  }
+
+  if (!authData.user) {
+    return { error: 'Something went wrong. Please try again.' };
+  }
+
+  // Insert into users — account_status defaults to 'waitlisted'
+  const [newUser] = await db.insert(users).values({
+    authId: authData.user.id,
+    username,
+    displayName,
+    accountStatus: 'waitlisted',
+  }).returning({ id: users.id });
+
+  // Insert user_profiles row
+  await db.insert(userProfiles).values({
+    userId: newUser.id,
+    displayName,
+  });
+
+  redirect('/waitlisted');
+}
+
+// ─── Login ────────────────────────────────────────────────────────────────────
+
+const LoginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(1),
+});
+
+export async function loginAction(formData: FormData) {
+  const parsed = LoginSchema.safeParse({
+    email: formData.get('email'),
+    password: formData.get('password'),
+  });
+
+  if (!parsed.success) {
+    return { error: 'Please enter a valid email and password.' };
+  }
+
+  const { email, password } = parsed.data;
+  const supabase = await createServerClient();
+
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    return { error: 'Incorrect email or password.' };
+  }
+
+  // Middleware routes to /feed or /waitlisted based on account_status
+  redirect('/feed');
+}
+
+// ─── Sign out ─────────────────────────────────────────────────────────────────
+
+export async function signoutAction() {
+  const supabase = await createServerClient();
+  await supabase.auth.signOut();
+  redirect('/');
+}

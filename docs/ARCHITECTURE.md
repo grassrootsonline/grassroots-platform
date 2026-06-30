@@ -244,6 +244,7 @@ website_url     TEXT
 location        TEXT
 is_verified     BOOLEAN NOT NULL DEFAULT false
 is_suspended    BOOLEAN NOT NULL DEFAULT false
+account_status  account_status NOT NULL DEFAULT 'waitlisted'
 role            user_role NOT NULL DEFAULT 'member'
 follower_count  INTEGER NOT NULL DEFAULT 0
 following_count INTEGER NOT NULL DEFAULT 0
@@ -252,6 +253,8 @@ created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 updated_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 deleted_at      TIMESTAMPTZ
 ```
+
+> ⚠ `is_suspended` is deprecated in favour of `account_status = 'suspended'` and will be removed in a future migration. Do not introduce new reads of `is_suspended` in new code — read `account_status` instead.
 
 #### `projects`
 
@@ -494,6 +497,30 @@ Only email, password/OAuth, and username are required at signup. Display name, b
 | Username → user_id | `username:{username}` | 120s |
 
 Cache is invalidated on write (profile update, role grant/revoke, username change).
+
+---
+
+### 5.4 Waitlist system
+
+During the early access period, all newly created accounts default to `account_status = 'waitlisted'`. Waitlisted users are fully authenticated Supabase users with a session — they simply cannot access the `(platform)` route group.
+
+**Status transitions:**
+
+| Transition | Trigger |
+|---|---|
+| `waitlisted` → `active` | Manual admin action — `UPDATE users SET account_status = 'active' WHERE id = ...` |
+| `active` → `suspended` | Moderation action (Platform Mod or Administrator) |
+| `suspended` → `active` | Moderation action (lift suspension) |
+
+There is no self-service path from `waitlisted` to `active`. Activation is intentionally manual during the launch period.
+
+**Route access by status:**
+
+| Route group | Session required | account_status required |
+|---|---|---|
+| `(auth)/` — `/`, `/signup`, `/login` | No | Any (active users redirected to `/feed`) |
+| `(waitlisted)/` — `/waitlisted` | Yes | `waitlisted` (active users redirected to `/feed`) |
+| `(platform)/` — `/feed`, etc. | Yes | `active` |
 
 ---
 

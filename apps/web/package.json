@@ -18,7 +18,9 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "@grassroots/ui": "workspace:*",
-    "@grassroots/types": "workspace:*"
+    "@grassroots/types": "workspace:*",
+    "@grassroots/db": "workspace:*",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^22.8.4",
