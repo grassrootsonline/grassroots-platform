@@ -26,7 +26,7 @@ export default async function WaitlistedPage() {
         <span className={s.wordmark}>Grassroots</span>
 
         <div className={s.iconWrap}>
-          <i className="ti ti-leaf icon-lg" style={{ color: 'var(--color-accent-ink)' }} aria-hidden="true" />
+          <i className={`ti ti-leaf icon-lg ${s.leafIcon}`} aria-hidden="true" />
         </div>
 
         <div className={s.copyBlock}>

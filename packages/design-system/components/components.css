@@ -279,7 +279,7 @@ textarea.input { resize: vertical; min-height: 80px; line-height: var(--leading-
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--space-xl);
-  height: 56px;
+  height: var(--nav-height);
   background: var(--color-surface);
   border-bottom: var(--border-default);
   position: sticky;

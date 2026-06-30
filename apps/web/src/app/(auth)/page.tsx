@@ -50,13 +50,13 @@ export default function LandingPage() {
                 find collaborators, and follow the projects that matter to you.
               </p>
               <div className={s.heroCtas}>
-                <Link href="/signup" className={`btn btn-primary ${s.ctaBtn}`}>Create account</Link>
-                <Link href="/login" className={`btn btn-ghost ${s.ctaBtn}`}>Sign in</Link>
+                <Link href="/signup" className="btn btn-primary btn-lg">Create account</Link>
+                <Link href="/login" className="btn btn-ghost btn-lg">Sign in</Link>
               </div>
             </div>
 
             {/* Stats card */}
-            <div className={`${s.statsCard} animate-slide-up`} style={{ animationDelay: '50ms' }}>
+            <div className={`${s.statsCard} animate-slide-up`}>
               <p className={`text-label ${s.statsLabel}`}>Live on Grassroots</p>
 
               <div className={s.statRow}>
@@ -93,7 +93,7 @@ export default function LandingPage() {
             <div className={s.valueGrid}>
               {VALUE_PROPS.map((vp) => (
                 <div key={vp.title} className={s.valueCard}>
-                  <i className={`ti ti-${vp.icon} icon-lg`} style={{ color: 'var(--color-accent)' }} aria-hidden="true" />
+                  <i className={`ti ti-${vp.icon} icon-lg ${s.valueCardIcon}`} aria-hidden="true" />
                   <h3 className={s.valueTitle}>{vp.title}</h3>
                   <p className={s.valueBody}>{vp.body}</p>
                 </div>

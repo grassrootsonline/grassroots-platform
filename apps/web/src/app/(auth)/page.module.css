@@ -12,7 +12,7 @@
 
 /* ── Nav ── */
 .nav {
-  height: 56px;
+  height: var(--nav-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -46,8 +46,10 @@
 }
 
 .heroGrid {
+  /* --_stats-width: landing-specific column; too narrow for a global token (DS-09 decision) */
+  --_stats-width: 380px;
   display: grid;
-  grid-template-columns: 1fr 380px;
+  grid-template-columns: 1fr var(--_stats-width);
   gap: var(--space-2xl);
   align-items: center;
 }
@@ -58,11 +60,9 @@
   gap: var(--space-lg);
 }
 
-/* 52px is a landing-specific display size; no token in scale above --text-display (36px).
-   Design system token request required before production. */
 .heroHeading {
   font-family: var(--font-display);
-  font-size: 52px;
+  font-size: var(--text-hero);
   line-height: var(--leading-display);
   color: var(--color-ink);
   font-weight: 400;
@@ -74,7 +74,7 @@
   line-height: var(--leading-body);
   color: var(--color-ink-soft);
   margin: 0;
-  max-width: 480px;
+  max-width: var(--panel-max-width);
 }
 
 .heroCtas {
@@ -84,16 +84,13 @@
   margin-top: var(--space-sm);
 }
 
-.ctaBtn {
-  padding: 10px var(--space-relaxed);
-}
-
 /* ── Stats card ── */
 .statsCard {
   background: var(--color-surface);
   border: var(--border-default);
   border-radius: var(--radius-lg);
   padding: var(--space-xl);
+  animation-delay: var(--delay-stagger);
 }
 
 .statsLabel {
@@ -137,8 +134,8 @@
 }
 
 .miniAvatar {
-  width: 28px;
-  height: 28px;
+  width: var(--avatar-xs);
+  height: var(--avatar-xs);
   border-radius: var(--radius-pill);
   background: var(--color-accent-subtle);
   display: flex;
@@ -150,10 +147,11 @@
   flex-shrink: 0;
 }
 
-/* 2px solid is avatar-stack knockout border — separates overlapping avatars */
+/* 2px knockout border separates overlapping avatars. Intentional exception to the
+   0.5px border rule — this is a visual technique, not a content border (DS-09). */
 .miniAvatarOffset {
   composes: miniAvatar;
-  margin-left: -8px;
+  margin-left: var(--avatar-stack-offset);
   border: 2px solid var(--color-surface);
 }
 
@@ -196,6 +194,10 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+}
+
+.valueCardIcon {
+  color: var(--color-accent);
 }
 
 .valueTitle {
@@ -243,7 +245,7 @@
   color: var(--color-muted);
 }
 
-/* ── Responsive ── */
+/* ── Responsive — 768px matches --bp-md in responsive.css ── */
 @media (max-width: 768px) {
   .heroGrid {
     grid-template-columns: 1fr;

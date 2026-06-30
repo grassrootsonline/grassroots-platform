@@ -9,13 +9,12 @@
   position: relative;
 }
 
-/* 3px top stripe per prototype — no spacing token at 3px; design-specific decorative value */
 .accentStripe {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
+  height: var(--accent-stripe-height);
   background: var(--color-accent);
   opacity: 0.6;
 }
@@ -44,6 +43,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.leafIcon {
+  color: var(--color-accent-ink);
 }
 
 .copyBlock {
