@@ -920,6 +920,17 @@ NEXT_PUBLIC_APP_ENV=             # development | preview | production
 EDGE_CONFIG=                     # Vercel-injected automatically
 ```
 
+#### Supabase production configuration
+
+Before going live, verify the following in the Supabase dashboard (Authentication → Settings):
+
+- **Email confirmations:** must be **enabled**. Without this, users get a session immediately on signup and bypass the verification step entirely.
+- **Site URL:** set to the production domain (e.g. `https://grassroots.community`).
+- **Redirect URLs:** must include `https://grassroots.community/auth/callback` (and the Vercel preview URL pattern if needed for staging: `https://*.vercel.app/auth/callback`).
+- **Email templates:** customise the "Confirm signup" email in the Supabase dashboard. Minimum: update the subject line and button text to match the platform voice.
+
+In local development with Supabase CLI (`supabase start`), email confirmation is disabled by default, so `signupAction` will redirect to `/waitlisted` directly. This is the expected local dev behaviour.
+
 ---
 
 ## 18. Open Questions & Future Decisions
