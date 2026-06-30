@@ -1,365 +1,116 @@
-'use client'
-
-import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { useSearchParams, useRouter } from 'next/navigation'
-import { AuthModal } from '@/components/auth/auth-modal'
-import { Toaster } from '@/components/ui/toast'
-import { MOCK_POSTS } from '@/lib/mock-data'
+import { MOCK_PLATFORM_STATS } from '@/lib/mock-data'
 import s from './page.module.css'
 
 const VALUE_PROPS = [
   {
-    icon: 'rocket',
-    title: 'Show your work',
-    body: 'Post updates on what you\'re building. Link your projects, share progress, and get feedback from people who get it.',
+    icon: 'eye',
+    title: 'Build openly',
+    body: 'Share your work as it happens — updates, experiments, half-finished ideas. No polish required. The community values the process as much as the result.',
   },
   {
     icon: 'users',
-    title: 'Find your people',
-    body: 'Follow builders working on the same problems. Join communities organized around tools, research areas, and ideas.',
+    title: 'Build together',
+    body: 'Find collaborators, ask for help, and follow along on others’ projects. Every post is an invitation to get involved — and the communities here take that seriously.',
   },
   {
-    icon: 'eye',
-    title: 'Get seen',
-    body: 'Your projects surface to the people most likely to care — not by algorithm, but by interest graph.',
+    icon: 'messages',
+    title: 'Join the conversation',
+    body: 'Grassroots is organized around communities, not algorithms. Follow the people and topics that matter to you — and discover new ones through the work they share.',
   },
 ]
 
-function LandingInner() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const [authMode, setAuthMode] = useState<'signup' | 'login' | null>(null)
-
-  useEffect(() => {
-    const auth = searchParams.get('auth')
-    if (auth === 'login' || auth === 'signup') {
-      setAuthMode(auth)
-    }
-  }, [searchParams])
-
-  function openAuth(mode: 'signup' | 'login') {
-    setAuthMode(mode)
-    router.replace(`/?auth=${mode}`, { scroll: false })
-  }
-
-  function closeAuth() {
-    setAuthMode(null)
-    router.replace('/', { scroll: false })
-  }
-
-  const previewPosts = MOCK_POSTS.slice(0, 2)
-
+export default function LandingPage() {
   return (
-    <>
-      <Toaster />
+    <div className={s.page}>
 
-      {/* Sticky header */}
-      <header
-        style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 'var(--z-sticky)',
-          height: '60px',
-          background: 'var(--color-surface)',
-          borderBottom: 'var(--border-default)',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <div className="container-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '22px',
-              color: 'var(--color-ink)',
-              lineHeight: 1,
-            }}
-          >
-            Grassroots
-          </span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <button onClick={() => openAuth('login')} className="btn btn-ghost btn-sm">
-              Log in
-            </button>
-            <button onClick={() => openAuth('signup')} className="btn btn-primary btn-sm">
-              Sign up
-            </button>
-          </div>
+      {/* ── Sticky nav ── */}
+      <nav className={s.nav}>
+        <span className={s.wordmark}>Grassroots</span>
+        <div className={s.navActions}>
+          <Link href="/login" className="btn btn-ghost">Sign in</Link>
+          <Link href="/signup" className="btn btn-primary">Create account</Link>
         </div>
-      </header>
+      </nav>
 
-      <main className="container-page">
-        {/* Hero */}
-        <section className="section-hero">
-          <div className="hero-grid">
+      <main className={s.main}>
+
+        {/* ── Hero ── */}
+        <section className={s.heroSection}>
+          <div className={s.heroGrid}>
+
             {/* Left copy */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2, ease: 'easeOut' }}
-              className={s.heroMotion}
-            >
-              <p
-                style={{
-                  fontSize: 'var(--text-label)',
-                  fontWeight: 'var(--weight-medium)',
-                  letterSpacing: 'var(--tracking-label)',
-                  textTransform: 'uppercase',
-                  color: 'var(--color-accent)',
-                }}
-              >
-                A home for builders
-              </p>
-              <h1
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '52px',
-                  fontWeight: 400,
-                  lineHeight: 1.04,
-                  letterSpacing: '-0.01em',
-                  color: 'var(--color-ink)',
-                }}
-              >
-                Share what you&apos;re building.
+            <div className={`${s.heroCopy} animate-slide-up`}>
+              <p className="text-label">A home for creators</p>
+              <h1 className={s.heroHeading}>
+                Where builders share<br />what they make
               </h1>
-              <p
-                style={{
-                  fontSize: '17px',
-                  color: 'var(--color-ink-soft)',
-                  lineHeight: 'var(--leading-body)',
-                  maxWidth: '420px',
-                }}
-              >
-                Grassroots is where AI builders share projects, ideas, and progress with
-                people who actually care.
+              <p className={s.heroSubtext}>
+                The platform for makers, tinkerers, and community organizers. Share your work openly,
+                find collaborators, and follow the projects that matter to you.
               </p>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '4px' }}>
-                <button onClick={() => openAuth('signup')} className="btn btn-primary btn-lg">
-                  Create your account
-                </button>
-                <button onClick={() => openAuth('login')} className="btn btn-secondary btn-lg">
-                  Log in
-                </button>
+              <div className={s.heroCtas}>
+                <Link href="/signup" className={`btn btn-primary ${s.ctaBtn}`}>Create account</Link>
+                <Link href="/login" className={`btn btn-ghost ${s.ctaBtn}`}>Sign in</Link>
               </div>
-              <p style={{ fontSize: 'var(--text-small)', color: 'var(--color-secondary)' }}>
-                Free to join. No ads.
-              </p>
-            </motion.div>
+            </div>
 
-            {/* Right product preview */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2, delay: 0.05, ease: 'easeOut' }}
-            >
-              <div
-                style={{
-                  background: 'var(--color-surface)',
-                  border: 'var(--border-default)',
-                  borderRadius: 'var(--radius-lg)',
-                  overflow: 'hidden',
-                }}
-              >
-                {/* Faux header */}
-                <div
-                  style={{
-                    padding: '12px 16px',
-                    borderBottom: 'var(--border-default)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                  }}
-                >
-                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--color-border-strong)' }} />
-                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--color-border-strong)' }} />
-                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--color-border-strong)' }} />
-                  <div style={{ marginLeft: 'auto', fontSize: 'var(--text-small)', color: 'var(--color-muted)' }}>grassroots.ai</div>
-                </div>
-                {/* Preview posts */}
-                <div
-                  style={{
-                    background: 'var(--color-canvas)',
-                    padding: '12px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '10px',
-                  }}
-                >
-                  {previewPosts.map((post) => (
-                    <div
-                      key={post.id}
-                      style={{
-                        background: 'var(--color-surface)',
-                        border: 'var(--border-default)',
-                        borderRadius: 'var(--radius-lg)',
-                        padding: '14px',
-                        pointerEvents: 'none',
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                        <div
-                          style={{
-                            width: '28px',
-                            height: '28px',
-                            borderRadius: '50%',
-                            background: 'var(--color-accent-subtle)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: 'var(--text-label)',
-                            fontWeight: 'var(--weight-medium)',
-                            color: 'var(--color-accent-ink)',
-                          }}
-                        >
-                          {post.author.name[0]}
-                        </div>
-                        <span style={{ fontSize: 'var(--text-small)', fontWeight: 'var(--weight-medium)', color: 'var(--color-ink)' }}>
-                          {post.author.name}
-                        </span>
-                        <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-secondary)' }}>· 2h</span>
-                      </div>
-                      <p
-                        style={{
-                          fontSize: 'var(--text-small)',
-                          color: 'var(--color-ink-soft)',
-                          lineHeight: '1.55',
-                          overflow: 'hidden',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                        }}
-                      >
-                        {post.content}
-                      </p>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '10px' }}>
-                        <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <i className="ti ti-heart icon-sm" /> {post.reactionCount}
-                        </span>
-                        <span style={{ fontSize: 'var(--text-small)', color: 'var(--color-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <i className="ti ti-message-circle icon-sm" /> {post.commentCount}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+            {/* Stats card */}
+            <div className={`${s.statsCard} animate-slide-up`} style={{ animationDelay: '50ms' }}>
+              <p className={`text-label ${s.statsLabel}`}>Live on Grassroots</p>
+
+              <div className={s.statRow}>
+                <span className={s.statLbl}>Builders online</span>
+                <span className={s.statNum}>{MOCK_PLATFORM_STATS.usersOnline.toLocaleString()}</span>
               </div>
-            </motion.div>
-          </div>
-        </section>
+              <div className={s.statRow}>
+                <span className={s.statLbl}>Active communities</span>
+                <span className={s.statNum}>{MOCK_PLATFORM_STATS.activeCommunities.toLocaleString()}</span>
+              </div>
+              <div className={`${s.statRow} ${s.statRowLast}`}>
+                <span className={s.statLbl}>Ongoing threads</span>
+                <span className={s.statNum}>{MOCK_PLATFORM_STATS.ongoingThreads.toLocaleString()}</span>
+              </div>
 
-        {/* Value props */}
-        <section className="section-pad" style={{ borderTop: 'var(--border-default)' }}>
-          <div className="value-props-grid">
-            {VALUE_PROPS.map((vp, i) => (
-              <motion.div
-                key={vp.title}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.2, delay: 0.1 + i * 0.05 }}
-                className={s.valueProp}
-              >
-                <i
-                  className={`ti ti-${vp.icon} icon-lg`}
-                  style={{ color: 'var(--color-accent)' }}
-                  aria-hidden="true"
-                />
-                <h3 style={{ fontSize: '17px', fontWeight: 'var(--weight-medium)', color: 'var(--color-ink)' }}>{vp.title}</h3>
-                <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-secondary)', lineHeight: 'var(--leading-body)' }}>
-                  {vp.body}
+              <div className={s.avatarStack}>
+                <div className={s.avatarRow}>
+                  <div className={s.miniAvatar}>MO</div>
+                  <div className={s.miniAvatarOffset}>RC</div>
+                  <div className={s.miniAvatarOffset}>TL</div>
+                  <span className={s.avatarCaption}>&hellip;and many others</span>
+                </div>
+                <p className={s.statsNote}>
+                  From urban foraging to repair cafés — communities doing real things.
                 </p>
-              </motion.div>
-            ))}
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* CTA band */}
-        <section className="section-pad">
-          <div
-            className={s.ctaContent}
-            style={{
-              border: 'var(--border-default)',
-              borderRadius: 'var(--radius-lg)',
-              padding: '56px 40px',
-            }}
-          >
-            <h2
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '34px',
-                fontWeight: 400,
-                color: 'var(--color-ink)',
-              }}
-            >
-              Ready to build in public?
-            </h2>
-            <p
-              style={{
-                fontSize: '15px',
-                color: 'var(--color-secondary)',
-                maxWidth: '420px',
-                lineHeight: 'var(--leading-body)',
-              }}
-            >
-              Join thousands of AI builders sharing what they&apos;re working on.
-            </p>
-            <button
-              onClick={() => openAuth('signup')}
-              className="btn btn-primary btn-lg"
-              style={{ marginTop: '8px' }}
-            >
-              Create your account
-            </button>
+        {/* ── Value props ── */}
+        <section className={s.valueSection}>
+          <div className={s.valueInner}>
+            <div className={s.valueGrid}>
+              {VALUE_PROPS.map((vp) => (
+                <div key={vp.title} className={s.valueCard}>
+                  <i className={`ti ti-${vp.icon} icon-lg`} style={{ color: 'var(--color-accent)' }} aria-hidden="true" />
+                  <h3 className={s.valueTitle}>{vp.title}</h3>
+                  <p className={s.valueBody}>{vp.body}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
       </main>
 
-      {/* Footer */}
-      <footer
-        style={{
-          borderTop: 'var(--border-default)',
-          background: 'var(--color-surface)',
-          paddingTop: '20px',
-          paddingBottom: '20px',
-        }}
-      >
-        <div className="container-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '18px',
-              color: 'var(--color-ink)',
-            }}
-          >
-            Grassroots
-          </span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-lg)' }}>
-            {['About', 'Communities', 'Guidelines', 'Privacy'].map((link) => (
-              <Link key={link} href="#" className="navbar-link">
-                {link}
-              </Link>
-            ))}
-          </div>
-          <p style={{ fontSize: 'var(--text-small)', color: 'var(--color-muted)' }}>© 2026 Grassroots</p>
+      {/* ── Footer ── */}
+      <footer className={s.footer}>
+        <span className={s.copyright}>&copy; 2026 Grassroots</span>
+        <div className={s.footerLinks}>
+          <Link href="#" className={s.footerLink}>Terms of service</Link>
+          <Link href="#" className={s.footerLink}>Privacy policy</Link>
         </div>
       </footer>
-
-      <AuthModal
-        open={authMode !== null}
-        initialMode={authMode ?? 'signup'}
-        onClose={closeAuth}
-        onSuccess={() => router.push('/feed')}
-      />
-    </>
-  )
-}
-
-export default function LandingPage() {
-  return (
-    <Suspense>
-      <LandingInner />
-    </Suspense>
+    </div>
   )
 }

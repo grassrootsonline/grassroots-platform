@@ -6,6 +6,8 @@ import { db } from '@grassroots/db';
 import { users, userProfiles } from '@grassroots/db/schema';
 import { redirect } from 'next/navigation';
 
+export type AuthState = { error: string } | null;
+
 // ─── Signup ───────────────────────────────────────────────────────────────────
 
 const SignupSchema = z.object({
@@ -19,7 +21,7 @@ const SignupSchema = z.object({
   password: z.string().min(10, 'Password must be at least 10 characters.'),
 });
 
-export async function signupAction(formData: FormData) {
+export async function signupAction(prevState: AuthState, formData: FormData): Promise<AuthState> {
   const parsed = SignupSchema.safeParse({
     displayName: formData.get('displayName'),
     username: formData.get('username'),
@@ -85,7 +87,7 @@ const LoginSchema = z.object({
   password: z.string().min(1),
 });
 
-export async function loginAction(formData: FormData) {
+export async function loginAction(prevState: AuthState, formData: FormData): Promise<AuthState> {
   const parsed = LoginSchema.safeParse({
     email: formData.get('email'),
     password: formData.get('password'),
@@ -114,4 +116,24 @@ export async function signoutAction() {
   const supabase = await createServerClient();
   await supabase.auth.signOut();
   redirect('/');
+}
+
+// ─── Username availability check ──────────────────────────────────────────────
+
+export async function checkUsernameAction(username: string): Promise<{ available: boolean }> {
+  // In seed mode there's no database connection; signup is unreachable anyway
+  if (process.env.USE_SEED_DATA === 'true') {
+    return { available: true };
+  }
+
+  if (username.length < 3 || !/^[a-z0-9_]+$/.test(username)) {
+    return { available: false };
+  }
+
+  const existing = await db.query.users.findFirst({
+    where: (u, { eq }) => eq(u.username, username),
+    columns: { id: true },
+  });
+
+  return { available: !existing };
 }
