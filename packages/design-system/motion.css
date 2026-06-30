@@ -9,6 +9,7 @@
 :root {
   /* Duration scale */
   --duration-instant:  50ms;  /* State swaps: active press, toggle on/off */
+  --delay-stagger:     50ms;  /* Entrance stagger offset — stats card, list items */
   --duration-fast:    120ms;  /* Micro-interactions: hover, focus ring */
   --duration-base:    200ms;  /* Standard transitions: dropdowns, tooltips */
   --duration-slow:    320ms;  /* Larger motion: modals, command palette */

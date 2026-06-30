@@ -15,6 +15,7 @@
   /* ---- Scale ---- */
   --text-display:  36px; /* Hero / page titles — font-display only */
   --text-title:    24px; /* Section headings — font-display only */
+  --text-hero:     52px; /* Landing page hero heading — font-display only; responsive: falls back to --text-display on mobile */
   --text-heading:  16px; /* Card titles, modal headers — font-body 500 */
   --text-stat:     17px; /* Numeric emphasis (profile stat values) — font-body 500; 1px above heading for numeral weight */
   --text-body:     14px; /* Feed posts, descriptions — font-body 400 */

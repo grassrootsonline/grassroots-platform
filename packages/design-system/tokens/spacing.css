@@ -37,9 +37,27 @@
   --shadow-dropdown: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);  /* Dropdown menus — z-200 */
 
   /* ---- Layout ---- */
-  --feed-max-width:    640px; /* Single-column feed */
-  --sidebar-width:     240px; /* Left nav / sidebar */
-  --content-max-width: 960px; /* Overall page container */
+  --feed-max-width:    640px;  /* Single-column feed */
+  --sidebar-width:     240px;  /* Left nav / sidebar */
+  --content-max-width: 960px;  /* Overall page container */
+  --nav-height:         56px;  /* Sticky navbar height — platform + public pages */
+  --panel-max-width:   440px;  /* Centered auth/dialog panels; also use for hero subtext max-width */
+
+  /* ---- Avatar sizes (mirror the .avatar-* CSS classes) ---- */
+  --avatar-xs: 28px;  /* Mini avatars in stacked groups */
+  --avatar-sm: 24px;  /* Small inline avatars */
+  --avatar-md: 36px;  /* Default — feed cards, comments */
+  --avatar-lg: 48px;  /* Profile header secondary */
+  --avatar-xl: 72px;  /* Profile header primary */
+
+  /* Avatar stack — negative offset for overlapping avatar rows */
+  --avatar-stack-offset: -8px; /* ~--avatar-xs / 3.5; explicit value for clarity */
+  /* Note: avatar stack uses 2px solid border for the knockout technique —
+     this is an intentional exception to the system-wide 0.5px border rule.
+     Do not change to var(--border-*). */
+
+  /* ---- Decorative / one-off ---- */
+  --accent-stripe-height: 3px; /* Top-of-page sage accent band (waitlisted screen) */
 
   /* ---- Z-index stack ---- */
   --z-base:    0;   /* @kind other */
