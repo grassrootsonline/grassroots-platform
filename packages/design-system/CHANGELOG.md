@@ -4,6 +4,37 @@ Changes to `packages/design-system/`. Consolidates Amendments 01–06 from `desi
 
 ---
 
+## [09] — 2026-06-30 · Landing page and auth screen tokens
+
+Token additions for the landing page, signup, login, and waitlist screens (handoff 011). No component pattern changes. Handoff 015 (Claude Code) depends on this entry being merged first.
+
+**`tokens/spacing.css`:**
+- `--nav-height: 56px` — sticky navbar height, shared by public and platform layouts. Check `components/layout/navbar.tsx` — if it hardcodes `56px`, replace with this token in the same commit.
+- `--panel-max-width: 440px` — centered auth/dialog panel width. Also canonical max-width for hero subtext blocks (the 40px difference from the previous 480px in the prototype is imperceptible — one value is cleaner than two).
+- `--avatar-xs: 28px` — mini avatars in stacked groups (landing page stats card). Introduces a complete avatar size token set to mirror the existing `.avatar-*` CSS classes:
+  - `--avatar-sm: 24px` (mirrors `.avatar-sm`)
+  - `--avatar-md: 36px` (mirrors `.avatar-md`)
+  - `--avatar-lg: 48px` (mirrors `.avatar-lg`)
+  - `--avatar-xl: 72px` (mirrors `.avatar-xl`)
+- `--avatar-stack-offset: -8px` — negative margin for overlapping avatar rows. Explicit value (~`--avatar-xs` / 3.5); derived relationship documented in comment.
+- `--accent-stripe-height: 3px` — top-of-page sage accent band (waitlist screen). Decorative; kept as a token so it can be removed or resized system-wide.
+
+**`tokens/typography.css`:**
+- `--text-hero: 52px` — landing page hero heading. Above `--text-display: 36px`. Always DM Serif Display, weight 400. Responsive rule: fall back to `--text-display` at `max-width: 768px`. Never use `--text-hero` in product UI (feed, profile, settings) — landing page only.
+
+**`motion.css`:**
+- `--delay-stagger: 50ms` — entrance animation stagger offset. Used on the stats card (landing page); also correct for any staggered list entrance. Lives alongside the duration scale.
+
+**Design decisions — not tokenised:**
+- `380px` stats card column width → local CSS variable (`--_stats-width: 380px`) inside `(auth)/page.module.css`. Too landing-specific for a global token; a local variable keeps it named without polluting the global scope.
+- `10px` CTA button padding-block → use `.btn-lg` (`padding: 12px 24px`) instead. The 2px difference from the prototype is imperceptible in context. No new token.
+- `2px` avatar stack border → intentional exception to the 0.5px border rule (knockout technique for overlapping avatars). No `--avatar-stack-border` token — the comment in `spacing.css` documents the exception. Do not change this to a `var(--border-*)` value.
+
+**App follow-up required:** Handoff 015 (already written) covers all substitutions in `(auth)/page.module.css` and `(waitlisted)/page.module.css`. Once this entry is merged, Claude Code can execute 015 without further design input.
+
+
+---
+
 ## [08] — 2026-06-29 · Panel and adorned-input component classes
 
 New reusable component patterns introduced during the landing/auth/waitlist prototype (handoff 011). No new tokens needed — all patterns resolve to existing tokens.
