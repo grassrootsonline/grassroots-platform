@@ -62,7 +62,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Waitlisted user trying to access platform — send to holding page
-  if (status === 'waitlisted' && pathname !== '/signup' && pathname !== '/login' && pathname !== '/') {
+  if (status === 'waitlisted' && pathname !== '/signup' && pathname !== '/login' && pathname !== '/' && pathname !== '/check-email') {
     if (!pathname.startsWith('/waitlisted')) {
       return NextResponse.redirect(new URL('/waitlisted', request.url));
     }

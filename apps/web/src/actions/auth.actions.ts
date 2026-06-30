@@ -21,6 +21,8 @@ const SignupSchema = z.object({
   password: z.string().min(10, 'Password must be at least 10 characters.'),
 });
 
+// TODO: add IP-based rate limiting before launch (5 attempts / 15 min per IP via @upstash/ratelimit).
+// Requires UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN in environment.
 export async function signupAction(prevState: AuthState, formData: FormData): Promise<AuthState> {
   const parsed = SignupSchema.safeParse({
     displayName: formData.get('displayName'),
@@ -77,6 +79,14 @@ export async function signupAction(prevState: AuthState, formData: FormData): Pr
     displayName,
   });
 
+  // If Supabase returned no session, email confirmation is required.
+  // Redirect to the check-email screen — the user will get a session
+  // after clicking their verification link.
+  if (!authData.session) {
+    redirect(`/check-email?email=${encodeURIComponent(email)}`);
+  }
+
+  // Session present (email confirmation disabled, e.g. in local dev).
   redirect('/waitlisted');
 }
 
@@ -87,6 +97,7 @@ const LoginSchema = z.object({
   password: z.string().min(1),
 });
 
+// TODO: add IP-based rate limiting before launch (same @upstash/ratelimit guard as signupAction).
 export async function loginAction(prevState: AuthState, formData: FormData): Promise<AuthState> {
   const parsed = LoginSchema.safeParse({
     email: formData.get('email'),
