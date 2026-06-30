@@ -3,19 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+<script src="../../../support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
-  <link rel="stylesheet" href="../_ds/grassroots-design-system-9866841d-1457-4111-9056-c9604a0e6080/tokens/fonts.css">
-  <link rel="stylesheet" href="../_ds/grassroots-design-system-9866841d-1457-4111-9056-c9604a0e6080/tokens/colors.css">
-  <link rel="stylesheet" href="../_ds/grassroots-design-system-9866841d-1457-4111-9056-c9604a0e6080/tokens/typography.css">
-  <link rel="stylesheet" href="../_ds/grassroots-design-system-9866841d-1457-4111-9056-c9604a0e6080/tokens/spacing.css">
-  <link rel="stylesheet" href="../_ds/grassroots-design-system-9866841d-1457-4111-9056-c9604a0e6080/styles.css">
-  <link rel="stylesheet" href="../_ds/grassroots-design-system-9866841d-1457-4111-9056-c9604a0e6080/components-new.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-design-system-9866841d-1457-4111-9056-c9604a0e6080/tokens/fonts.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-design-system-9866841d-1457-4111-9056-c9604a0e6080/tokens/colors.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-design-system-9866841d-1457-4111-9056-c9604a0e6080/tokens/typography.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-design-system-9866841d-1457-4111-9056-c9604a0e6080/tokens/spacing.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-design-system-9866841d-1457-4111-9056-c9604a0e6080/styles.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
-  <script src="../_ds/grassroots-design-system-9866841d-1457-4111-9056-c9604a0e6080/_ds_bundle.js"></script>
+  <script src="../../../_ds/grassroots-design-system-9866841d-1457-4111-9056-c9604a0e6080/_ds_bundle.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     body { margin: 0; background: var(--color-canvas); color: var(--color-ink); font-family: var(--font-body); min-height: 100vh; }
@@ -42,6 +41,7 @@
     .link-btn:hover { opacity: 0.8; }
     .wordmark { font-family: var(--font-display); font-size: 22px; color: var(--color-ink); text-decoration: none; cursor: pointer; }
     .wordmark-lg { font-family: var(--font-display); font-size: 28px; color: var(--color-ink); }
+    .page-notice { display:flex; align-items:flex-start; gap:10px; background:rgba(193,122,90,0.08); border:0.5px solid var(--color-danger); border-radius:var(--radius-md); padding:12px var(--space-lg); margin-bottom:0; }
   </style>
 </helmet>
 
@@ -203,6 +203,12 @@
       </div>
 
       <div style="display:flex; flex-direction:column; gap:var(--space-lg);">
+        <sc-if value="{{ loginError }}" hint-placeholder-val="{{ false }}">
+          <div class="page-notice">
+            <i class="ti ti-alert-circle" style="font-size:16px; color:var(--color-danger); flex-shrink:0; margin-top:2px;" aria-hidden="true"></i>
+            <p style="font-size:var(--text-body); color:var(--color-danger); line-height:var(--leading-body); margin:0;">That verification link has expired. Sign in or <button class="link-btn" style="font-size:var(--text-body); color:var(--color-danger); text-decoration-color:var(--color-danger);" onClick="{{ goCheckEmail }}">request a new one</button>.</p>
+          </div>
+        </sc-if>
         <div class="field">
           <label class="field-label">Email</label>
           <input class="input" type="email" placeholder="ada@example.com" value="{{ loginEmail }}" onInput="{{ setLoginEmail }}">
@@ -247,6 +253,54 @@
     </div>
   </div>
 </sc-if>
+
+<!-- ===================== CHECK EMAIL ===================== -->
+<sc-if value="{{ isCheckEmail }}" hint-placeholder-val="{{ false }}">
+  <div class="screen" data-screen-label="Check email" style="min-height:100vh; background:var(--color-canvas); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:var(--space-2xl) var(--space-lg); position:relative;">
+    <div style="position:absolute; top:0; left:0; right:0; height:3px; background:var(--color-accent); opacity:0.6;"></div>
+    <div style="max-width:480px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:var(--space-lg);">
+
+      <button class="wordmark-lg" onClick="{{ goLanding }}" style="background:none; border:none; cursor:pointer;">Grassroots</button>
+
+      <div style="width:56px; height:56px; border-radius:var(--radius-pill); background:var(--color-accent-subtle); display:flex; align-items:center; justify-content:center;">
+        <i class="ti ti-mail" style="font-size:24px; color:var(--color-accent-ink);" aria-hidden="true"></i>
+      </div>
+
+      <h1 style="font-family:var(--font-display); font-size:var(--text-title); font-weight:400; color:var(--color-ink); margin:0;">Check your inbox</h1>
+
+      <p style="font-size:var(--text-body); line-height:var(--leading-body); color:var(--color-ink-soft); margin:0;">We sent a verification link to <strong style="font-weight:var(--weight-medium); color:var(--color-ink);">{{ email }}</strong>. Click it to confirm your account and join the waitlist.</p>
+
+      <div style="display:flex; flex-direction:column; align-items:center; gap:var(--space-sm);">
+        <p style="font-size:var(--text-small); color:var(--color-secondary); margin:0;">Didn't get it? Check your spam folder first.</p>
+        <sc-if value="{{ resendSent }}" hint-placeholder-val="{{ false }}">
+          <span style="font-size:var(--text-small); color:var(--color-accent); font-weight:var(--weight-medium);">Sent.</span>
+        </sc-if>
+        <sc-if value="{{ resendNotSent }}" hint-placeholder-val="{{ true }}">
+          <button class="link-btn" style="font-size:var(--text-small);" onClick="{{ resendEmail }}">Resend the email</button>
+        </sc-if>
+      </div>
+
+      <p style="font-size:var(--text-small); color:var(--color-secondary); margin:0;">Wrong email? <button class="link-btn" style="font-size:var(--text-small);" onClick="{{ goSignup }}">Sign up with a different one</button></p>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ===================== DEV NAV ===================== -->
+<div style="position:fixed; bottom:20px; right:20px; z-index:500; display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+  <sc-if value="{{ devNavOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="background:var(--color-surface); border:0.5px solid var(--color-border); border-radius:10px; box-shadow:var(--shadow-overlay); padding:6px; display:flex; flex-direction:column; gap:2px; min-width:200px;">
+      <p style="font-size:11px; font-weight:500; color:var(--color-accent); letter-spacing:0.08em; text-transform:uppercase; padding:4px 10px 6px; margin:0;">Dev navigation</p>
+      <sc-for list="{{ devRoutes }}" as="d" hint-placeholder-count="6">
+        <button style="display:flex; align-items:center; gap:8px; width:100%; padding:7px 10px; font-size:13px; font-family:var(--font-body); color:var(--color-secondary); background:none; border:none; border-radius:6px; cursor:pointer; text-align:left; transition:background 120ms ease, color 120ms ease;" onClick="{{ d.go }}">
+          <i class="ti ti-{{ d.icon }}" style="font-size:14px;" aria-hidden="true"></i>{{ d.label }}
+        </button>
+      </sc-for>
+    </div>
+  </sc-if>
+  <button onClick="{{ toggleDevNav }}" aria-label="Dev navigation" style="width:36px; height:36px; border-radius:999px; background:var(--color-ink); color:var(--color-canvas); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-overlay);">
+    <i class="ti ti-terminal-2" style="font-size:16px;" aria-hidden="true"></i>
+  </button>
+</div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
@@ -255,7 +309,10 @@ class Component extends DCLogic {
     name: '', handle: '', email: '', password: '',
     loginEmail: '', loginPassword: '',
     errors: {},
-    displayName: 'friend'
+    displayName: 'friend',
+    resendSent: false,
+    loginError: false,
+    devNavOpen: false,
   };
 
   renderVals() {
@@ -271,7 +328,7 @@ class Component extends DCLogic {
       if (!email.trim() || !email.includes('@')) errs.email = 'Enter a valid email address.';
       if (!password || password.length < 10) errs.password = 'Password must be at least 10 characters.';
       if (Object.keys(errs).length) { this.setState({ errors: errs }); return; }
-      this.setState({ screen: 'waitlisted', displayName: name.split(' ')[0], errors: {} });
+      this.setState({ screen: 'check-email', displayName: name.split(' ')[0], errors: {} });
     };
 
     const handleLogin = () => {
@@ -284,10 +341,12 @@ class Component extends DCLogic {
       isSignup: screen === 'signup',
       isLogin: screen === 'login',
       isWaitlisted: screen === 'waitlisted',
+      isCheckEmail: screen === 'check-email',
 
       goLanding: goTo('landing'),
       goSignup: goTo('signup'),
-      goLogin: goTo('login'),
+      goLogin: () => this.setState({ screen: 'login', loginError: false, errors: {} }),
+      goCheckEmail: () => this.setState({ screen: 'check-email', loginError: false, errors: {} }),
 
       name, handle, email, password, loginEmail, loginPassword,
       errors, displayName,
@@ -306,6 +365,30 @@ class Component extends DCLogic {
 
       handleSignup,
       handleLogin,
+
+      loginError: this.state.loginError,
+      resendSent: this.state.resendSent,
+      resendNotSent: !this.state.resendSent,
+      resendEmail: () => {
+        this.setState({ resendSent: true });
+        window.setTimeout(() => this.setState({ resendSent: false }), 3000);
+      },
+
+      devNavOpen: this.state.devNavOpen,
+      toggleDevNav: () => this.setState(s => ({ devNavOpen: !s.devNavOpen })),
+      devRoutes: [
+        { key: 'landing',      icon: 'home-2',       label: 'Landing' },
+        { key: 'signup',       icon: 'user-plus',    label: 'Sign up' },
+        { key: 'login',        icon: 'login-2',      label: 'Log in' },
+        { key: 'login-error',  icon: 'alert-circle', label: 'Login — link expired' },
+        { key: 'check-email',  icon: 'mail',         label: 'Check email' },
+        { key: 'waitlisted',   icon: 'leaf',         label: 'Waitlisted' },
+      ].map(d => ({
+        ...d,
+        go: d.key === 'login-error'
+          ? () => this.setState({ screen: 'login', loginError: true, devNavOpen: false, errors: {} })
+          : () => this.setState({ screen: d.key, loginError: false, devNavOpen: false, errors: {} }),
+      })),
     };
   }
 }
