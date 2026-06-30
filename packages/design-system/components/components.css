@@ -419,3 +419,76 @@ textarea.input { resize: vertical; min-height: 80px; line-height: var(--leading-
 
 .toast-success { background: var(--color-accent-ink); }   /* was #2E5C2C */
 .toast-danger  { background: var(--color-danger); }
+
+/* ============================================
+   PANEL — centered surface card  [08]
+   ============================================ */
+
+.panel {
+  background: var(--color-surface);
+  border: var(--border-default);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-overlay);
+  padding: var(--space-2xl) var(--space-xl);
+  width: 100%;
+  max-width: 440px;
+}
+
+/* Centered page layout for auth / single-focus screens */
+.panel-page {
+  min-height: 100vh;
+  background: var(--color-canvas);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xl) var(--space-lg);
+  gap: var(--space-xl);
+}
+
+/* ============================================
+   ADORNED INPUTS — prefix / suffix / icon  [08]
+   ============================================ */
+
+.input-adorn-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-prefix {
+  position: absolute;
+  left: var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--color-secondary);
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+.input-suffix {
+  position: absolute;
+  right: var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--color-secondary);
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+.input-prefix-icon {
+  position: absolute;
+  left: 10px;
+  font-size: var(--text-heading);
+  color: var(--color-secondary);
+  pointer-events: none;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+}
+
+.input-adorn-wrap .input-has-prefix { padding-left: 28px; }
+.input-adorn-wrap .input-has-suffix { padding-right: 28px; }
+.input-adorn-wrap .input-has-icon   { padding-left: 34px; }
