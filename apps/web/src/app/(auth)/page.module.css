@@ -1,17 +1,264 @@
-.heroMotion {
+/* ── Shell ── */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-canvas);
+}
+
+.main {
+  flex: 1;
+}
+
+/* ── Nav ── */
+.nav {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-xl);
+  border-bottom: var(--border-default);
+  background: var(--color-surface);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+/* 22px design intent; rounded to --text-title (24px) — 2px imperceptible on display type */
+.wordmark {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  color: var(--color-ink);
+  line-height: 1;
+}
+
+.navActions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+/* ── Hero ── */
+.heroSection {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  width: 100%;
+  padding: var(--space-3xl) var(--space-xl);
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: var(--space-2xl);
+  align-items: center;
+}
+
+.heroCopy {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
 }
-.valueProp {
+
+/* 52px is a landing-specific display size; no token in scale above --text-display (36px).
+   Design system token request required before production. */
+.heroHeading {
+  font-family: var(--font-display);
+  font-size: 52px;
+  line-height: var(--leading-display);
+  color: var(--color-ink);
+  font-weight: 400;
+  margin: 0;
+}
+
+.heroSubtext {
+  font-size: var(--text-heading);
+  line-height: var(--leading-body);
+  color: var(--color-ink-soft);
+  margin: 0;
+  max-width: 480px;
+}
+
+.heroCtas {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-top: var(--space-sm);
+}
+
+.ctaBtn {
+  padding: 10px var(--space-relaxed);
+}
+
+/* ── Stats card ── */
+.statsCard {
+  background: var(--color-surface);
+  border: var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+}
+
+.statsLabel {
+  margin-bottom: var(--space-md);
+}
+
+.statRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: var(--space-sm) 0;
+  border-bottom: var(--border-default);
+}
+
+.statRowLast {
+  border-bottom: none;
+}
+
+.statNum {
+  font-size: var(--text-stat);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+}
+
+.statLbl {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+}
+
+.avatarStack {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: var(--border-default);
+}
+
+.avatarRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.miniAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  color: var(--color-accent-ink);
+  flex-shrink: 0;
+}
+
+/* 2px solid is avatar-stack knockout border — separates overlapping avatars */
+.miniAvatarOffset {
+  composes: miniAvatar;
+  margin-left: -8px;
+  border: 2px solid var(--color-surface);
+}
+
+.avatarCaption {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  margin-left: var(--space-xs);
+}
+
+.statsNote {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  margin: 0;
+}
+
+/* ── Value props ── */
+.valueSection {
+  background: var(--color-surface);
+  border-top: var(--border-default);
+  border-bottom: var(--border-default);
+}
+
+.valueInner {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-xl);
+}
+
+.valueGrid {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+.valueCard {
+  background: var(--color-surface);
+  border: var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
 }
-.ctaContent {
+
+.valueTitle {
+  font-family: var(--font-body);
+  font-size: var(--text-heading);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.valueBody {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--color-ink-soft);
+  margin: 0;
+}
+
+/* ── Footer ── */
+.footer {
+  padding: var(--space-xl);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
-  gap: var(--space-base);
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.footerLinks {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+.footerLink {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  color: var(--color-ink);
+}
+
+.copyright {
+  font-size: var(--text-small);
+  color: var(--color-muted);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .heroGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .heroHeading {
+    font-size: var(--text-display);
+  }
+
+  .valueGrid {
+    flex-direction: column;
+  }
+
+  .heroSection {
+    padding: var(--space-2xl) var(--space-lg);
+  }
 }

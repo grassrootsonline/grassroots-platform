@@ -1,0 +1,81 @@
+.page {
+  min-height: 100vh;
+  background: var(--color-canvas);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xl) var(--space-lg);
+  position: relative;
+}
+
+/* 3px top stripe per prototype — no spacing token at 3px; design-specific decorative value */
+.accentStripe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--color-accent);
+  opacity: 0.6;
+}
+
+.content {
+  max-width: 480px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  animation: gr-slide-up var(--duration-base) var(--ease-enter) both;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  color: var(--color-ink);
+}
+
+.iconWrap {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.copyBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.greeting {
+  font-size: var(--text-body);
+  color: var(--color-accent);
+  font-weight: var(--weight-medium);
+  margin: 0;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 400;
+  color: var(--color-ink);
+  margin: 0;
+  line-height: var(--leading-display);
+}
+
+.body {
+  font-size: var(--text-heading);
+  line-height: var(--leading-body);
+  color: var(--color-ink-soft);
+  margin: 0;
+}
+
+.signoutBtn {
+  color: var(--color-secondary);
+  margin-top: var(--space-md);
+}
