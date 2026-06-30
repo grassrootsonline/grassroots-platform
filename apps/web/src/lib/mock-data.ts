@@ -10,6 +10,7 @@ export const MOCK_USER = {
   followerCount: 2300,
   followingCount: 128,
   projectCount: 4,
+  account_status: 'active' as const,
 }
 
 export const MOCK_POSTS: FeedPost[] = [
