@@ -2,6 +2,7 @@
 
 import { useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { loginAction } from '@/actions/auth.actions';
 import s from './page.module.css';
@@ -17,6 +18,8 @@ function SubmitButton() {
 
 export default function LoginPage() {
   const [state, action] = useActionState(loginAction, null);
+  const searchParams = useSearchParams();
+  const authError = searchParams.get('error');
 
   return (
     <div className="panel-page">
@@ -30,6 +33,13 @@ export default function LoginPage() {
         </div>
 
         <form action={action} className={s.form}>
+          {authError === 'verification_expired' && (
+            <div className={s.errorBanner} role="alert">
+              That verification link has expired.{' '}
+              <Link href="/check-email" className={s.inlineLink}>Request a new one</Link>
+            </div>
+          )}
+
           {state?.error && (
             <p className="field-error" role="alert">{state.error}</p>
           )}
