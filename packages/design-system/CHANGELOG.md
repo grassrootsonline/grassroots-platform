@@ -3,6 +3,131 @@
 Changes to `packages/design-system/`. Consolidates Amendments 01–06 from `design-handoffs/core-social-mvp/`. Amendment files there are historical records — the live source of truth is the CSS in this folder.
 
 ---
+
+## [08] — 2026-06-29 · Panel and adorned-input component classes
+
+New reusable component patterns introduced during the landing/auth/waitlist prototype (handoff 011). No new tokens needed — all patterns resolve to existing tokens.
+
+**`components/components.css` (or `components-new.css` — match wherever tabs/dropdown live):**
+
+Add the following two sections:
+
+---
+
+### `.panel` — centered surface card
+
+Used for: auth pages (signup, login), confirmation dialogs, any single-focus screen that needs a floating card.
+
+```css
+.panel {
+  background: var(--color-surface);
+  border: var(--border-default);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-overlay);
+  padding: var(--space-2xl) var(--space-xl);
+  width: 100%;
+  max-width: 440px;
+}
+
+/* Centered page layout for auth/single-focus screens */
+.panel-page {
+  min-height: 100vh;
+  background: var(--color-canvas);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xl) var(--space-lg);
+  gap: var(--space-xl);
+}
+```
+
+Usage pattern:
+```html
+<div class="panel-page">
+  <span class="wordmark">Grassroots</span>
+  <div class="panel">
+    …form content…
+  </div>
+</div>
+```
+
+---
+
+### `.input-adorn-wrap` / `.input-prefix` / `.input-suffix` — adorned inputs
+
+Used for: `@handle` field, search inputs with icons, currency fields, unit suffixes.
+
+```css
+.input-adorn-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-prefix {
+  position: absolute;
+  left: 12px;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--color-secondary);
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+.input-suffix {
+  position: absolute;
+  right: 12px;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--color-secondary);
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+.input-prefix-icon {
+  position: absolute;
+  left: 10px;
+  font-size: 16px;
+  color: var(--color-secondary);
+  pointer-events: none;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+}
+
+.input-adorn-wrap .input-has-prefix { padding-left: 28px; }
+.input-adorn-wrap .input-has-suffix { padding-right: 28px; }
+.input-adorn-wrap .input-has-icon   { padding-left: 34px; }
+```
+
+Usage pattern:
+```html
+<!-- @ handle prefix -->
+<div class="input-adorn-wrap">
+  <span class="input-prefix">@</span>
+  <input class="input input-has-prefix" type="text" placeholder="ada">
+</div>
+
+<!-- Icon prefix -->
+<div class="input-adorn-wrap">
+  <i class="ti ti-search input-prefix-icon" aria-hidden="true"></i>
+  <input class="input input-has-icon" type="search" placeholder="Search">
+</div>
+```
+
+---
+
+**No new tokens.** All values reference existing tokens.
+
+**App follow-up required:** Implement the two component classes above in `packages/design-system/components/components.css`. Then use `.panel` + `.panel-page` in the signup, login, and waitlisted page components (replacing the hand-rolled equivalents). Use `.input-adorn-wrap` + `.input-prefix` for the handle field in the signup form.
+
+**Prototype reference:** `design-handoffs/core-social-mvp/prototypes/03-landing-auth-waitlist.html`
+
+---
+
 ## [07] — 2026-06-29 · Spacing and type scale additions
 
 Fills gaps in the spacing and type scales that product CSS modules were covering with hardcoded px values.
