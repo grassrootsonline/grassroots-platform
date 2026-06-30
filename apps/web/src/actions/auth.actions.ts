@@ -129,6 +129,15 @@ export async function signoutAction() {
   redirect('/');
 }
 
+// ─── Resend verification email ────────────────────────────────────────────────
+
+export async function resendVerificationAction(email: string): Promise<void> {
+  if (!email) return;
+  const supabase = await createServerClient();
+  // Best-effort — ignore errors (user may not exist, may already be confirmed)
+  await supabase.auth.resend({ type: 'signup', email });
+}
+
 // ─── Username availability check ──────────────────────────────────────────────
 
 export async function checkUsernameAction(username: string): Promise<{ available: boolean }> {
