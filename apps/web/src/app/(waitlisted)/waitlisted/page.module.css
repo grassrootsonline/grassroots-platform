@@ -20,7 +20,8 @@
 }
 
 .content {
-  max-width: 480px;
+  --_content-max: 480px; /* Waitlist-specific centered content width — wider than auth panels */
+  max-width: var(--_content-max);
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -36,8 +37,9 @@
 }
 
 .iconWrap {
-  width: 56px;
-  height: 56px;
+  --_icon-badge: 56px; /* Waitlist icon badge — decorative, not an avatar */
+  width: var(--_icon-badge);
+  height: var(--_icon-badge);
   border-radius: var(--radius-pill);
   background: var(--color-accent-subtle);
   display: flex;
