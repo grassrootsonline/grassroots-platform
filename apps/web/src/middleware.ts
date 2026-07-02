@@ -71,11 +71,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/feed', request.url));
   }
 
-  // Waitlisted user trying to access platform — send to holding page
-  if (status === 'waitlisted' && pathname !== '/signup' && pathname !== '/login' && pathname !== '/' && pathname !== '/check-email') {
-    if (!pathname.startsWith('/waitlisted')) {
-      return NextResponse.redirect(new URL('/waitlisted', request.url));
-    }
+  // Allow-list: only an 'active' account may reach a non-public route.
+  // Anything else — waitlisted, missing profile row, a failed/erroring
+  // query, or an unrecognized future status — is treated as not-active
+  // and gated to /waitlisted. This must fail closed, not open.
+  if (status !== 'active' && !PUBLIC_PATHS.includes(pathname) && !pathname.startsWith('/waitlisted')) {
+    return NextResponse.redirect(new URL('/waitlisted', request.url));
   }
 
   return response;
