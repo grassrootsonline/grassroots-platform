@@ -1,0 +1,42 @@
+.wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+@keyframes leaf-drift-a {
+  0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+  100% { transform: translate(260px, -300px) rotate(230deg) scale(0.03); }
+}
+@keyframes leaf-drift-b {
+  0%   { transform: translate(0, 0) rotate(20deg) scale(1); }
+  100% { transform: translate(180px, -340px) rotate(-180deg) scale(0.02); }
+}
+@keyframes leaf-drift-c {
+  0%   { transform: translate(0, 0) rotate(-15deg) scale(1); }
+  100% { transform: translate(320px, -260px) rotate(290deg) scale(0.04); }
+}
+@keyframes leaf-drift-d {
+  0%   { transform: translate(0, 0) rotate(45deg) scale(1); }
+  100% { transform: translate(140px, -380px) rotate(360deg) scale(0.02); }
+}
+
+.driftA { animation: leaf-drift-a var(--ld) linear var(--dd) infinite; }
+.driftB { animation: leaf-drift-b var(--ld) linear var(--dd) infinite; }
+.driftC { animation: leaf-drift-c var(--ld) linear var(--dd) infinite; }
+.driftD { animation: leaf-drift-d var(--ld) linear var(--dd) infinite; }
+
+/* Justified exception to "never write @media (prefers-reduced-motion) in
+   component code" (packages/design-system/CLAUDE.md): this animation uses
+   per-leaf --ld/--dd custom properties rather than the system's --duration-*
+   tokens, so it does not collapse automatically the way every other
+   animation in this system does. It's purely decorative, non-essential
+   motion — exactly what prefers-reduced-motion exists for — so it gets a
+   narrow, scoped opt-out rather than silently running forever (handoff 029). */
+@media (prefers-reduced-motion: reduce) {
+  .wrap {
+    display: none;
+  }
+}
