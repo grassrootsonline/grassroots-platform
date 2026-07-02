@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/fonts.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/colors.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/typography.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/spacing.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/motion.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/components/components.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/components/components-new.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <script src="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/_ds_bundle.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--color-canvas); color: var(--color-ink); font-family: var(--font-body); }
+    .wordmark { font-family: var(--font-display); font-size: 24px; color: var(--color-ink); text-decoration: none; }
+    .input { display: block; width: 100%; font-family: var(--font-body); font-size: var(--text-body); color: var(--color-ink); background: var(--color-canvas); border: var(--border-strong); border-radius: var(--radius-md); padding: 10px 14px; outline: none; transition: border-color 120ms ease, box-shadow 120ms ease; }
+    .input:focus { border-color: var(--color-accent); box-shadow: var(--focus-ring); }
+  </style>
+</helmet>
+
+<div style="min-height:100vh; display:flex; flex-direction:column;">
+
+  <!-- Navbar -->
+  <nav style="height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 var(--space-2xl); border-bottom:var(--border-default); background:var(--color-surface); position:sticky; top:0; z-index:100;">
+    <a href="03-landing-auth-waitlist.dc.html" class="wordmark">Grassroots</a>
+    <a href="03-landing-auth-waitlist.dc.html" style="display:inline-flex; align-items:center; gap:var(--space-xs); font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">
+      <i class="ti ti-arrow-left" style="font-size:14px;" aria-hidden="true"></i> Back to home
+    </a>
+  </nav>
+
+  <!-- Main -->
+  <main style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:var(--space-3xl) var(--space-xl); text-align:center;">
+
+    <div style="max-width:560px; display:flex; flex-direction:column; align-items:center; gap:var(--space-xl);">
+
+      <div style="display:flex; flex-direction:column; gap:var(--space-md);">
+        <p style="font-size:var(--text-small); text-transform:uppercase; letter-spacing:0.08em; font-weight:var(--weight-medium); color:var(--color-accent);">Careers</p>
+        <h1 style="font-family:var(--font-display); font-size:40px; font-weight:400; color:var(--color-ink); line-height:1.15;">We're a small team building something we care about.</h1>
+        <p style="font-size:var(--text-body); line-height:1.7; color:var(--color-ink-soft);">No open roles right now — but that'll change. When we're ready to grow, we want to find people who genuinely believe in what we're doing.</p>
+      </div>
+
+      <div style="width:100%; background:var(--color-surface); border:var(--border-default); border-radius:var(--radius-lg); padding:var(--space-xl); display:flex; flex-direction:column; gap:var(--space-md); text-align:left;">
+        <p style="font-size:var(--text-body); font-weight:var(--weight-medium); color:var(--color-ink);">Stay in the loop</p>
+        <p style="font-size:var(--text-small); line-height:1.6; color:var(--color-secondary);">Drop your email and we'll reach out when something opens up that might be a fit.</p>
+        <div style="display:flex; gap:var(--space-sm);">
+          <input class="input" type="email" placeholder="you@example.com" style="flex:1;">
+          <button class="btn btn-primary" style="white-space:nowrap;">Notify me</button>
+        </div>
+        <p style="font-size:var(--text-small); color:var(--color-secondary);">No spam. Unsubscribe anytime.</p>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="padding:var(--space-xl) var(--space-2xl); border-top:var(--border-default); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:var(--space-md);">
+    <span style="font-size:var(--text-small); color:var(--color-secondary);">© 2026 Grassroots</span>
+    <div style="display:flex; gap:var(--space-lg);">
+      <a href="04-terms-of-service.dc.html" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Terms of service</a>
+      <a href="05-privacy-policy.dc.html" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Privacy policy</a>
+      <a href="06-careers.dc.html" style="font-size:var(--text-small); color:var(--color-ink); text-decoration:none; font-weight:var(--weight-medium);">Careers</a>
+      <a href="#" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Contribute</a>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+</body>
+</html>

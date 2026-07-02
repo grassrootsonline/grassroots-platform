@@ -45,28 +45,29 @@
     .link-btn:hover { opacity: 0.8; }
     .wordmark { font-family: var(--font-display); font-size: 28px; color: var(--color-ink); text-decoration: none; cursor: pointer; }
     .wordmark-lg { font-family: var(--font-display); font-size: 28px; color: var(--color-ink); }
-    .page-notice { display:flex; align-items:flex-start; gap:10px; background:rgba(193,122,90,0.08); border:0.5px solid var(--color-danger); border-radius:var(--radius-md); padding:12px var(--space-lg); margin-bottom:0; }
 
     @keyframes leaf-drift-a {
-      0%   { transform: translate(0,0)          rotate(0deg)    scale(1); }
-      100% { transform: translate(260px,-300px) rotate(230deg)  scale(0.03); }
+      0%   { transform: translate(0,0)        rotate(0deg)   scale(1); }
+      100% { transform: translate(260px,-300px) rotate(230deg) scale(0.03); }
     }
     @keyframes leaf-drift-b {
-      0%   { transform: translate(0,0)          rotate(20deg)   scale(1); }
+      0%   { transform: translate(0,0)        rotate(20deg)  scale(1); }
       100% { transform: translate(180px,-340px) rotate(-180deg) scale(0.02); }
     }
     @keyframes leaf-drift-c {
-      0%   { transform: translate(0,0)          rotate(-15deg)  scale(1); }
-      100% { transform: translate(320px,-260px) rotate(290deg)  scale(0.04); }
+      0%   { transform: translate(0,0)        rotate(-15deg) scale(1); }
+      100% { transform: translate(320px,-260px) rotate(290deg) scale(0.04); }
     }
     @keyframes leaf-drift-d {
-      0%   { transform: translate(0,0)          rotate(45deg)   scale(1); }
-      100% { transform: translate(140px,-380px) rotate(360deg)  scale(0.02); }
+      0%   { transform: translate(0,0)        rotate(45deg)  scale(1); }
+      100% { transform: translate(140px,-380px) rotate(360deg) scale(0.02); }
     }
     .ld-a { animation: leaf-drift-a var(--ld) linear var(--dd) infinite; }
     .ld-b { animation: leaf-drift-b var(--ld) linear var(--dd) infinite; }
     .ld-c { animation: leaf-drift-c var(--ld) linear var(--dd) infinite; }
     .ld-d { animation: leaf-drift-d var(--ld) linear var(--dd) infinite; }
+
+    .page-notice { display:flex; align-items:flex-start; gap:10px; background:rgba(193,122,90,0.08); border:0.5px solid var(--color-danger); border-radius:var(--radius-md); padding:12px var(--space-lg); margin-bottom:0; }
   </style>
 </helmet>
 
@@ -76,26 +77,26 @@
 
     <!-- Leaf background -->
     <div style="position:absolute; inset:0; pointer-events:none; z-index:0; overflow:hidden;">
-      <svg class="ld-c" aria-hidden="true" width="22" height="22" viewBox="-8 -12 16 16" style="position:absolute; left:8%;  top:78%; opacity:0.20; --ld:8s;  --dd:-2s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
-      <svg class="ld-a" aria-hidden="true" width="20" height="20" viewBox="-8 -12 16 16" style="position:absolute; left:22%; top:82%; opacity:0.18; --ld:9s;  --dd:-5.1s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
-      <svg class="ld-b" aria-hidden="true" width="24" height="24" viewBox="-8 -12 16 16" style="position:absolute; left:38%; top:75%; opacity:0.22; --ld:7s;  --dd:-1.5s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
-      <svg class="ld-d" aria-hidden="true" width="18" height="18" viewBox="-8 -12 16 16" style="position:absolute; left:54%; top:80%; opacity:0.19; --ld:9s;  --dd:-6.3s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
-      <svg class="ld-a" aria-hidden="true" width="22" height="22" viewBox="-8 -12 16 16" style="position:absolute; left:70%; top:77%; opacity:0.21; --ld:8s;  --dd:-3.8s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
-      <svg class="ld-c" aria-hidden="true" width="20" height="20" viewBox="-8 -12 16 16" style="position:absolute; left:85%; top:83%; opacity:0.18; --ld:9s;  --dd:-0.8s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
-      <svg class="ld-b" aria-hidden="true" width="14" height="14" viewBox="-8 -12 16 16" style="position:absolute; left:5%;  top:55%; opacity:0.14; --ld:12s; --dd:-4.4s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-c" aria-hidden="true" width="22" height="22" viewBox="-8 -12 16 16" style="position:absolute; left:8%; top:78%; opacity:0.20; --ld:8s; --dd:-2s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-a" aria-hidden="true" width="20" height="20" viewBox="-8 -12 16 16" style="position:absolute; left:22%; top:82%; opacity:0.18; --ld:9s; --dd:-5.1s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-b" aria-hidden="true" width="24" height="24" viewBox="-8 -12 16 16" style="position:absolute; left:38%; top:75%; opacity:0.22; --ld:7s; --dd:-1.5s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
+      <svg class="ld-d" aria-hidden="true" width="18" height="18" viewBox="-8 -12 16 16" style="position:absolute; left:54%; top:80%; opacity:0.19; --ld:9s; --dd:-6.3s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-a" aria-hidden="true" width="22" height="22" viewBox="-8 -12 16 16" style="position:absolute; left:70%; top:77%; opacity:0.21; --ld:8s; --dd:-3.8s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
+      <svg class="ld-c" aria-hidden="true" width="20" height="20" viewBox="-8 -12 16 16" style="position:absolute; left:85%; top:83%; opacity:0.18; --ld:9s; --dd:-0.8s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-b" aria-hidden="true" width="14" height="14" viewBox="-8 -12 16 16" style="position:absolute; left:5%; top:55%; opacity:0.14; --ld:12s; --dd:-4.4s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
       <svg class="ld-a" aria-hidden="true" width="16" height="16" viewBox="-8 -12 16 16" style="position:absolute; left:28%; top:60%; opacity:0.13; --ld:11s; --dd:-8.1s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
       <svg class="ld-d" aria-hidden="true" width="13" height="13" viewBox="-8 -12 16 16" style="position:absolute; left:46%; top:52%; opacity:0.12; --ld:13s; --dd:-1.8s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
       <svg class="ld-c" aria-hidden="true" width="15" height="15" viewBox="-8 -12 16 16" style="position:absolute; left:63%; top:58%; opacity:0.14; --ld:12s; --dd:-6.5s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
       <svg class="ld-b" aria-hidden="true" width="14" height="14" viewBox="-8 -12 16 16" style="position:absolute; left:80%; top:62%; opacity:0.13; --ld:11s; --dd:-9.2s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
-      <svg class="ld-a" aria-hidden="true" width="9"  height="9"  viewBox="-8 -12 16 16" style="position:absolute; left:12%; top:35%; opacity:0.09; --ld:16s; --dd:-3.7s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
-      <svg class="ld-d" aria-hidden="true" width="8"  height="8"  viewBox="-8 -12 16 16" style="position:absolute; left:33%; top:28%; opacity:0.08; --ld:17s; --dd:-9.3s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
+      <svg class="ld-a" aria-hidden="true" width="9" height="9" viewBox="-8 -12 16 16" style="position:absolute; left:12%; top:35%; opacity:0.09; --ld:16s; --dd:-3.7s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-d" aria-hidden="true" width="8" height="8" viewBox="-8 -12 16 16" style="position:absolute; left:33%; top:28%; opacity:0.08; --ld:17s; --dd:-9.3s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
       <svg class="ld-c" aria-hidden="true" width="10" height="10" viewBox="-8 -12 16 16" style="position:absolute; left:52%; top:32%; opacity:0.09; --ld:15s; --dd:-5.9s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
-      <svg class="ld-b" aria-hidden="true" width="9"  height="9"  viewBox="-8 -12 16 16" style="position:absolute; left:74%; top:40%; opacity:0.08; --ld:16s; --dd:-2.6s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
-      <svg class="ld-a" aria-hidden="true" width="8"  height="8"  viewBox="-8 -12 16 16" style="position:absolute; left:91%; top:38%; opacity:0.09; --ld:15s; --dd:-12s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
+      <svg class="ld-b" aria-hidden="true" width="9" height="9" viewBox="-8 -12 16 16" style="position:absolute; left:74%; top:40%; opacity:0.08; --ld:16s; --dd:-2.6s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-a" aria-hidden="true" width="8" height="8" viewBox="-8 -12 16 16" style="position:absolute; left:91%; top:38%; opacity:0.09; --ld:15s; --dd:-12s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
       <svg class="ld-d" aria-hidden="true" width="11" height="11" viewBox="-8 -12 16 16" style="position:absolute; left:18%; top:90%; opacity:0.16; --ld:10s; --dd:-7.5s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
-      <svg class="ld-c" aria-hidden="true" width="19" height="19" viewBox="-8 -12 16 16" style="position:absolute; left:93%; top:70%; opacity:0.20; --ld:8s;  --dd:-4.2s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
+      <svg class="ld-c" aria-hidden="true" width="19" height="19" viewBox="-8 -12 16 16" style="position:absolute; left:93%; top:70%; opacity:0.20; --ld:8s; --dd:-4.2s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
       <svg class="ld-b" aria-hidden="true" width="12" height="12" viewBox="-8 -12 16 16" style="position:absolute; left:44%; top:18%; opacity:0.11; --ld:13s; --dd:-10s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
-    </div>
+    </div>    </div>
 
     <!-- Navbar -->
     <nav style="height:68px; display:flex; align-items:center; justify-content:space-between; padding:0 var(--space-2xl); border-bottom:var(--border-default); background:var(--color-surface); position:sticky; top:0; z-index:var(--z-sticky);">
@@ -106,7 +107,7 @@
     <!-- Hero -->
     <div style="max-width:var(--content-max-width); margin:0 auto; width:100%; padding:var(--space-3xl) var(--space-xl); display:grid; grid-template-columns:1fr 380px; gap:var(--space-2xl); align-items:center;">
       <div style="display:flex; flex-direction:column; gap:var(--space-lg);">
-        <h1 style="font-family:var(--font-display); font-size:52px; line-height:1.1; color:var(--color-ink); margin:0; font-weight:400;">Build.<br>Share.<br><span style="color:var(--color-accent);">Connect.</span></h1>
+        <h1 style="font-family:var(--font-display); font-size:52px; line-height:1.1; color:var(--color-ink); margin:0; font-weight:400;">Build in public.<br>Share your journey.<br>Connect with your community.</h1>
         <p style="font-size:var(--text-heading); line-height:var(--leading-body); color:var(--color-ink-soft); margin:0; max-width:480px;">The social platform for creators. Talk about the problems you're solving, build your network, and share your story.</p>
         <div style="display:flex; gap:var(--space-sm); flex-wrap:wrap; margin-top:var(--space-sm);">
           <button class="btn btn-primary" onClick="{{ goSignup }}" style="font-size:var(--text-body); padding:10px 24px;">Sign up</button>
@@ -114,7 +115,7 @@
       </div>
 
       <!-- Stats -->
-      <div style="display:inline-flex; flex-direction:column; align-items:flex-end; align-self:start; margin-top:155px; margin-left:auto; padding-right:var(--space-xl);">
+      <div style="display:inline-flex; flex-direction:column; align-items:center; align-self:start; padding-left:var(--space-2xl); margin-top:57px; margin-left:20px;">
         <span class="stat-num" style="font-size:48px;">1,247</span>
         <p style="font-size:var(--text-small); color:var(--color-secondary); margin:var(--space-xs) 0 0;">waitlisted users</p>
       </div>
@@ -124,10 +125,6 @@
     <div>
       <div style="max-width:var(--content-max-width); margin:0 auto; padding:var(--space-2xl) var(--space-xl);">
         <div style="display:flex; flex-direction:column; gap:var(--space-md);">
-          <div style="display:flex; align-items:center; gap:var(--space-sm);">
-            <i class="ti ti-brand-github" style="font-size:18px; color:var(--color-accent);" aria-hidden="true"></i>
-            <span style="font-size:var(--text-small); text-transform:uppercase; letter-spacing:0.08em; font-weight:var(--weight-medium); color:var(--color-accent);">Completely open source</span>
-          </div>
           <h2 style="font-family:var(--font-display); font-size:var(--text-title); font-weight:400; color:var(--color-ink); margin:0;">Built in public, for the public.</h2>
           <p style="font-size:var(--text-body); line-height:var(--leading-body); color:var(--color-ink-soft); margin:0; max-width:560px;">Every line of code is visible, and open to contribution. A project built for the community, by the community.</p>
           <a href="#" style="display:inline-flex; align-items:center; gap:var(--space-xs); font-size:var(--text-body); color:var(--color-accent); text-decoration:none; font-weight:var(--weight-medium);">View on GitHub <i class="ti ti-arrow-right" style="font-size:14px;" aria-hidden="true"></i></a>
@@ -141,7 +138,7 @@
           </div>
           <h2 style="font-family:var(--font-display); font-size:var(--text-title); font-weight:400; color:var(--color-ink); margin:0;">Everything you need to get started.</h2>
           <p style="font-size:var(--text-body); line-height:var(--leading-body); color:var(--color-ink-soft); margin:0; max-width:560px;">Guides, API references, and contribution docs — coming soon.</p>
-          <a href="#" style="display:inline-flex; align-items:center; gap:var(--space-xs); font-size:var(--text-body); color:var(--color-accent); text-decoration:none; font-weight:var(--weight-medium);"><i class="ti ti-arrow-left" style="font-size:14px;" aria-hidden="true"></i> Documentation</a>
+          <a href="#" style="display:inline-flex; align-items:center; gap:var(--space-xs); font-size:var(--text-body); color:var(--color-secondary); text-decoration:none; font-weight:var(--weight-medium);"><i class="ti ti-arrow-left" style="font-size:14px;" aria-hidden="true"></i> Documentation</a>
         </div>
       </div>
     </div>
@@ -150,9 +147,9 @@
     <footer style="padding:var(--space-xl); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:var(--space-md); margin-top:auto;">
       <span style="font-size:var(--text-small); color:var(--color-muted);">© 2026 Grassroots</span>
       <div style="display:flex; gap:var(--space-lg);">
-        <a href="04-terms-of-service.dc.html" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Terms of service</a>
-        <a href="05-privacy-policy.dc.html" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Privacy policy</a>
-        <a href="06-careers.dc.html" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Careers</a>
+        <a href="#" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Terms of service</a>
+        <a href="#" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Privacy policy</a>
+        <a href="#" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Careers</a>
         <a href="#" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Contribute</a>
       </div>
     </footer>
@@ -259,6 +256,7 @@
   <div class="screen" style="min-height:100vh; background:var(--color-canvas); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:var(--space-2xl) var(--space-lg); position:relative;">
 
     <!-- Subtle sage accent band at top -->
+    <div style="position:absolute; top:0; left:0; right:0; height:3px; background:var(--color-accent); opacity:0.6;"></div>
 
     <div style="max-width:480px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:var(--space-lg);">
       <span class="wordmark-lg">Grassroots</span>
@@ -282,6 +280,7 @@
 <!-- ===================== CHECK EMAIL ===================== -->
 <sc-if value="{{ isCheckEmail }}" hint-placeholder-val="{{ false }}">
   <div class="screen" data-screen-label="Check email" style="min-height:100vh; background:var(--color-canvas); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:var(--space-2xl) var(--space-lg); position:relative;">
+    <div style="position:absolute; top:0; left:0; right:0; height:3px; background:var(--color-accent); opacity:0.6;"></div>
     <div style="max-width:480px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:var(--space-lg);">
 
       <button class="wordmark-lg" onClick="{{ goLanding }}" style="background:none; border:none; cursor:pointer;">Grassroots</button>

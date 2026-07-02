@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/fonts.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/colors.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/typography.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/spacing.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/motion.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/components/components.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/components/components-new.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <script src="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/_ds_bundle.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--color-canvas); color: var(--color-ink); font-family: var(--font-body); }
+    .wordmark { font-family: var(--font-display); font-size: 24px; color: var(--color-ink); text-decoration: none; }
+    .prose h2 { font-family: var(--font-body); font-size: var(--text-heading); font-weight: var(--weight-medium); color: var(--color-ink); margin: var(--space-2xl) 0 var(--space-md); }
+    .prose h2:first-child { margin-top: 0; }
+    .prose p { font-size: var(--text-body); line-height: 1.7; color: var(--color-ink-soft); margin-bottom: var(--space-md); }
+    .prose ul { padding-left: var(--space-xl); margin-bottom: var(--space-md); }
+    .prose ul li { font-size: var(--text-body); line-height: 1.7; color: var(--color-ink-soft); margin-bottom: var(--space-xs); }
+    .prose table { width: 100%; border-collapse: collapse; margin-bottom: var(--space-lg); font-size: var(--text-small); }
+    .prose th { text-align: left; font-weight: var(--weight-medium); color: var(--color-ink); padding: var(--space-sm) var(--space-md); border-bottom: 0.5px solid var(--color-border); }
+    .prose td { color: var(--color-ink-soft); padding: var(--space-sm) var(--space-md); border-bottom: 0.5px solid var(--color-border); vertical-align: top; line-height: 1.6; }
+    .token { background: var(--color-surface); border: 0.5px solid var(--color-border); border-radius: 4px; padding: 1px 6px; font-size: 12px; color: var(--color-secondary); font-family: monospace; }
+    .legal-notice { background: var(--color-surface); border: 0.5px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md) var(--space-lg); margin-bottom: var(--space-xl); display: flex; align-items: flex-start; gap: var(--space-sm); }
+  </style>
+</helmet>
+
+<div style="min-height:100vh; display:flex; flex-direction:column;">
+
+  <!-- Navbar -->
+  <nav style="height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 var(--space-2xl); border-bottom:var(--border-default); background:var(--color-surface); position:sticky; top:0; z-index:100;">
+    <a href="03-landing-auth-waitlist.dc.html" class="wordmark">Grassroots</a>
+    <a href="03-landing-auth-waitlist.dc.html" style="display:inline-flex; align-items:center; gap:var(--space-xs); font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">
+      <i class="ti ti-arrow-left" style="font-size:14px;" aria-hidden="true"></i> Back to home
+    </a>
+  </nav>
+
+  <!-- Document -->
+  <main style="flex:1; max-width:720px; margin:0 auto; width:100%; padding:var(--space-3xl) var(--space-xl);">
+
+    <!-- Header -->
+    <div style="margin-bottom:var(--space-3xl); padding-bottom:var(--space-xl); border-bottom:var(--border-default);">
+      <h1 style="font-family:var(--font-display); font-size:40px; font-weight:400; color:var(--color-ink); margin-bottom:var(--space-md);">Privacy policy</h1>
+      <p style="font-size:var(--text-small); color:var(--color-secondary);">Effective date: <span class="token">{POLICY_EFFECTIVE_DATE}</span></p>
+    </div>
+
+    <!-- Legal notice -->
+    <div class="legal-notice">
+      <i class="ti ti-alert-circle" style="font-size:16px; color:var(--color-secondary); flex-shrink:0; margin-top:2px;" aria-hidden="true"></i>
+      <p style="font-size:var(--text-small); line-height:1.6; color:var(--color-secondary); margin:0;">Tokens <span class="token">{LEGAL_ENTITY_NAME}</span>, <span class="token">{GOVERNING_LAW_JURISDICTION}</span>, <span class="token">{PRIVACY_CONTACT_EMAIL}</span>, and <span class="token">{POLICY_EFFECTIVE_DATE}</span> are unresolved — pending legal entity confirmation and legal review before this page goes live.</p>
+    </div>
+
+    <!-- Content -->
+    <div class="prose">
+
+      <p>Grassroots ("we," "us," "our") is operated by <span class="token">{LEGAL_ENTITY_NAME}</span>. This policy explains what personal information we collect when you use the Grassroots platform, why we collect it, how we use and share it, and the choices and rights you have. It applies from the moment you create an account — including during the waitlist period, when your account is fully authenticated even before you're granted access to the platform itself.</p>
+
+      <h2>Information we collect</h2>
+      <p><strong style="font-weight:var(--weight-medium); color:var(--color-ink);">Information you give us directly.</strong> When you create an account: your email address, a password (if you sign up with email rather than Google), and a username. During onboarding: your display name, bio, avatar, headline, location, and any social/website links you choose to add. When you use the platform: the posts, articles, projects, comments, community content, and direct messages you create, along with any images or media you upload.</p>
+      <p><strong style="font-weight:var(--weight-medium); color:var(--color-ink);">Information from third-party sign-in.</strong> If you sign up or log in with Google, we receive your email address and basic profile information from Google, and we store a reference to your Google account so we can recognize you on future logins. We don't receive your Google password.</p>
+      <p><strong style="font-weight:var(--weight-medium); color:var(--color-ink);">Information collected automatically.</strong> When you use Grassroots, we automatically collect: your IP address (used for rate-limiting and security, and to give you a rough sense of "who's active" without storing precise location), device and browser information, pages and features you interact with, and timestamps of your activity. This is standard web server and analytics behavior, not something unique to Grassroots.</p>
+      <p><strong style="font-weight:var(--weight-medium); color:var(--color-ink);">Cookies.</strong> We use a small number of essential cookies to keep you signed in securely (<code style="font-size:13px; color:var(--color-ink);">httpOnly</code>, <code style="font-size:13px; color:var(--color-ink);">Secure</code>, session cookies managed by our authentication provider). We don't use third-party advertising cookies or cross-site tracking cookies. Aggregate, non-identifying performance analytics are collected through our hosting provider's built-in analytics.</p>
+
+      <h2>How we use your information</h2>
+      <p>We use your information to:</p>
+      <ul>
+        <li>Create and maintain your account, and authenticate you when you sign in</li>
+        <li>Operate the core features of the platform — your feed, profile, posts, projects, communities, messages, and notifications</li>
+        <li>Show your public profile, posts, and projects to other users and, where you've made them public, to visitors who aren't signed in</li>
+        <li>Send you service emails: verification, password reset, and (if you don't turn them off) activity digests</li>
+        <li>Detect and prevent abuse, spam, and violations of our Terms of Service</li>
+        <li>Monitor and improve platform performance and reliability</li>
+        <li>Comply with legal obligations</li>
+      </ul>
+      <p>We do not sell your personal information, and we do not use your content or activity to serve third-party advertising.</p>
+
+      <h2>How we share your information</h2>
+      <p><strong style="font-weight:var(--weight-medium); color:var(--color-ink);">With other users, by design.</strong> Grassroots is a social platform. Your username, display name, avatar, bio, and public posts, articles, and projects are visible to other users and, unless you've set your account to private, to the public. Direct messages are visible only to participants in the conversation.</p>
+      <p><strong style="font-weight:var(--weight-medium); color:var(--color-ink);">With service providers who help us run the platform.</strong> We share information with the vendors who provide our infrastructure, each acting under a data processing agreement:</p>
+      <table>
+        <thead>
+          <tr><th>Provider</th><th>What they process</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Supabase</td><td>Account data, profile data, content, auth credentials</td><td>Database, authentication, file storage, realtime features</td></tr>
+          <tr><td>Upstash</td><td>Session tokens, cached feed/profile data, rate-limit counters</td><td>Caching and rate limiting</td></tr>
+          <tr><td>Vercel</td><td>Request logs, performance metrics</td><td>Hosting, content delivery, performance analytics</td></tr>
+          <tr><td>Sentry</td><td>Error reports tagged with your user ID</td><td>Error tracking and debugging</td></tr>
+          <tr><td>Axiom</td><td>Structured server event logs</td><td>Operational logging</td></tr>
+          <tr><td>Resend</td><td>Your email address, email content</td><td>Verification, transactional, and digest emails</td></tr>
+        </tbody>
+      </table>
+      <p><strong style="font-weight:var(--weight-medium); color:var(--color-ink);">For legal reasons.</strong> We may disclose information if required by law, to enforce our Terms of Service, or to protect the rights, property, or safety of Grassroots, our users, or the public.</p>
+      <p><strong style="font-weight:var(--weight-medium); color:var(--color-ink);">Business transfers.</strong> If Grassroots is involved in a merger, acquisition, or asset sale, your information may be transferred as part of that transaction. We'll notify you before your information becomes subject to a different privacy policy.</p>
+
+      <h2>Where your information is processed</h2>
+      <p><span class="token">{LEGAL_ENTITY_NAME}</span> is based in <span class="token">{GOVERNING_LAW_JURISDICTION}</span>, Canada, but our infrastructure providers may process and store data in other countries, including the United States. Where we transfer personal information out of Canada or the EEA/UK, we rely on our providers' standard contractual safeguards consistent with PIPEDA and GDPR requirements.</p>
+
+      <h2>How long we keep your information</h2>
+      <p>We keep your account and content for as long as your account is active. If you delete your account, we hold the request for 30 days before permanent deletion — during that window, you can cancel the deletion by signing back in. After 30 days, your account, profile, credentials, roles, follows, and reactions are permanently deleted. Posts and comments you authored remain visible to preserve conversation context but are re-attributed to "[deleted]" rather than your identity.</p>
+
+      <h2>Your privacy rights</h2>
+      <p><strong style="font-weight:var(--weight-medium); color:var(--color-ink);">European Economic Area or United Kingdom (GDPR):</strong> you have the right to access, correct, delete, or export your personal information, to object to or restrict certain processing, and to withdraw consent at any time. You also have the right to lodge a complaint with your local data protection authority.</p>
+      <p><strong style="font-weight:var(--weight-medium); color:var(--color-ink);">California residents (CCPA/CPRA):</strong> you have the right to know what personal information we collect, to request deletion, to correct inaccurate information, and to opt out of the sale or sharing of personal information — though we don't sell or share your information for cross-context advertising. We won't discriminate against you for exercising these rights.</p>
+      <p><strong style="font-weight:var(--weight-medium); color:var(--color-ink);">Canada (PIPEDA):</strong> you have the right to access the personal information we hold about you, to challenge its accuracy, and to have it corrected.</p>
+      <p><strong style="font-weight:var(--weight-medium); color:var(--color-ink);">Everyone else:</strong> you can access, update, or delete most of your information directly from your account settings, or by contacting us below. To exercise any of these rights, email <span class="token">{PRIVACY_CONTACT_EMAIL}</span>. We'll respond within the timeframe required by applicable law (generally 30 days).</p>
+
+      <h2>Children's privacy</h2>
+      <p>Grassroots is not directed to, and is not intended for use by, anyone under 16. We don't knowingly collect personal information from anyone under 16. If we learn that we've collected information from someone under 16, we'll delete it.</p>
+
+      <h2>Security</h2>
+      <p>We use industry-standard safeguards to protect your information, including encrypted connections, database-level access controls (Row Level Security), and restricted access to production systems. No system is perfectly secure, and we can't guarantee absolute security of information you transmit to us.</p>
+
+      <h2>Changes to this policy</h2>
+      <p>We may update this policy as the platform evolves. If we make material changes, we'll notify you by email or with a notice on the platform before the changes take effect. The "Effective date" above always reflects the most recent version.</p>
+
+      <h2>Contact us</h2>
+      <p>Questions about this policy or your data: <span class="token">{PRIVACY_CONTACT_EMAIL}</span>.</p>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="padding:var(--space-xl) var(--space-2xl); border-top:var(--border-default); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:var(--space-md);">
+    <span style="font-size:var(--text-small); color:var(--color-secondary);">© 2026 Grassroots</span>
+    <div style="display:flex; gap:var(--space-lg);">
+      <a href="04-terms-of-service.dc.html" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Terms of service</a>
+      <a href="05-privacy-policy.dc.html" style="font-size:var(--text-small); color:var(--color-ink); text-decoration:none; font-weight:var(--weight-medium);">Privacy policy</a>
+      <a href="06-careers.dc.html" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Careers</a>
+      <a href="#" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Contribute</a>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+</body>
+</html>
