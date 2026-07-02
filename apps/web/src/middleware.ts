@@ -58,6 +58,14 @@ export async function middleware(request: NextRequest) {
 
   const status = profile?.account_status;
 
+  // Suspended user — sign them out and redirect to login, regardless of path
+  if (status === 'suspended') {
+    await supabase.auth.signOut();
+    const url = new URL('/login', request.url);
+    url.searchParams.set('reason', 'suspended');
+    return NextResponse.redirect(url);
+  }
+
   // Active user hitting auth pages — send to feed
   if (status === 'active' && (pathname === '/signup' || pathname === '/login' || pathname === '/')) {
     return NextResponse.redirect(new URL('/feed', request.url));
@@ -68,14 +76,6 @@ export async function middleware(request: NextRequest) {
     if (!pathname.startsWith('/waitlisted')) {
       return NextResponse.redirect(new URL('/waitlisted', request.url));
     }
-  }
-
-  // Suspended user — sign them out and redirect to login
-  if (status === 'suspended') {
-    await supabase.auth.signOut();
-    const url = new URL('/login', request.url);
-    url.searchParams.set('reason', 'suspended');
-    return NextResponse.redirect(url);
   }
 
   return response;
