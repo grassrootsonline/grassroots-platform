@@ -107,7 +107,7 @@ export default function LandingPage() {
       <footer className={s.footer}>
         <span className={s.copyright}>&copy; 2026 Grassroots</span>
         <div className={s.footerLinks}>
-          <Link href="#" className={s.footerLink}>Terms of service</Link>
+          <Link href="/terms" className={s.footerLink}>Terms of service</Link>
           <Link href="/privacy" className={s.footerLink}>Privacy policy</Link>
         </div>
       </footer>
