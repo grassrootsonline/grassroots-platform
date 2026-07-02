@@ -1,6 +1,8 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
+const PUBLIC_PATHS = ['/', '/signup', '/login', '/check-email', '/auth/callback'];
+
 export async function middleware(request: NextRequest) {
   // In seed/preview mode, Supabase env vars are absent — pass all requests through.
   // The seeded session (MOCK_USER) handles auth state in-app.
