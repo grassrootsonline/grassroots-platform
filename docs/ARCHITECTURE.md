@@ -567,7 +567,7 @@ Feeds are paginated using cursor-based pagination exclusively. Offset-based pagi
 - Soft-deleted rows must be excluded via partial indexes where queries filter by `deleted_at IS NULL`.
 - Use `EXPLAIN ANALYZE` on every query touching a table with more than 10,000 rows before merging.
 - Connection pooling is mandatory. All server-side code uses the Supabase client in pooler mode (port 6543, transaction pooling).
-- The `anon` key is never used server-side. All server requests use the service role key inside a Supabase server client that enforces RLS bypass only when explicitly required.
+- Server-side Supabase access uses two distinct clients for two distinct purposes. The anon key + user session cookie (`@supabase/ssr`'s `createServerClient`, used in `middleware.ts` and `lib/supabase/server.ts`) is used wherever a request needs to act *as the current user* under RLS — this is the standard SSR auth pattern, not a bypass. The service role key is reserved for operations that must run as an administrator, bypassing RLS intentionally (none yet in this codebase). Neither key is meant to run arbitrary unscoped queries — see §8.1 for the current gap on the Drizzle path.
 
 ### 6.4 Lazy loading & skeleton strategy
 
