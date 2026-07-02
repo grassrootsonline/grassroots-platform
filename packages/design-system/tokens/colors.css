@@ -41,6 +41,14 @@
   /* ---- Overlay ---- */
   --color-scrim:          rgba(0, 0, 0, 0.40); /* Modal/sheet backdrop — neutral, no dark override needed */
 
+  /* ---- Decorative (provisional — handoff 029) ----
+     Landing-page leaf-drift background only. Decorative/illustrative use only,
+     not an interactive state — doesn't conflict with sage being the one
+     interactive color. First pattern of its kind in this system; Claude
+     Design should formalize (or reconsider) these in a future amendment. */
+  --color-decoration-leaf-1: #3d5c3a; /* provisional */
+  --color-decoration-leaf-2: #456640; /* provisional */
+
   /* ---- Semantic aliases (prefer these in product code) ---- */
   --text-primary:    var(--color-ink);
   --text-secondary:  var(--color-secondary);
