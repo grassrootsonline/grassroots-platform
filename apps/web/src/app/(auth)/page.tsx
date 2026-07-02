@@ -3,6 +3,13 @@ import { getDataClient } from '@/lib/data'
 import { LeafBackground } from '@/components/layout/leaf-background'
 import s from './page.module.css'
 
+// The landing page has no auth/cookie reads, so Next would otherwise statically
+// optimize it and run getWaitlistCount() at build time — where DB credentials
+// aren't available, breaking the build (see handoff 029 follow-up). Force
+// per-request rendering, matching /feed and /profile which are already dynamic
+// because their data calls go through cookie-reading auth helpers.
+export const dynamic = 'force-dynamic'
+
 export default async function LandingPage() {
   const waitlistCount = await getDataClient().getWaitlistCount()
 
