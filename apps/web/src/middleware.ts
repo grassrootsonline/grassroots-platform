@@ -50,11 +50,15 @@ export async function middleware(request: NextRequest) {
   }
 
   // Session exists — fetch account_status
-  const { data: profile } = await supabase
+  const { data: profile, error: profileError } = await supabase
     .from('users')
     .select('account_status')
     .eq('auth_id', user.id)
     .single();
+
+  if (profileError) {
+    console.error('[middleware] account_status lookup failed for', user.id, profileError.message);
+  }
 
   const status = profile?.account_status;
 
