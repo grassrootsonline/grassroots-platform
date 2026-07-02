@@ -1,6 +1,8 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
+const PUBLIC_PATHS = ['/', '/signup', '/login', '/check-email', '/auth/callback'];
+
 export async function middleware(request: NextRequest) {
   // In seed/preview mode, Supabase env vars are absent — pass all requests through.
   // The seeded session (MOCK_USER) handles auth state in-app.
@@ -48,32 +50,37 @@ export async function middleware(request: NextRequest) {
   }
 
   // Session exists — fetch account_status
-  const { data: profile } = await supabase
+  const { data: profile, error: profileError } = await supabase
     .from('users')
     .select('account_status')
     .eq('auth_id', user.id)
     .single();
 
+  if (profileError) {
+    console.error('[middleware] account_status lookup failed for', user.id, profileError.message);
+  }
+
   const status = profile?.account_status;
+
+  // Suspended user — sign them out and redirect to login, regardless of path
+  if (status === 'suspended') {
+    await supabase.auth.signOut();
+    const url = new URL('/login', request.url);
+    url.searchParams.set('reason', 'suspended');
+    return NextResponse.redirect(url);
+  }
 
   // Active user hitting auth pages — send to feed
   if (status === 'active' && (pathname === '/signup' || pathname === '/login' || pathname === '/')) {
     return NextResponse.redirect(new URL('/feed', request.url));
   }
 
-  // Waitlisted user trying to access platform — send to holding page
-  if (status === 'waitlisted' && pathname !== '/signup' && pathname !== '/login' && pathname !== '/' && pathname !== '/check-email') {
-    if (!pathname.startsWith('/waitlisted')) {
-      return NextResponse.redirect(new URL('/waitlisted', request.url));
-    }
-  }
-
-  // Suspended user — sign them out and redirect to login
-  if (status === 'suspended') {
-    await supabase.auth.signOut();
-    const url = new URL('/login', request.url);
-    url.searchParams.set('reason', 'suspended');
-    return NextResponse.redirect(url);
+  // Allow-list: only an 'active' account may reach a non-public route.
+  // Anything else — waitlisted, missing profile row, a failed/erroring
+  // query, or an unrecognized future status — is treated as not-active
+  // and gated to /waitlisted. This must fail closed, not open.
+  if (status !== 'active' && !PUBLIC_PATHS.includes(pathname) && !pathname.startsWith('/waitlisted')) {
+    return NextResponse.redirect(new URL('/waitlisted', request.url));
   }
 
   return response;
