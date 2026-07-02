@@ -616,6 +616,8 @@ Permissions are enforced at three independent layers. All three must be satisfie
 2. **Server-side permission check** — every Server Action and API route calls `checkPermission()` before executing. Throws a `PermissionError` if the calling user lacks the required permission.
 3. **UI permission gates** — client components use the `usePermissions()` hook to conditionally render actions. This is UX polish only; it is never trusted as a security boundary.
 
+**Current gap:** `packages/db` (Drizzle) connects via `DATABASE_URL`, which authenticates as the Supabase `postgres` role. That role owns the tables and bypasses RLS regardless of policy, so RLS today only constrains access made through the Supabase JS client (`middleware.ts` currently; any future client-side or SSR-client reads). For everything that goes through Drizzle — which is most of the app's current reads and writes — `checkPermission()` is the only enforced gate. Making Drizzle RLS-aware (a dedicated non-bypassing Postgres role, `FORCE ROW LEVEL SECURITY`, and policies that account for legitimate server-side writes) is tracked as a follow-up, not yet scheduled.
+
 ### 8.2 Permission matrix
 
 | Action | Required role | Scope |
