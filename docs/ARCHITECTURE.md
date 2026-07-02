@@ -567,7 +567,7 @@ Feeds are paginated using cursor-based pagination exclusively. Offset-based pagi
 - Soft-deleted rows must be excluded via partial indexes where queries filter by `deleted_at IS NULL`.
 - Use `EXPLAIN ANALYZE` on every query touching a table with more than 10,000 rows before merging.
 - Connection pooling is mandatory. All server-side code uses the Supabase client in pooler mode (port 6543, transaction pooling).
-- The `anon` key is never used server-side. All server requests use the service role key inside a Supabase server client that enforces RLS bypass only when explicitly required.
+- Server-side Supabase access uses two distinct clients for two distinct purposes. The anon key + user session cookie (`@supabase/ssr`'s `createServerClient`, used in `middleware.ts` and `lib/supabase/server.ts`) is used wherever a request needs to act *as the current user* under RLS — this is the standard SSR auth pattern, not a bypass. The service role key is reserved for operations that must run as an administrator, bypassing RLS intentionally (none yet in this codebase). Neither key is meant to run arbitrary unscoped queries — see §8.1 for the current gap on the Drizzle path.
 
 ### 6.4 Lazy loading & skeleton strategy
 
@@ -615,6 +615,8 @@ Permissions are enforced at three independent layers. All three must be satisfie
 1. **Row Level Security (RLS)** — enforced at the database level by PostgreSQL. Cannot be bypassed by application code. Defines what rows a given `auth.uid()` can `SELECT`, `INSERT`, `UPDATE`, or `DELETE`.
 2. **Server-side permission check** — every Server Action and API route calls `checkPermission()` before executing. Throws a `PermissionError` if the calling user lacks the required permission.
 3. **UI permission gates** — client components use the `usePermissions()` hook to conditionally render actions. This is UX polish only; it is never trusted as a security boundary.
+
+**Current gap:** `packages/db` (Drizzle) connects via `DATABASE_URL`, which authenticates as the Supabase `postgres` role. That role owns the tables and bypasses RLS regardless of policy, so RLS today only constrains access made through the Supabase JS client (`middleware.ts` currently; any future client-side or SSR-client reads). For everything that goes through Drizzle — which is most of the app's current reads and writes — `checkPermission()` is the only enforced gate. Making Drizzle RLS-aware (a dedicated non-bypassing Postgres role, `FORCE ROW LEVEL SECURITY`, and policies that account for legitimate server-side writes) is tracked as a follow-up, not yet scheduled.
 
 ### 8.2 Permission matrix
 
