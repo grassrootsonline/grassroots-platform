@@ -107,3 +107,9 @@
   min-width: 0;
 }
 .railFollowMeta { min-width: 0; }
+.emptyState {
+  padding: var(--space-relaxed);
+  text-align: center;
+  color: var(--color-secondary);
+  font-size: var(--text-body);
+}
