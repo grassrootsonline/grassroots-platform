@@ -1,4 +1,6 @@
+import { count, eq } from 'drizzle-orm'
 import { db } from '@grassroots/db'
+import { users } from '@grassroots/db/schema'
 import { createServerClient } from '@/lib/supabase/server'
 import type {
   DataClient, CurrentUser, UserProfile, FeedPost,
@@ -54,4 +56,12 @@ export class SupabaseDataClient implements DataClient {
   async getWhoToFollow(): Promise<SuggestedUser[]> { return [] }
   async getProfileProjects(_username: string): Promise<ProfileProject[]> { return [] }
   async getThreadReplies(_postId: string): Promise<Reply[]> { return [] }
+
+  async getWaitlistCount(): Promise<number> {
+    const [row] = await db
+      .select({ count: count() })
+      .from(users)
+      .where(eq(users.accountStatus, 'waitlisted'))
+    return row?.count ?? 0
+  }
 }

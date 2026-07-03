@@ -1,36 +1,28 @@
 import Link from 'next/link'
-import { MOCK_PLATFORM_STATS } from '@/lib/mock-data'
+import { getDataClient } from '@/lib/data'
+import { LeafBackground } from '@/components/layout/leaf-background'
 import s from './page.module.css'
 
-const VALUE_PROPS = [
-  {
-    icon: 'eye',
-    title: 'Build openly',
-    body: 'Share your work as it happens — updates, experiments, half-finished ideas. No polish required. The community values the process as much as the result.',
-  },
-  {
-    icon: 'users',
-    title: 'Build together',
-    body: 'Find collaborators, ask for help, and follow along on others’ projects. Every post is an invitation to get involved — and the communities here take that seriously.',
-  },
-  {
-    icon: 'messages',
-    title: 'Join the conversation',
-    body: 'Grassroots is organized around communities, not algorithms. Follow the people and topics that matter to you — and discover new ones through the work they share.',
-  },
-]
+// The landing page has no auth/cookie reads, so Next would otherwise statically
+// optimize it and run getWaitlistCount() at build time — where DB credentials
+// aren't available, breaking the build (see handoff 029 follow-up). Force
+// per-request rendering, matching /feed and /profile which are already dynamic
+// because their data calls go through cookie-reading auth helpers.
+export const dynamic = 'force-dynamic'
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const waitlistCount = await getDataClient().getWaitlistCount()
+
   return (
     <div className={s.page}>
+      <LeafBackground />
 
       {/* ── Sticky nav ── */}
       <nav className={s.nav}>
         <span className={s.wordmark}>Grassroots</span>
-        <div className={s.navActions}>
-          <Link href="/login" className="btn btn-ghost">Sign in</Link>
-          <Link href="/signup" className="btn btn-primary">Create account</Link>
-        </div>
+        <p className={s.navSignin}>
+          Have an account? <Link href="/login" className={s.inlineLink}>Sign in</Link>
+        </p>
       </nav>
 
       <main className={s.main}>
@@ -41,64 +33,58 @@ export default function LandingPage() {
 
             {/* Left copy */}
             <div className={`${s.heroCopy} animate-slide-up`}>
-              <p className="text-label">A home for creators</p>
               <h1 className={s.heroHeading}>
-                Where builders share<br />what they make
+                Build.<br />Share.<br /><span className={s.heroHeadingAccent}>Connect.</span>
               </h1>
               <p className={s.heroSubtext}>
-                The platform for makers, tinkerers, and community organizers. Share your work openly,
-                find collaborators, and follow the projects that matter to you.
+                The social platform for creators. Talk about the problems you&rsquo;re
+                solving, build your network, and share your story.
               </p>
               <div className={s.heroCtas}>
-                <Link href="/signup" className="btn btn-primary btn-lg">Create account</Link>
-                <Link href="/login" className="btn btn-ghost btn-lg">Sign in</Link>
+                <Link href="/signup" className="btn btn-primary">Sign up</Link>
               </div>
             </div>
 
-            {/* Stats card */}
-            <div className={`${s.statsCard} animate-slide-up`}>
-              <p className={`text-label ${s.statsLabel}`}>Live on Grassroots</p>
-
-              <div className={s.statRow}>
-                <span className={s.statLbl}>Builders online</span>
-                <span className={s.statNum}>{MOCK_PLATFORM_STATS.usersOnline.toLocaleString()}</span>
-              </div>
-              <div className={s.statRow}>
-                <span className={s.statLbl}>Active communities</span>
-                <span className={s.statNum}>{MOCK_PLATFORM_STATS.activeCommunities.toLocaleString()}</span>
-              </div>
-              <div className={`${s.statRow} ${s.statRowLast}`}>
-                <span className={s.statLbl}>Ongoing threads</span>
-                <span className={s.statNum}>{MOCK_PLATFORM_STATS.ongoingThreads.toLocaleString()}</span>
-              </div>
-
-              <div className={s.avatarStack}>
-                <div className={s.avatarRow}>
-                  <div className={s.miniAvatar}>MO</div>
-                  <div className={s.miniAvatarOffset}>RC</div>
-                  <div className={s.miniAvatarOffset}>TL</div>
-                  <span className={s.avatarCaption}>&hellip;and many others</span>
-                </div>
-                <p className={s.statsNote}>
-                  From urban foraging to repair cafés — communities doing real things.
-                </p>
-              </div>
+            {/* Waitlist stat */}
+            <div className={`${s.statBlock} animate-slide-up`}>
+              <span className={s.statNum}>{waitlistCount.toLocaleString()}</span>
+              <p className={s.statLabel}>waitlisted users</p>
             </div>
           </div>
         </section>
 
-        {/* ── Value props ── */}
-        <section className={s.valueSection}>
-          <div className={s.valueInner}>
-            <div className={s.valueGrid}>
-              {VALUE_PROPS.map((vp) => (
-                <div key={vp.title} className={s.valueCard}>
-                  <i className={`ti ti-${vp.icon} icon-lg ${s.valueCardIcon}`} aria-hidden="true" />
-                  <h3 className={s.valueTitle}>{vp.title}</h3>
-                  <p className={s.valueBody}>{vp.body}</p>
-                </div>
-              ))}
+        {/* ── Open source ── */}
+        <section className={s.contentSection}>
+          <div className={s.contentInner}>
+            <div className={s.eyebrowRow}>
+              <i className="ti ti-brand-github icon-md" aria-hidden="true" />
+              <span className="text-label">Completely open source</span>
             </div>
+            <h2 className={s.sectionHeading}>Built in public, for the public.</h2>
+            <p className={s.sectionBody}>
+              Every line of code is visible, and open to contribution. A project built
+              for the community, by the community.
+            </p>
+            {/* href intentionally "#" — repo visibility not yet confirmed (handoff 029) */}
+            <a href="#" className={s.sectionLink}>
+              View on GitHub <i className="ti ti-arrow-right" aria-hidden="true" />
+            </a>
+          </div>
+
+          {/* ── Documentation ── */}
+          <div className={`${s.contentInner} ${s.contentInnerRight}`}>
+            <div className={s.eyebrowRow}>
+              <span className="text-label">Documentation</span>
+              <i className="ti ti-book icon-md" aria-hidden="true" />
+            </div>
+            <h2 className={s.sectionHeading}>Everything you need to get started.</h2>
+            <p className={s.sectionBody}>
+              Guides, API references, and contribution docs — coming soon.
+            </p>
+            {/* href intentionally "#" — repo visibility not yet confirmed (handoff 029) */}
+            <a href="#" className={s.sectionLink}>
+              <i className="ti ti-arrow-left" aria-hidden="true" /> Documentation
+            </a>
           </div>
         </section>
       </main>
@@ -109,6 +95,10 @@ export default function LandingPage() {
         <div className={s.footerLinks}>
           <Link href="/terms" className={s.footerLink}>Terms of service</Link>
           <Link href="/privacy" className={s.footerLink}>Privacy policy</Link>
+          {/* href intentionally "#" — /careers is deferred, not yet scheduled (handoff 029) */}
+          <a href="#" className={s.footerLink}>Careers</a>
+          {/* href intentionally "#" — repo visibility not yet confirmed (handoff 029) */}
+          <a href="#" className={s.footerLink}>Contribute</a>
         </div>
       </footer>
     </div>

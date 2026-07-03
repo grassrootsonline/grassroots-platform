@@ -64,4 +64,5 @@ export interface DataClient {
   getWhoToFollow(): Promise<SuggestedUser[]>
   getProfileProjects(username: string): Promise<ProfileProject[]>
   getThreadReplies(postId: string): Promise<Reply[]>
+  getWaitlistCount(): Promise<number>
 }

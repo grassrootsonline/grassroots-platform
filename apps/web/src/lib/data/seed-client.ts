@@ -4,7 +4,7 @@ import type {
 } from './types'
 import {
   MOCK_USER, MOCK_POSTS, MOCK_TRENDING,
-  MOCK_WHO_TO_FOLLOW, MOCK_REPLIES,
+  MOCK_WHO_TO_FOLLOW, MOCK_REPLIES, MOCK_WAITLIST_COUNT,
 } from '@/lib/mock-data'
 
 const MOCK_PROFILE_PROJECTS: ProfileProject[] = [
@@ -33,4 +33,5 @@ export class SeedDataClient implements DataClient {
   async getWhoToFollow(): Promise<SuggestedUser[]> { return MOCK_WHO_TO_FOLLOW }
   async getProfileProjects(_username: string): Promise<ProfileProject[]> { return MOCK_PROFILE_PROJECTS }
   async getThreadReplies(_postId: string): Promise<Reply[]> { return MOCK_REPLIES }
+  async getWaitlistCount(): Promise<number> { return MOCK_WAITLIST_COUNT }
 }
