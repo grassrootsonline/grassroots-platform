@@ -1,0 +1,78 @@
+.wordmark {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  color: var(--color-ink);
+  line-height: 1;
+}
+
+.wordmarkLink {
+  text-decoration: none;
+}
+
+.panelHeader {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.panelTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  font-weight: 400;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.forgotRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: calc(var(--space-sm) * -1);
+}
+
+.forgotLink {
+  font-size: var(--text-small);
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.forgotLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.submitBtn {
+  width: 100%;
+  justify-content: center;
+}
+
+.switchText {
+  text-align: center;
+  font-size: var(--text-body);
+  color: var(--color-secondary);
+  margin: var(--space-lg) 0 0;
+}
+
+.inlineLink {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.inlineLink:hover {
+  opacity: 0.8;
+}
+
+.errorBanner {
+  background: var(--color-danger-subtle);
+  border: var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--text-body);
+  color: var(--color-danger);
+  line-height: var(--leading-body);
+}

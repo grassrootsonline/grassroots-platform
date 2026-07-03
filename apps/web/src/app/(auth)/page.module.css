@@ -1,0 +1,248 @@
+/* ── Shell ── */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-canvas);
+  position: relative;
+  overflow: hidden;
+}
+
+.main {
+  flex: 1;
+  position: relative;
+  z-index: var(--z-raised);
+}
+
+/* ── Nav ── */
+.nav {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-xl);
+  border-bottom: var(--border-default);
+  background: var(--color-surface);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+/* 22px design intent; rounded to --text-title (24px) — 2px imperceptible on display type */
+.wordmark {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  color: var(--color-ink);
+  line-height: 1;
+}
+
+.navSignin {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  margin: 0;
+}
+
+.inlineLink {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.inlineLink:hover {
+  opacity: 0.8;
+}
+
+/* ── Hero ── */
+.heroSection {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  width: 100%;
+  padding: var(--space-3xl) var(--space-xl);
+}
+
+.heroGrid {
+  /* --_stats-width: landing-specific column; too narrow for a global token (DS-09 decision) */
+  --_stats-width: 380px;
+  display: grid;
+  grid-template-columns: 1fr var(--_stats-width);
+  gap: var(--space-2xl);
+  align-items: center;
+}
+
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.heroHeading {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  line-height: var(--leading-display);
+  color: var(--color-ink);
+  font-weight: 400;
+  margin: 0;
+}
+
+.heroHeadingAccent {
+  color: var(--color-accent);
+}
+
+.heroSubtext {
+  font-size: var(--text-heading);
+  line-height: var(--leading-body);
+  color: var(--color-ink-soft);
+  margin: 0;
+  max-width: var(--panel-max-width);
+}
+
+.heroCtas {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-top: var(--space-sm);
+}
+
+/* ── Waitlist stat ── */
+.statBlock {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  align-self: start;
+  /* Landing-specific one-off vertical offset to sit the stat alongside the
+     hero heading, matching the updated prototype (DS-09 pattern). */
+  margin-top: var(--space-3xl);
+  margin-left: auto;
+  padding-right: var(--space-xl);
+}
+
+.statNum {
+  font-family: var(--font-body);
+  font-size: var(--text-hero);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  margin: var(--space-xs) 0 0;
+}
+
+/* ── Open source / documentation ── */
+.contentSection {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-xl);
+}
+
+.contentInner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.contentInnerRight {
+  padding-top: var(--space-2xl);
+  align-items: flex-end;
+  text-align: right;
+}
+
+.eyebrowRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--color-accent);
+}
+
+.sectionHeading {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  font-weight: 400;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.sectionBody {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--color-ink-soft);
+  margin: 0;
+  max-width: var(--feed-max-width);
+}
+
+.sectionLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-body);
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: var(--weight-medium);
+}
+
+.sectionLink:hover {
+  opacity: 0.8;
+}
+
+/* ── Footer ── */
+.footer {
+  padding: var(--space-xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  position: relative;
+  z-index: var(--z-raised);
+  margin-top: auto;
+}
+
+.footerLinks {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+.footerLink {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  color: var(--color-ink);
+}
+
+.copyright {
+  font-size: var(--text-small);
+  color: var(--color-muted);
+}
+
+/* ── Responsive — 768px matches --bp-md in responsive.css ── */
+@media (max-width: 768px) {
+  .heroGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .heroHeading {
+    font-size: var(--text-display);
+  }
+
+  .statBlock {
+    align-items: flex-start;
+    margin-top: 0;
+    margin-left: 0;
+    padding-right: 0;
+  }
+
+  .contentInnerRight {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .heroSection {
+    padding: var(--space-2xl) var(--space-lg);
+  }
+}

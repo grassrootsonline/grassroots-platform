@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="../../../support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/fonts.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/colors.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/typography.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/spacing.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/motion.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/components/components.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/components/components-new.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/components/responsive.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <script src="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/_ds_bundle.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: var(--color-canvas); color: var(--color-ink); font-family: var(--font-body); min-height: 100vh; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .screen { animation: fadeUp 200ms var(--ease-enter, ease-out) both; }
+    .auth-card { background: var(--color-surface); border: var(--border-default); border-radius: var(--radius-xl); box-shadow: var(--shadow-overlay); padding: var(--space-2xl) var(--space-xl); width: 100%; max-width: 440px; }
+    .field { display: flex; flex-direction: column; gap: var(--space-xs); }
+    .field-label { font-size: var(--text-small); font-weight: var(--weight-medium); color: var(--color-ink); }
+    .field-error { font-size: var(--text-small); color: var(--color-danger); }
+    .field-hint { font-size: var(--text-small); color: var(--color-secondary); }
+    .input { display: block; width: 100%; font-family: var(--font-body); font-size: var(--text-body); color: var(--color-ink); background: var(--color-canvas); border: var(--border-strong); border-radius: var(--radius-md); padding: 9px 12px; outline: none; transition: border-color 120ms ease, box-shadow 120ms ease; }
+    .input:focus { border-color: var(--color-accent); box-shadow: var(--focus-ring); }
+    .input-error { border-color: var(--color-danger); }
+    .input-prefix-wrap { position: relative; }
+    .input-prefix { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: var(--text-body); color: var(--color-secondary); pointer-events: none; }
+    .input-prefix-wrap .input { padding-left: 24px; }
+    .val-row { display: flex; gap: var(--space-lg); }
+    .stat-row { display: flex; justify-content: space-between; align-items: baseline; padding: var(--space-sm) 0; border-bottom: var(--border-default); }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-num { font-family: var(--font-body); font-size: var(--text-title); font-weight: var(--weight-medium); color: var(--color-ink); }
+    .stat-label { font-size: var(--text-small); color: var(--color-secondary); }
+    .value-card { background: var(--color-surface); border: var(--border-default); border-radius: var(--radius-lg); padding: var(--space-xl); flex: 1; }
+    .link-btn { background: none; border: none; padding: 0; font-family: var(--font-body); font-size: var(--text-body); color: var(--color-accent); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+    .link-btn:hover { opacity: 0.8; }
+    .wordmark { font-family: var(--font-display); font-size: 28px; color: var(--color-ink); text-decoration: none; cursor: pointer; }
+    .wordmark-lg { font-family: var(--font-display); font-size: 28px; color: var(--color-ink); }
+
+    @keyframes leaf-drift-a {
+      0%   { transform: translate(0,0)        rotate(0deg)   scale(1); }
+      100% { transform: translate(260px,-300px) rotate(230deg) scale(0.03); }
+    }
+    @keyframes leaf-drift-b {
+      0%   { transform: translate(0,0)        rotate(20deg)  scale(1); }
+      100% { transform: translate(180px,-340px) rotate(-180deg) scale(0.02); }
+    }
+    @keyframes leaf-drift-c {
+      0%   { transform: translate(0,0)        rotate(-15deg) scale(1); }
+      100% { transform: translate(320px,-260px) rotate(290deg) scale(0.04); }
+    }
+    @keyframes leaf-drift-d {
+      0%   { transform: translate(0,0)        rotate(45deg)  scale(1); }
+      100% { transform: translate(140px,-380px) rotate(360deg) scale(0.02); }
+    }
+    .ld-a { animation: leaf-drift-a var(--ld) linear var(--dd) infinite; }
+    .ld-b { animation: leaf-drift-b var(--ld) linear var(--dd) infinite; }
+    .ld-c { animation: leaf-drift-c var(--ld) linear var(--dd) infinite; }
+    .ld-d { animation: leaf-drift-d var(--ld) linear var(--dd) infinite; }
+
+    .page-notice { display:flex; align-items:flex-start; gap:10px; background:rgba(193,122,90,0.08); border:0.5px solid var(--color-danger); border-radius:var(--radius-md); padding:12px var(--space-lg); margin-bottom:0; }
+  </style>
+</helmet>
+
+<!-- ===================== LANDING ===================== -->
+<sc-if value="{{ isLanding }}" hint-placeholder-val="{{ true }}">
+  <div class="screen" style="min-height:100vh; display:flex; flex-direction:column; position:relative; overflow:hidden;">
+
+    <!-- Leaf background -->
+    <div style="position:absolute; inset:0; pointer-events:none; z-index:0; overflow:hidden;">
+      <svg class="ld-c" aria-hidden="true" width="22" height="22" viewBox="-8 -12 16 16" style="position:absolute; left:8%; top:78%; opacity:0.20; --ld:8s; --dd:-2s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-a" aria-hidden="true" width="20" height="20" viewBox="-8 -12 16 16" style="position:absolute; left:22%; top:82%; opacity:0.18; --ld:9s; --dd:-5.1s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-b" aria-hidden="true" width="24" height="24" viewBox="-8 -12 16 16" style="position:absolute; left:38%; top:75%; opacity:0.22; --ld:7s; --dd:-1.5s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
+      <svg class="ld-d" aria-hidden="true" width="18" height="18" viewBox="-8 -12 16 16" style="position:absolute; left:54%; top:80%; opacity:0.19; --ld:9s; --dd:-6.3s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-a" aria-hidden="true" width="22" height="22" viewBox="-8 -12 16 16" style="position:absolute; left:70%; top:77%; opacity:0.21; --ld:8s; --dd:-3.8s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
+      <svg class="ld-c" aria-hidden="true" width="20" height="20" viewBox="-8 -12 16 16" style="position:absolute; left:85%; top:83%; opacity:0.18; --ld:9s; --dd:-0.8s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-b" aria-hidden="true" width="14" height="14" viewBox="-8 -12 16 16" style="position:absolute; left:5%; top:55%; opacity:0.14; --ld:12s; --dd:-4.4s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-a" aria-hidden="true" width="16" height="16" viewBox="-8 -12 16 16" style="position:absolute; left:28%; top:60%; opacity:0.13; --ld:11s; --dd:-8.1s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
+      <svg class="ld-d" aria-hidden="true" width="13" height="13" viewBox="-8 -12 16 16" style="position:absolute; left:46%; top:52%; opacity:0.12; --ld:13s; --dd:-1.8s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-c" aria-hidden="true" width="15" height="15" viewBox="-8 -12 16 16" style="position:absolute; left:63%; top:58%; opacity:0.14; --ld:12s; --dd:-6.5s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-b" aria-hidden="true" width="14" height="14" viewBox="-8 -12 16 16" style="position:absolute; left:80%; top:62%; opacity:0.13; --ld:11s; --dd:-9.2s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
+      <svg class="ld-a" aria-hidden="true" width="9" height="9" viewBox="-8 -12 16 16" style="position:absolute; left:12%; top:35%; opacity:0.09; --ld:16s; --dd:-3.7s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-d" aria-hidden="true" width="8" height="8" viewBox="-8 -12 16 16" style="position:absolute; left:33%; top:28%; opacity:0.08; --ld:17s; --dd:-9.3s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
+      <svg class="ld-c" aria-hidden="true" width="10" height="10" viewBox="-8 -12 16 16" style="position:absolute; left:52%; top:32%; opacity:0.09; --ld:15s; --dd:-5.9s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-b" aria-hidden="true" width="9" height="9" viewBox="-8 -12 16 16" style="position:absolute; left:74%; top:40%; opacity:0.08; --ld:16s; --dd:-2.6s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-a" aria-hidden="true" width="8" height="8" viewBox="-8 -12 16 16" style="position:absolute; left:91%; top:38%; opacity:0.09; --ld:15s; --dd:-12s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
+      <svg class="ld-d" aria-hidden="true" width="11" height="11" viewBox="-8 -12 16 16" style="position:absolute; left:18%; top:90%; opacity:0.16; --ld:10s; --dd:-7.5s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+      <svg class="ld-c" aria-hidden="true" width="19" height="19" viewBox="-8 -12 16 16" style="position:absolute; left:93%; top:70%; opacity:0.20; --ld:8s; --dd:-4.2s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#456640"/></svg>
+      <svg class="ld-b" aria-hidden="true" width="12" height="12" viewBox="-8 -12 16 16" style="position:absolute; left:44%; top:18%; opacity:0.11; --ld:13s; --dd:-10s;"><path d="M0,-10 C4,-10 7,-6 7,-2 C7,2 3,4 0,4 C-3,4 -7,2 -7,-2 C-7,-6 -4,-10 0,-10 Z" fill="#3d5c3a"/></svg>
+    </div>    </div>
+
+    <!-- Navbar -->
+    <nav style="height:68px; display:flex; align-items:center; justify-content:space-between; padding:0 var(--space-2xl); border-bottom:var(--border-default); background:var(--color-surface); position:sticky; top:0; z-index:var(--z-sticky);">
+      <span class="wordmark">Grassroots</span>
+      <p style="font-size:var(--text-small); color:var(--color-secondary); margin:0;">Have an account? <button class="link-btn" style="font-size:var(--text-small);" onClick="{{ goLogin }}">Sign in</button></p>
+    </nav>
+
+    <!-- Hero -->
+    <div style="max-width:var(--content-max-width); margin:0 auto; width:100%; padding:var(--space-3xl) var(--space-xl); display:grid; grid-template-columns:1fr 380px; gap:var(--space-2xl); align-items:center;">
+      <div style="display:flex; flex-direction:column; gap:var(--space-lg);">
+        <h1 style="font-family:var(--font-display); font-size:52px; line-height:1.1; color:var(--color-ink); margin:0; font-weight:400;">Build in public.<br>Share your journey.<br>Connect with your community.</h1>
+        <p style="font-size:var(--text-heading); line-height:var(--leading-body); color:var(--color-ink-soft); margin:0; max-width:480px;">The social platform for creators. Talk about the problems you're solving, build your network, and share your story.</p>
+        <div style="display:flex; gap:var(--space-sm); flex-wrap:wrap; margin-top:var(--space-sm);">
+          <button class="btn btn-primary" onClick="{{ goSignup }}" style="font-size:var(--text-body); padding:10px 24px;">Sign up</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div style="display:inline-flex; flex-direction:column; align-items:center; align-self:start; padding-left:var(--space-2xl); margin-top:57px; margin-left:20px;">
+        <span class="stat-num" style="font-size:48px;">1,247</span>
+        <p style="font-size:var(--text-small); color:var(--color-secondary); margin:var(--space-xs) 0 0;">waitlisted users</p>
+      </div>
+    </div>
+
+    <!-- Open source section -->
+    <div>
+      <div style="max-width:var(--content-max-width); margin:0 auto; padding:var(--space-2xl) var(--space-xl);">
+        <div style="display:flex; flex-direction:column; gap:var(--space-md);">
+          <h2 style="font-family:var(--font-display); font-size:var(--text-title); font-weight:400; color:var(--color-ink); margin:0;">Built in public, for the public.</h2>
+          <p style="font-size:var(--text-body); line-height:var(--leading-body); color:var(--color-ink-soft); margin:0; max-width:560px;">Every line of code is visible, and open to contribution. A project built for the community, by the community.</p>
+          <a href="#" style="display:inline-flex; align-items:center; gap:var(--space-xs); font-size:var(--text-body); color:var(--color-accent); text-decoration:none; font-weight:var(--weight-medium);">View on GitHub <i class="ti ti-arrow-right" style="font-size:14px;" aria-hidden="true"></i></a>
+        </div>
+
+        <!-- Documentation section -->
+        <div style="padding-top:var(--space-2xl); display:flex; flex-direction:column; align-items:flex-end; text-align:right; gap:var(--space-md);">
+          <div style="display:flex; align-items:center; gap:var(--space-sm);">
+            <span style="font-size:var(--text-small); text-transform:uppercase; letter-spacing:0.08em; font-weight:var(--weight-medium); color:var(--color-accent);">Documentation</span>
+            <i class="ti ti-book" style="font-size:18px; color:var(--color-accent);" aria-hidden="true"></i>
+          </div>
+          <h2 style="font-family:var(--font-display); font-size:var(--text-title); font-weight:400; color:var(--color-ink); margin:0;">Everything you need to get started.</h2>
+          <p style="font-size:var(--text-body); line-height:var(--leading-body); color:var(--color-ink-soft); margin:0; max-width:560px;">Guides, API references, and contribution docs — coming soon.</p>
+          <a href="#" style="display:inline-flex; align-items:center; gap:var(--space-xs); font-size:var(--text-body); color:var(--color-secondary); text-decoration:none; font-weight:var(--weight-medium);"><i class="ti ti-arrow-left" style="font-size:14px;" aria-hidden="true"></i> Documentation</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="padding:var(--space-xl); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:var(--space-md); margin-top:auto;">
+      <span style="font-size:var(--text-small); color:var(--color-muted);">© 2026 Grassroots</span>
+      <div style="display:flex; gap:var(--space-lg);">
+        <a href="#" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Terms of service</a>
+        <a href="#" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Privacy policy</a>
+        <a href="#" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Careers</a>
+        <a href="#" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Contribute</a>
+      </div>
+    </footer>
+  </div>
+</sc-if>
+
+<!-- ===================== SIGNUP ===================== -->
+<sc-if value="{{ isSignup }}" hint-placeholder-val="{{ false }}">
+  <div class="screen" style="min-height:100vh; background:var(--color-canvas); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:var(--space-2xl) var(--space-lg);">
+    <button class="wordmark-lg" onClick="{{ goLanding }}" style="background:none; border:none; cursor:pointer; margin-bottom:var(--space-xl);">Grassroots</button>
+    <div class="auth-card">
+      <div style="text-align:center; margin-bottom:var(--space-xl);">
+        <h1 style="font-family:var(--font-display); font-size:var(--text-title); font-weight:400; color:var(--color-ink); margin:0 0 var(--space-sm);">Create your account</h1>
+        <p style="font-size:var(--text-body); color:var(--color-secondary); margin:0;">Join the community building the future of AI.</p>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:var(--space-lg);">
+        <!-- Display name -->
+        <div class="field">
+          <label class="field-label">Display name</label>
+          <input class="input {{ nameErr }}" type="text" placeholder="Ada Lovelace" value="{{ name }}" onInput="{{ setName }}">
+          <sc-if value="{{ errors.name }}" hint-placeholder-val="{{ false }}">
+            <span class="field-error">{{ errors.name }}</span>
+          </sc-if>
+        </div>
+
+        <!-- Handle -->
+        <div class="field">
+          <label class="field-label">Handle</label>
+          <div class="input-prefix-wrap">
+            <span class="input-prefix">@</span>
+            <input class="input {{ handleErr }}" type="text" placeholder="ada" value="{{ handle }}" onInput="{{ setHandle }}">
+          </div>
+          <span class="field-hint">3–30 characters. Letters, numbers, and underscores only.</span>
+          <sc-if value="{{ errors.handle }}" hint-placeholder-val="{{ false }}">
+            <span class="field-error">{{ errors.handle }}</span>
+          </sc-if>
+        </div>
+
+        <!-- Email -->
+        <div class="field">
+          <label class="field-label">Email</label>
+          <input class="input {{ emailErr }}" type="email" placeholder="ada@example.com" value="{{ email }}" onInput="{{ setEmail }}">
+          <sc-if value="{{ errors.email }}" hint-placeholder-val="{{ false }}">
+            <span class="field-error">{{ errors.email }}</span>
+          </sc-if>
+        </div>
+
+        <!-- Password -->
+        <div class="field">
+          <label class="field-label">Password</label>
+          <input class="input {{ passwordErr }}" type="password" placeholder="••••••••••" value="{{ password }}" onInput="{{ setPassword }}">
+          <span class="field-hint">At least 10 characters.</span>
+          <sc-if value="{{ errors.password }}" hint-placeholder-val="{{ false }}">
+            <span class="field-error">{{ errors.password }}</span>
+          </sc-if>
+        </div>
+
+        <button class="btn btn-primary" onClick="{{ handleSignup }}" style="width:100%; justify-content:center; margin-top:var(--space-sm); padding:10px;">Create account</button>
+      </div>
+
+      <p style="text-align:center; font-size:var(--text-body); color:var(--color-secondary); margin:var(--space-lg) 0 0;">Already have an account? <button class="link-btn" onClick="{{ goLogin }}">Sign in</button></p>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ===================== LOGIN ===================== -->
+<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ false }}">
+  <div class="screen" style="min-height:100vh; background:var(--color-canvas); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:var(--space-2xl) var(--space-lg);">
+    <button class="wordmark-lg" onClick="{{ goLanding }}" style="background:none; border:none; cursor:pointer; margin-bottom:var(--space-xl);">Grassroots</button>
+    <div class="auth-card">
+      <div style="text-align:center; margin-bottom:var(--space-xl);">
+        <h1 style="font-family:var(--font-display); font-size:var(--text-title); font-weight:400; color:var(--color-ink); margin:0;">Welcome back</h1>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:var(--space-lg);">
+        <sc-if value="{{ loginError }}" hint-placeholder-val="{{ false }}">
+          <div class="page-notice">
+            <i class="ti ti-alert-circle" style="font-size:16px; color:var(--color-danger); flex-shrink:0; margin-top:2px;" aria-hidden="true"></i>
+            <p style="font-size:var(--text-body); color:var(--color-danger); line-height:var(--leading-body); margin:0;">That verification link has expired. Sign in or <button class="link-btn" style="font-size:var(--text-body); color:var(--color-danger); text-decoration-color:var(--color-danger);" onClick="{{ goCheckEmail }}">request a new one</button>.</p>
+          </div>
+        </sc-if>
+        <div class="field">
+          <label class="field-label">Email</label>
+          <input class="input" type="email" placeholder="ada@example.com" value="{{ loginEmail }}" onInput="{{ setLoginEmail }}">
+        </div>
+        <div class="field">
+          <label class="field-label">Password</label>
+          <input class="input" type="password" placeholder="••••••••••" value="{{ loginPassword }}" onInput="{{ setLoginPassword }}">
+        </div>
+        <div style="display:flex; justify-content:flex-end;">
+          <a href="#" style="font-size:var(--text-small); color:var(--color-accent); text-decoration:none;">Forgot your password?</a>
+        </div>
+        <button class="btn btn-primary" onClick="{{ handleLogin }}" style="width:100%; justify-content:center; padding:10px;">Sign in</button>
+      </div>
+
+      <p style="text-align:center; font-size:var(--text-body); color:var(--color-secondary); margin:var(--space-lg) 0 0;">Don't have an account? <button class="link-btn" onClick="{{ goSignup }}">Create one</button></p>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ===================== WAITLISTED ===================== -->
+<sc-if value="{{ isWaitlisted }}" hint-placeholder-val="{{ false }}">
+  <div class="screen" style="min-height:100vh; background:var(--color-canvas); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:var(--space-2xl) var(--space-lg); position:relative;">
+
+    <!-- Subtle sage accent band at top -->
+    <div style="position:absolute; top:0; left:0; right:0; height:3px; background:var(--color-accent); opacity:0.6;"></div>
+
+    <div style="max-width:480px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:var(--space-lg);">
+      <span class="wordmark-lg">Grassroots</span>
+
+      <div style="width:56px; height:56px; border-radius:var(--radius-pill); background:var(--color-accent-subtle); display:flex; align-items:center; justify-content:center;">
+        <i class="ti ti-leaf" style="font-size:24px; color:var(--color-accent-ink);" aria-hidden="true"></i>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:var(--space-sm);">
+        <span style="font-size:var(--text-body); color:var(--color-accent); font-weight:var(--weight-medium);">Hey {{ displayName }},</span>
+        <h1 style="font-family:var(--font-display); font-size:var(--text-display); font-weight:400; color:var(--color-ink); margin:0; line-height:1.1;">You're on the list.</h1>
+      </div>
+
+      <p style="font-size:var(--text-heading); line-height:var(--leading-body); color:var(--color-ink-soft); margin:0;">Your account is created and waiting. We'll send you an email the moment access opens — no action needed on your end.</p>
+
+      <button class="btn btn-ghost btn-sm" onClick="{{ goLanding }}" style="margin-top:var(--space-md); color:var(--color-secondary);">Sign out</button>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ===================== CHECK EMAIL ===================== -->
+<sc-if value="{{ isCheckEmail }}" hint-placeholder-val="{{ false }}">
+  <div class="screen" data-screen-label="Check email" style="min-height:100vh; background:var(--color-canvas); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:var(--space-2xl) var(--space-lg); position:relative;">
+    <div style="position:absolute; top:0; left:0; right:0; height:3px; background:var(--color-accent); opacity:0.6;"></div>
+    <div style="max-width:480px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:var(--space-lg);">
+
+      <button class="wordmark-lg" onClick="{{ goLanding }}" style="background:none; border:none; cursor:pointer;">Grassroots</button>
+
+      <div style="width:56px; height:56px; border-radius:var(--radius-pill); background:var(--color-accent-subtle); display:flex; align-items:center; justify-content:center;">
+        <i class="ti ti-mail" style="font-size:24px; color:var(--color-accent-ink);" aria-hidden="true"></i>
+      </div>
+
+      <h1 style="font-family:var(--font-display); font-size:var(--text-title); font-weight:400; color:var(--color-ink); margin:0;">Check your inbox</h1>
+
+      <p style="font-size:var(--text-body); line-height:var(--leading-body); color:var(--color-ink-soft); margin:0;">We sent a verification link to <strong style="font-weight:var(--weight-medium); color:var(--color-ink);">{{ email }}</strong>. Click it to confirm your account and join the waitlist.</p>
+
+      <div style="display:flex; flex-direction:column; align-items:center; gap:var(--space-sm);">
+        <p style="font-size:var(--text-small); color:var(--color-secondary); margin:0;">Didn't get it? Check your spam folder first.</p>
+        <sc-if value="{{ resendSent }}" hint-placeholder-val="{{ false }}">
+          <span style="font-size:var(--text-small); color:var(--color-accent); font-weight:var(--weight-medium);">Sent.</span>
+        </sc-if>
+        <sc-if value="{{ resendNotSent }}" hint-placeholder-val="{{ true }}">
+          <button class="link-btn" style="font-size:var(--text-small);" onClick="{{ resendEmail }}">Resend the email</button>
+        </sc-if>
+      </div>
+
+      <p style="font-size:var(--text-small); color:var(--color-secondary); margin:0;">Wrong email? <button class="link-btn" style="font-size:var(--text-small);" onClick="{{ goSignup }}">Sign up with a different one</button></p>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ===================== DEV NAV ===================== -->
+<div style="position:fixed; bottom:80px; right:20px; z-index:500; display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+  <sc-if value="{{ devNavOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="background:var(--color-surface); border:0.5px solid var(--color-border); border-radius:10px; box-shadow:var(--shadow-overlay); padding:6px; display:flex; flex-direction:column; gap:2px; min-width:200px;">
+      <p style="font-size:11px; font-weight:500; color:var(--color-accent); letter-spacing:0.08em; text-transform:uppercase; padding:4px 10px 6px; margin:0;">Dev navigation</p>
+      <sc-for list="{{ devRoutes }}" as="d" hint-placeholder-count="6">
+        <button style="display:flex; align-items:center; gap:8px; width:100%; padding:7px 10px; font-size:13px; font-family:var(--font-body); color:var(--color-secondary); background:none; border:none; border-radius:6px; cursor:pointer; text-align:left; transition:background 120ms ease, color 120ms ease;" onClick="{{ d.go }}">
+          <i class="ti ti-{{ d.icon }}" style="font-size:14px;" aria-hidden="true"></i>{{ d.label }}
+        </button>
+      </sc-for>
+    </div>
+  </sc-if>
+  <button onClick="{{ toggleDevNav }}" aria-label="Dev navigation" style="width:36px; height:36px; border-radius:999px; background:var(--color-ink); color:var(--color-canvas); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-overlay);">
+    <i class="ti ti-terminal-2" style="font-size:16px;" aria-hidden="true"></i>
+  </button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    screen: 'landing',
+    name: '', handle: '', email: '', password: '',
+    loginEmail: '', loginPassword: '',
+    errors: {},
+    displayName: 'friend',
+    resendSent: false,
+    loginError: false,
+    devNavOpen: false,
+  };
+
+  renderVals() {
+    const { screen, name, handle, email, password, loginEmail, loginPassword, errors, displayName } = this.state;
+
+    const goTo = (s) => () => this.setState({ screen: s, errors: {} });
+
+    const handleSignup = () => {
+      const errs = {};
+      if (!name.trim()) errs.name = 'Enter a display name.';
+      if (!handle || handle.length < 3) errs.handle = 'Handle must be at least 3 characters.';
+      if (!/^[a-z0-9_]+$/.test(handle)) errs.handle = 'Letters, numbers, and underscores only.';
+      if (!email.trim() || !email.includes('@')) errs.email = 'Enter a valid email address.';
+      if (!password || password.length < 10) errs.password = 'Password must be at least 10 characters.';
+      if (Object.keys(errs).length) { this.setState({ errors: errs }); return; }
+      this.setState({ screen: 'check-email', displayName: name.split(' ')[0], errors: {} });
+    };
+
+    const handleLogin = () => {
+      this.setState({ screen: 'waitlisted', displayName: loginEmail.split('@')[0] || 'friend', errors: {} });
+    };
+
+    return {
+      screen,
+      isLanding: screen === 'landing',
+      isSignup: screen === 'signup',
+      isLogin: screen === 'login',
+      isWaitlisted: screen === 'waitlisted',
+      isCheckEmail: screen === 'check-email',
+
+      goLanding: goTo('landing'),
+      goSignup: goTo('signup'),
+      goLogin: () => this.setState({ screen: 'login', loginError: false, errors: {} }),
+      goCheckEmail: () => this.setState({ screen: 'check-email', loginError: false, errors: {} }),
+
+      name, handle, email, password, loginEmail, loginPassword,
+      errors, displayName,
+
+      nameErr: errors.name ? 'input-error' : '',
+      handleErr: errors.handle ? 'input-error' : '',
+      emailErr: errors.email ? 'input-error' : '',
+      passwordErr: errors.password ? 'input-error' : '',
+
+      setName: (e) => this.setState({ name: e.target.value }),
+      setHandle: (e) => this.setState({ handle: e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, '') }),
+      setEmail: (e) => this.setState({ email: e.target.value }),
+      setPassword: (e) => this.setState({ password: e.target.value }),
+      setLoginEmail: (e) => this.setState({ loginEmail: e.target.value }),
+      setLoginPassword: (e) => this.setState({ loginPassword: e.target.value }),
+
+      handleSignup,
+      handleLogin,
+
+      loginError: this.state.loginError,
+      resendSent: this.state.resendSent,
+      resendNotSent: !this.state.resendSent,
+      resendEmail: () => {
+        this.setState({ resendSent: true });
+        window.setTimeout(() => this.setState({ resendSent: false }), 3000);
+      },
+
+      devNavOpen: this.state.devNavOpen,
+      toggleDevNav: () => this.setState(s => ({ devNavOpen: !s.devNavOpen })),
+      devRoutes: [
+        { key: 'landing',      icon: 'home-2',       label: 'Landing' },
+        { key: 'signup',       icon: 'user-plus',    label: 'Sign up' },
+        { key: 'login',        icon: 'login-2',      label: 'Log in' },
+        { key: 'login-error',  icon: 'alert-circle', label: 'Login — link expired' },
+        { key: 'check-email',  icon: 'mail',         label: 'Check email' },
+        { key: 'waitlisted',   icon: 'leaf',         label: 'Waitlisted' },
+      ].map(d => ({
+        ...d,
+        go: d.key === 'login-error'
+          ? () => this.setState({ screen: 'login', loginError: true, devNavOpen: false, errors: {} })
+          : () => this.setState({ screen: d.key, loginError: false, devNavOpen: false, errors: {} }),
+      })),
+    };
+  }
+}
+</script>
+</body>
+</html>

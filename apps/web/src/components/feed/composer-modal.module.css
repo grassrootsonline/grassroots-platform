@@ -1,7 +1,7 @@
 .scrim {
   position: fixed;
   inset: 0;
-  background: rgba(28, 43, 26, 0.32);
+  background: var(--color-scrim);
   z-index: var(--z-overlay);
 }
 .panel {
@@ -25,8 +25,8 @@
   border-bottom: var(--border-default);
 }
 .heading {
-  font-family: var(--font-display);
-  font-size: 18px;
+  font-family: var(--font-body);
+  font-size: var(--text-heading);
   color: var(--color-ink);
 }
 .closeBtn {
@@ -96,7 +96,7 @@
   font-weight: var(--weight-medium);
   color: var(--color-accent);
   background: var(--color-accent-subtle);
-  border: 0.5px solid rgba(107, 140, 106, 0.3);
+  border: var(--border-accent-subtle);
   border-radius: var(--radius-pill);
   outline: none;
   cursor: pointer;

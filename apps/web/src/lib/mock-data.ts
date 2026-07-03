@@ -10,6 +10,7 @@ export const MOCK_USER = {
   followerCount: 2300,
   followingCount: 128,
   projectCount: 4,
+  account_status: 'active' as const,
 }
 
 export const MOCK_POSTS: FeedPost[] = [
@@ -96,11 +97,7 @@ export const MOCK_WHO_TO_FOLLOW = [
   },
 ]
 
-export const MOCK_PLATFORM_STATS = {
-  usersOnline: 1284,
-  activeCommunities: 312,
-  ongoingThreads: 4927,
-}
+export const MOCK_WAITLIST_COUNT = 1247
 
 export const MOCK_REPLIES = [
   {

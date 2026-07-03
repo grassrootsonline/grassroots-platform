@@ -1,0 +1,237 @@
+/* ── Shell ── */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-canvas);
+}
+
+/* ── Nav ── */
+.nav {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-xl);
+  border-bottom: var(--border-default);
+  background: var(--color-surface);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  color: var(--color-ink);
+  line-height: 1;
+  text-decoration: none;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: var(--color-ink);
+}
+
+/* ── Document ── */
+.main {
+  flex: 1;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  width: 100%;
+  padding: var(--space-3xl) var(--space-xl);
+}
+
+.header {
+  margin-bottom: var(--space-3xl);
+  padding-bottom: var(--space-xl);
+  border-bottom: var(--border-default);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 400;
+  color: var(--color-ink);
+  margin: 0 0 var(--space-md);
+}
+
+.effectiveDate {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  margin: 0;
+}
+
+.legalNotice {
+  background: var(--color-surface);
+  border: var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  margin-bottom: var(--space-xl);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.legalNotice i {
+  font-size: var(--text-heading);
+  color: var(--color-secondary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.legalNotice p {
+  font-size: var(--text-small);
+  line-height: var(--leading-body);
+  color: var(--color-secondary);
+  margin: 0;
+}
+
+/* ── Prose ── */
+.prose :global(h2) {
+  font-family: var(--font-body);
+  font-size: var(--text-heading);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+  margin: var(--space-2xl) 0 var(--space-md);
+}
+
+.prose :global(h2:first-child) {
+  margin-top: 0;
+}
+
+.prose :global(p) {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--color-ink-soft);
+  margin: 0 0 var(--space-md);
+}
+
+.prose :global(strong) {
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+}
+
+.prose :global(a) {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.prose :global(a:hover) {
+  text-decoration: underline;
+}
+
+.prose :global(ul) {
+  padding-left: var(--space-xl);
+  margin: 0 0 var(--space-md);
+}
+
+.prose :global(ul li) {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--color-ink-soft);
+  margin-bottom: var(--space-xs);
+}
+
+.prose :global(table) {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--space-lg);
+  font-size: var(--text-small);
+}
+
+.prose :global(th) {
+  text-align: left;
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: var(--border-default);
+}
+
+.prose :global(td) {
+  color: var(--color-ink-soft);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: var(--border-default);
+  vertical-align: top;
+  line-height: var(--leading-tight);
+}
+
+.prose :global(code) {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-ink);
+}
+
+.token {
+  background: var(--color-surface);
+  border: var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 1px var(--space-xs);
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  font-family: var(--font-mono);
+}
+
+.warningNotice {
+  background: var(--color-danger-subtle);
+  border: 0.5px solid var(--color-danger);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+.warningNotice p {
+  font-size: var(--text-small);
+  color: var(--color-danger);
+  margin: 0;
+}
+
+/* ── Footer ── */
+.footer {
+  padding: var(--space-xl);
+  border-top: var(--border-default);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.footerLinks {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+.footerLink {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  color: var(--color-ink);
+}
+
+.copyright {
+  font-size: var(--text-small);
+  color: var(--color-muted);
+}
+
+/* ── Responsive — 768px matches --bp-md in responsive.css ── */
+@media (max-width: 768px) {
+  .main {
+    padding: var(--space-2xl) var(--space-lg);
+  }
+
+  .title {
+    font-size: var(--text-title);
+  }
+}

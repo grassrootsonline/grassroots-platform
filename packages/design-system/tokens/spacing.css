@@ -3,41 +3,67 @@
    ============================================ */
 
 :root {
-  /* Spacing scale */
-  --space-xs:  4px;
-  --space-sm:  8px;
-  --space-md:  12px;
-  --space-lg:  20px;
-  --space-xl:  32px;
-  --space-2xl: 48px;
-  --space-3xl: 72px;
+  /* ---- Spacing scale ---- */
+  --space-xs:      4px;
+  --space-sm:      8px;
+  --space-md:      12px;
+  --space-base:    16px;  /* Base 8pt grid unit — standard component padding, tight layout gaps */
+  --space-lg:      20px;
+  --space-relaxed: 24px;  /* Comfortable layout gap — column gaps, section margins */
+  --space-xl:      32px;
+  --space-2xl:     48px;
+  --space-3xl:     72px;
 
-  /* Border radius */
-  --radius-sm:   4px;  /* Badges, small tags */
-  --radius-md:   6px;  /* Buttons, inputs */
-  --radius-lg:   10px; /* Cards, panels */
-  --radius-xl:   16px; /* Modals, sheets */
+  /* ---- Border radius ---- */
+  --radius-sm:   4px;   /* Badges, small tags */
+  --radius-md:   6px;   /* Buttons, inputs */
+  --radius-lg:   10px;  /* Cards, panels */
+  --radius-xl:   16px;  /* Modals, sheets */
   --radius-pill: 999px; /* Avatar chips, pill badges */
 
-  /* Borders */
-  --border-default: 0.5px solid var(--color-border);
-  --border-strong:  0.5px solid var(--color-border-strong);
-  --border-accent:  0.5px solid var(--color-accent);
-  --border-dashed:  0.5px dashed var(--color-border-strong);
+  /* ---- Borders (always 0.5px, system-wide) ---- */
+  --border-default:        0.5px solid var(--color-border);
+  --border-strong:         0.5px solid var(--color-border-strong);
+  --border-accent:         0.5px solid var(--color-accent);         /* Fully-opaque sage — focus, active states */
+  --border-accent-subtle:  0.5px solid rgba(107, 140, 106, 0.30);  /* 30%-opacity sage — affiliated/selected, not focused. Dark override in colors.css */
+  --border-dashed:         0.5px dashed var(--color-border-strong);
 
-  /* Focus ring */
+  /* ---- Focus ring (box-shadow, never border) ---- */
   --focus-ring: 0 0 0 3px var(--color-accent-mist);
 
-  /* Layout */
-  --feed-max-width:    640px; /* Single-column feed */
-  --sidebar-width:     240px; /* Left nav / sidebar */
-  --content-max-width: 960px; /* Overall page container */
+  /* ---- Elevation (modals/toasts/dropdowns only — cards have no shadow)
+     Dark-mode overrides live in tokens/colors.css @media block. ---- */
+  --shadow-overlay:  0 4px 24px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.07);  /* Modals, command palette — z-300 */
+  --shadow-dropdown: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);  /* Dropdown menus — z-200 */
 
-  /* Z-index stack */
-  --z-base:    0;
-  --z-raised:  10;
-  --z-sticky:  100;
-  --z-overlay: 200;
-  --z-modal:   300;
-  --z-toast:   400;
+  /* ---- Layout ---- */
+  --feed-max-width:    640px;  /* Single-column feed */
+  --sidebar-width:     240px;  /* Left nav / sidebar */
+  --content-max-width: 960px;  /* Overall page container */
+  --nav-height:         56px;  /* Sticky navbar height — platform + public pages */
+  --panel-max-width:   440px;  /* Centered auth/dialog panels; also use for hero subtext max-width */
+
+  /* ---- Avatar sizes (mirror the .avatar-* CSS classes) ---- */
+  --avatar-xs: 28px;  /* Mini avatars in stacked groups */
+  --avatar-sm: 24px;  /* Small inline avatars */
+  --avatar-md: 36px;  /* Default — feed cards, comments */
+  --avatar-lg: 48px;  /* Profile header secondary */
+  --avatar-xl: 72px;  /* Profile header primary */
+
+  /* Avatar stack — negative offset for overlapping avatar rows */
+  --avatar-stack-offset: -8px; /* ~--avatar-xs / 3.5; explicit value for clarity */
+  /* Note: avatar stack uses 2px solid border for the knockout technique —
+     this is an intentional exception to the system-wide 0.5px border rule.
+     Do not change to var(--border-*). */
+
+  /* ---- Decorative / one-off ---- */
+  --accent-stripe-height: 3px; /* Top-of-page sage accent band (waitlisted screen) */
+
+  /* ---- Z-index stack ---- */
+  --z-base:    0;   /* @kind other */
+  --z-raised:  10;  /* @kind other */
+  --z-sticky:  100; /* @kind other */
+  --z-overlay: 200; /* @kind other */
+  --z-modal:   300; /* @kind other */
+  --z-toast:   400; /* @kind other */
 }

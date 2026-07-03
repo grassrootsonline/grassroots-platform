@@ -163,8 +163,7 @@
   border-radius: var(--radius-lg);
   padding: var(--space-xs) 0;
   z-index: var(--z-overlay);
-  box-shadow: 0 4px 16px rgba(28, 43, 26, 0.08),
-              0 1px 4px  rgba(28, 43, 26, 0.04);
+  box-shadow: var(--shadow-dropdown);
   animation: gr-slide-up var(--duration-base) var(--ease-enter) both;
 }
 
@@ -360,7 +359,7 @@
 .command-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(28, 43, 26, 0.32);
+  background: var(--color-scrim);
   z-index: var(--z-modal);
   display: flex;
   align-items: flex-start;

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/fonts.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/colors.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/typography.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/spacing.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/motion.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/components/components.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/components/components-new.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <script src="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/_ds_bundle.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--color-canvas); color: var(--color-ink); font-family: var(--font-body); }
+    .wordmark { font-family: var(--font-display); font-size: 24px; color: var(--color-ink); text-decoration: none; }
+    .prose h2 { font-family: var(--font-body); font-size: var(--text-heading); font-weight: var(--weight-medium); color: var(--color-ink); margin: var(--space-2xl) 0 var(--space-md); }
+    .prose h2:first-child { margin-top: 0; }
+    .prose p { font-size: var(--text-body); line-height: 1.7; color: var(--color-ink-soft); margin-bottom: var(--space-md); }
+    .prose ul { padding-left: var(--space-xl); margin-bottom: var(--space-md); }
+    .prose ul li { font-size: var(--text-body); line-height: 1.7; color: var(--color-ink-soft); margin-bottom: var(--space-xs); }
+    .token { background: var(--color-surface); border: 0.5px solid var(--color-border); border-radius: 4px; padding: 1px 6px; font-size: 12px; color: var(--color-secondary); font-family: monospace; }
+    .legal-notice { background: var(--color-surface); border: 0.5px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md) var(--space-lg); margin-bottom: var(--space-xl); display: flex; align-items: flex-start; gap: var(--space-sm); }
+    .arbitration-notice { background: rgba(193,122,90,0.06); border: 0.5px solid rgba(193,122,90,0.4); border-radius: var(--radius-md); padding: var(--space-md) var(--space-lg); margin-bottom: var(--space-md); }
+  </style>
+</helmet>
+
+<div style="min-height:100vh; display:flex; flex-direction:column;">
+
+  <!-- Navbar -->
+  <nav style="height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 var(--space-2xl); border-bottom:var(--border-default); background:var(--color-surface); position:sticky; top:0; z-index:100;">
+    <a href="03-landing-auth-waitlist.dc.html" class="wordmark">Grassroots</a>
+    <a href="03-landing-auth-waitlist.dc.html" style="display:inline-flex; align-items:center; gap:var(--space-xs); font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">
+      <i class="ti ti-arrow-left" style="font-size:14px;" aria-hidden="true"></i> Back to home
+    </a>
+  </nav>
+
+  <!-- Document -->
+  <main style="flex:1; max-width:720px; margin:0 auto; width:100%; padding:var(--space-3xl) var(--space-xl);">
+
+    <!-- Header -->
+    <div style="margin-bottom:var(--space-3xl); padding-bottom:var(--space-xl); border-bottom:var(--border-default);">
+      <h1 style="font-family:var(--font-display); font-size:40px; font-weight:400; color:var(--color-ink); margin-bottom:var(--space-md);">Terms of service</h1>
+      <p style="font-size:var(--text-small); color:var(--color-secondary);">Effective date: <span class="token">{POLICY_EFFECTIVE_DATE}</span></p>
+    </div>
+
+    <!-- Legal notice -->
+    <div class="legal-notice">
+      <i class="ti ti-alert-circle" style="font-size:16px; color:var(--color-secondary); flex-shrink:0; margin-top:2px;" aria-hidden="true"></i>
+      <p style="font-size:var(--text-small); line-height:1.6; color:var(--color-secondary); margin:0;">Tokens <span class="token">{LEGAL_ENTITY_NAME}</span>, <span class="token">{GOVERNING_LAW_JURISDICTION}</span>, <span class="token">{PRIVACY_CONTACT_EMAIL}</span>, and <span class="token">{POLICY_EFFECTIVE_DATE}</span> are unresolved. The arbitration clause also requires legal review — see section below. Pending sign-off before going live.</p>
+    </div>
+
+    <!-- Content -->
+    <div class="prose">
+
+      <p>These terms govern your use of Grassroots, operated by <span class="token">{LEGAL_ENTITY_NAME}</span>. By creating an account, you agree to them. If you don't agree, don't use Grassroots.</p>
+
+      <h2>Who can use Grassroots</h2>
+      <p>You must be at least 16 years old to create an account. By signing up, you confirm that you meet this requirement and that you have the legal capacity to enter into these terms.</p>
+
+      <h2>Your account</h2>
+      <p>You're responsible for the security of your account and everything that happens under it. Keep your password confidential and tell us right away if you think your account has been compromised. Usernames must follow our naming rules (3–30 characters, lowercase letters/numbers/underscores, no impersonation of others) and are subject to a 30-day change window after signup. One person, one account — don't create multiple accounts to evade a suspension or manipulate engagement.</p>
+
+      <h2>The waitlist period</h2>
+      <p>Grassroots is currently in early access. Creating an account does not guarantee immediate access to the full platform — accounts are activated manually as capacity allows, and we don't commit to a specific timeline. We may change, pause, or end the waitlist process at any time.</p>
+
+      <h2>Your content</h2>
+      <p>You own what you post — your posts, articles, projects, comments, and messages. By posting content to Grassroots, you grant us a non-exclusive, worldwide, royalty-free, sublicensable license to host, store, reproduce, display, and distribute that content solely for the purpose of operating and improving the platform. This license ends when you delete the content or your account, except where content has already been shared by other users in ways we can't retract, or where we're required to retain it by law.</p>
+      <p>You're solely responsible for the content you post. Don't post anything that:</p>
+      <ul>
+        <li>Infringes someone else's intellectual property or privacy rights</li>
+        <li>Is illegal, harassing, hateful, or threatens violence</li>
+        <li>Contains malware or is designed to compromise another user's account or device</li>
+        <li>Impersonates another person or entity</li>
+        <li>Is spam, or manipulates engagement metrics (fake accounts, vote/reaction manipulation, coordinated inauthentic behavior)</li>
+      </ul>
+      <p>Community owners and moderators may set additional rules for their individual communities, visible on each community's page.</p>
+
+      <h2>Content moderation</h2>
+      <p>We may remove content, restrict features, or suspend or terminate accounts that violate these terms or a community's rules, at our discretion and without prior notice in cases of serious or repeated violations. If your content is removed or your account is actioned and you believe it was a mistake, contact us and we'll review it.</p>
+      <p>If you believe content on Grassroots infringes your copyright, send a notice to <span class="token">{PRIVACY_CONTACT_EMAIL}</span> including: identification of the copyrighted work, identification of the infringing material and its location, your contact information, and a statement that you have a good-faith belief the use isn't authorized.</p>
+
+      <h2>Third-party sign-in</h2>
+      <p>If you sign up or log in using Google, your use of that service is also governed by Google's own terms. We're not responsible for the availability or practices of third-party sign-in providers.</p>
+
+      <h2>Paid features</h2>
+      <p>Grassroots currently offers a free tier only. If we introduce paid features, separate billing terms will apply and will be presented to you before you're charged.</p>
+
+      <h2>Suspension and termination</h2>
+      <p>We may suspend or terminate your account for violating these terms, for extended inactivity, or if required by law. You can delete your own account at any time from your settings — deletion is permanent after a 30-day hold period. See our <a href="05-privacy-policy.dc.html" style="color:var(--color-accent); text-decoration:none;">Privacy policy</a> for what happens to your data and content after deletion.</p>
+
+      <h2>Disclaimers</h2>
+      <p>Grassroots is provided "as is" and "as available," without warranties of any kind, express or implied, including warranties of merchantability, fitness for a particular purpose, or non-infringement. We don't warrant that the platform will be uninterrupted, error-free, or secure, or that content posted by other users is accurate or reliable.</p>
+
+      <h2>Limitation of liability</h2>
+      <p>To the maximum extent permitted by law, <span class="token">{LEGAL_ENTITY_NAME}</span> is not liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of Grassroots. Our total liability for any claim is limited to the greater of CAD $100 or the amount you paid us in the 12 months before the claim arose. This limitation doesn't apply where prohibited by law, including for gross negligence or willful misconduct.</p>
+
+      <h2>Indemnification</h2>
+      <p>You agree to indemnify and hold <span class="token">{LEGAL_ENTITY_NAME}</span> harmless from any claims, damages, or expenses (including reasonable legal fees) arising from your content, your violation of these terms, or your violation of any third party's rights.</p>
+
+      <h2>Dispute resolution and arbitration</h2>
+      <div class="arbitration-notice">
+        <p style="font-size:var(--text-small); color:var(--color-danger); margin:0;"><strong style="font-weight:var(--weight-medium);">Pending legal review.</strong> The arbitration clause below requires a jurisdiction-aware carve-out for Quebec, EEA, and UK users. This section should not go live without legal sign-off. Flagged for Alex.</p>
+      </div>
+      <p><strong style="font-weight:var(--weight-medium); color:var(--color-ink);">This section does not apply if you're located in Quebec, the European Economic Area, or the United Kingdom</strong> — see the carve-out below.</p>
+      <p>For everyone else: you and <span class="token">{LEGAL_ENTITY_NAME}</span> agree to resolve any dispute arising from these terms or your use of Grassroots through binding, individual arbitration rather than in court, except that either party may bring an individual claim in small claims court. You and <span class="token">{LEGAL_ENTITY_NAME}</span> each waive the right to participate in a class action or class-wide arbitration. [PLACEHOLDER: name arbitration body/rules — e.g., ADR Institute of Canada — once selected by legal counsel.]</p>
+      <p><strong style="font-weight:var(--weight-medium); color:var(--color-ink);">If you're located in Quebec, the EEA, or the UK:</strong> local consumer protection law limits or prohibits mandatory arbitration in standard-form consumer contracts, so disputes are instead resolved in the courts of <span class="token">{GOVERNING_LAW_JURISDICTION}</span>, and the class action waiver above does not apply to the extent local law makes it unenforceable.</p>
+
+      <h2>Governing law</h2>
+      <p>These terms are governed by the laws of <span class="token">{GOVERNING_LAW_JURISDICTION}</span>, Canada, without regard to conflict-of-law principles, except where local consumer protection law requires otherwise for users located elsewhere.</p>
+
+      <h2>Changes to these terms</h2>
+      <p>We may update these terms as the platform evolves. If we make material changes, we'll notify you by email or with a notice on the platform before the changes take effect. Continuing to use Grassroots after changes take effect means you accept the updated terms.</p>
+
+      <h2>General</h2>
+      <p>If any part of these terms is found unenforceable, the rest remains in effect. These terms, together with the Privacy policy, are the entire agreement between you and <span class="token">{LEGAL_ENTITY_NAME}</span> regarding Grassroots. We may assign these terms in connection with a merger, acquisition, or sale of assets; you may not assign them without our consent.</p>
+
+      <h2>Contact us</h2>
+      <p>Questions about these terms: <span class="token">{PRIVACY_CONTACT_EMAIL}</span>.</p>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="padding:var(--space-xl) var(--space-2xl); border-top:var(--border-default); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:var(--space-md);">
+    <span style="font-size:var(--text-small); color:var(--color-secondary);">© 2026 Grassroots</span>
+    <div style="display:flex; gap:var(--space-lg);">
+      <a href="04-terms-of-service.dc.html" style="font-size:var(--text-small); color:var(--color-ink); text-decoration:none; font-weight:var(--weight-medium);">Terms of service</a>
+      <a href="05-privacy-policy.dc.html" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Privacy policy</a>
+      <a href="06-careers.dc.html" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Careers</a>
+      <a href="#" style="font-size:var(--text-small); color:var(--color-secondary); text-decoration:none;">Contribute</a>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+</body>
+</html>

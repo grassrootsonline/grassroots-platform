@@ -5,7 +5,7 @@
 
 You are building **Project Grassroots**, the AI builders' social platform. Two documents are authoritative and override anything you'd otherwise assume:
 
-- **Engineering** → `design-handoffs/<feature>/ARCHITECTURE.md` (Next.js 15 App Router, Supabase/Postgres, Drizzle, Upstash Redis, Framer Motion). Stack, schema, API, caching, permissions, and coding standards live there.
+- **Engineering** → `docs/ARCHITECTURE.md` (Next.js 15 App Router, Supabase/Postgres, Drizzle, Upstash Redis, Framer Motion). Stack, schema, API, caching, permissions, and coding standards live there.
 - **Visual style** → `packages/design-system/CLAUDE.md`. That file is binding. If visual guidance ever conflicts, `packages/design-system/CLAUDE.md` wins on style and `ARCHITECTURE.md` wins on engineering.
 
 ## Design system — always the source of truth
@@ -25,18 +25,29 @@ Non-negotiables from the guide: sentence-case copy; Inter weights **400/500 only
 This project uses **native CSS** with design system tokens. There is no Tailwind or other utility-class library.
 
 - **`apps/web/src/styles/globals.css`** imports the design system directly and adds platform-level layout helpers (`.container-platform`, `.container-feed`, `.skeleton`, etc.). Do not import or vendor design system files anywhere else.
-- **CSS Modules** (`*.module.css` co-located with components) for all component-scoped styles. Reference design system tokens via `var(--color-ink)`, `var(--space-md)`, `var(--border-default)` etc. — never hardcode values.
+- **CSS Modules** (`*.module.css` co-located with components) for all component-scoped styles. Reference design system tokens via `var(--color-ink)`, `var(--space-md)`, `var(--border-default)` etc. **Hardcoded values are never allowed** — no raw px, hex, rgba, or numeric literals in any CSS Module or component style.
 - **Design system component classes** (`.btn`, `.btn-primary`, `.feed-card`, `.avatar`, `.tab`, `.input`, etc.) are available globally. Use them in React `className` props directly.
 - **Inline `style` prop** for genuinely dynamic values only (e.g. `style={{ width: progress + '%' }}`).
 - **No Tailwind classes** anywhere in the codebase. `tailwindcss` and `@tailwindcss/postcss` have been removed.
 
+### Token requests — stop before hardcoding
+
+If a component requires a value that has no design system token, **do not hardcode it**. Stop and raise a token request first:
+
+1. Check `packages/design-system/tokens/` — the token may exist under a name you haven't encountered.
+2. If no token covers the need, open a new handoff document in `handoffs/` addressed to `claude-design`, describing the component, the value needed, and why no existing token fits.
+3. Wait for the token to be defined and merged before implementing the style.
+
+The only exception is `font-size: 16px` on text inputs — this is a browser compatibility requirement (prevents iOS Safari zoom on focus) and must remain hardcoded.
+
 ## Design handoffs
 
-Designs arrive under `design-handoffs/<feature>/` (see that folder's README). To implement one:
+Visual prototypes live under `design-handoffs/<feature>/prototypes/` — treat them as read-only references. Amendment files in that folder are historical; the current design system state is `packages/design-system/` and its `CHANGELOG.md`.
 
-1. Read `packages/design-system/CLAUDE.md` + the feature `README.md`; open its `prototypes/` for look and behavior. The HTML prototype is a **reference** — recreate it as React components using design system classes and CSS Modules.
-2. Build it for real per `ARCHITECTURE.md`: RSC by default, Server Actions for writes (`requireSession()` → `checkPermission()` → Zod → mutate → `revalidateTag()`), layout-accurate `*Skeleton`s, optimistic UI, the Framer Motion specs.
-3. Amendments (`AMENDMENT-*.md` in a feature folder) change only what they describe — keep the diff small.
+To implement a design change:
+1. Read `packages/design-system/CLAUDE.md` for style rules; open the relevant prototype in `design-handoffs/<feature>/prototypes/` for look and behavior.
+2. Build it for real per `docs/ARCHITECTURE.md`: RSC by default, Server Actions for writes (`requireSession()` → `checkPermission()` → Zod → mutate → `revalidateTag()`), layout-accurate `*Skeleton`s, optimistic UI, the Framer Motion specs.
+3. New design system changes arrive as advisor handoffs in `handoffs/` — read those documents for scope and implementation steps.
 
 ## Data & environments — seeded vs. live
 
@@ -51,4 +62,122 @@ Implement this as one interface (e.g. `getDataClient()`) with two implementation
 
 - Branch model: `main` (production) ← `development` (integration, seeded) ← `feature/<short-description>` (seeded). Each branch gets its own Vercel preview.
 - Work on a `feature/*` branch off `development` (or directly on `development` for small changes). **Push and stop — do not merge to `main`, do not open a PR.** The maintainer reviews the Vercel preview and merges manually.
+- **Before starting any task, verify the working branch is up to date.** Run `git status` to confirm no unexpected changes, then `git pull origin <branch>` to pull latest from the remote. If the branch is behind, pull before touching any files. Never implement on a stale branch.
 - Conventional Commits (`feat:`, `fix:`, `chore:`, `refactor:`, `perf:`, `docs:`). Keep CI green (lint + type-check + tests). Direct pushes to `main` are prohibited.
+- **Every commit must have both a title and a body.** The title follows Conventional Commits format. The body explains what changed and why — one or more sentences, written for a reviewer seeing only the commit log. A commit with a title only is not acceptable.
+
+  ```
+  fix: replace hardcoded shadow value in dropdown-menu
+
+  --shadow-dropdown token was missing from spacing.css after the Amendment 07
+  merge. Restoring the Amendment 06 two-layer value ensures dropdowns have
+  correct elevation in light mode. Dark-mode override in colors.css was unaffected.
+  ```
+
+---
+
+## User data conventions
+
+This section tells AI assistants how to handle user data correctly when building UI, server actions, or queries for Grassroots.
+
+### What fields exist and where
+
+When rendering user information in the UI, always know which table each field comes from:
+
+| Field | Source table | Notes |
+|---|---|---|
+| `user_id` | `users.id` | UUID. Never display raw in UI. |
+| `username` | `users.username` | Handle shown in URLs: `/u/username` |
+| `email` | `users` | Never render in public-facing UI |
+| `display_name` | `user_profiles.display_name` | Shown on posts, cards, profiles |
+| `bio` | `user_profiles.bio` | Max 280 chars |
+| `avatar_url` | `user_profiles.avatar_url` | May be null — use initials fallback |
+| `headline` | `user_profiles.headline` | Short tagline. Max 100 chars. |
+| `roles` | `user_roles` (join) | Array of role objects with scope |
+
+### Avatar fallback pattern
+
+`avatar_url` is null until the user uploads a photo. Always implement the initials fallback:
+
+```tsx
+// Derive initials from display_name, falling back to username
+function getInitials(displayName?: string, username?: string): string {
+  const name = displayName || username || '?';
+  const parts = name.trim().split(' ');
+  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+  return name.slice(0, 2).toUpperCase();
+}
+
+// In JSX
+{avatarUrl ? (
+  <img src={avatarUrl} alt={displayName} />
+) : (
+  <div className="avatar avatar-md">{getInitials(displayName, username)}</div>
+)}
+```
+
+### Displaying names on posts and cards
+
+Always prefer `display_name` over `username` for human-facing display. Show `username` as a secondary detail (e.g., `@handle` below the display name) or in the URL only.
+
+```tsx
+// Correct
+<div className="feed-card-name">{displayName || username}</div>
+<div className="feed-card-time">@{username} · 2 hours ago</div>
+
+// Wrong — never use user_id as display text
+<div className="feed-card-name">{userId}</div>
+```
+
+### Role-gated UI rendering
+
+Roles come from the server. Never derive role gates from client-side state alone. Pass role context from server components to client components as props.
+
+```tsx
+// Server component — fetch roles server-side
+const roles = await getUserRoles(session.userId);
+const isMod = hasRole(roles, 'community_mod', communityId);
+
+// Pass to client component
+<PostActions postId={post.id} canModerate={isMod} />
+```
+
+Role-dependent UI elements:
+- Moderation controls (pin, remove, lock): visible only to `community_mod` in that community, `platform_mod`, or `administrator`.
+- Admin panel link: visible only to `administrator`.
+- Pro badge: visible when user has active `pro_member` role.
+
+### Deleted users
+
+When a post's `user_id` is null (account deleted), render the author as `[deleted]`:
+
+```tsx
+<div className="feed-card-name">
+  {author ? author.displayName : '[deleted]'}
+</div>
+```
+
+Never throw or error when `user_id` is null on a post. Orphaned posts are a valid state.
+
+### What never goes in the UI
+
+- Raw UUIDs (`user_id`, `auth_provider.id`)
+- Email addresses in any public-facing component
+- Password fields or password_hash values
+- `suspended` status details (show generic "account unavailable" only)
+- Raw `user_metadata` values (these are internal)
+
+### Form copy for auth screens
+
+Follow the platform writing style:
+
+| Context | Copy |
+|---|---|
+| Signup CTA | "Create account" |
+| Login CTA | "Sign in" |
+| Google button | "Continue with Google" |
+| Email verification prompt | "Check your inbox to verify your email." |
+| Username taken error | "That username is taken. Try another." |
+| Email taken error | "An account with that email already exists. Sign in instead?" |
+| Password too short | "Password must be at least 10 characters." |
+| Account deletion confirm | "This will permanently delete your account after 30 days." |

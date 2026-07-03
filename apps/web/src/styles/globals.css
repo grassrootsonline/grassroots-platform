@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500&display=swap');
-
 /* Grassroots Design System — single source of truth */
 @import '../../../../packages/design-system/index.css';
 @import '../../../../packages/design-system/motion.css';
@@ -115,7 +113,7 @@ body { min-height: 100vh; }
 /* ── Dev theme switcher ─────────────────────────────────────────────────────
    Attribute selectors have specificity (0,2,0) vs the media-query :root
    block at (0,1,0), so these always win — regardless of system preference.
-   Values mirror the v05 canonical fixture in tokens/colors.css.
+   Values mirror tokens/colors.css — updated through Amendment 06.
    ─────────────────────────────────────────────────────────────────────── */
 :root[data-theme="dark"] {
   --color-ink:            #ECEAE3;
@@ -134,6 +132,9 @@ body { min-height: 100vh; }
   --color-danger-subtle:  #2E211A;
   --color-warm:           #C9A878;
   --color-warm-subtle:    #2E211A;
+  --shadow-overlay:        0 4px 24px rgba(0, 0, 0, 0.32), 0 1px 6px rgba(0, 0, 0, 0.18);
+  --shadow-dropdown:       0 4px 16px rgba(0, 0, 0, 0.24), 0 1px 4px rgba(0, 0, 0, 0.12);
+  --border-accent-subtle:  0.5px solid rgba(138, 173, 137, 0.30);
 }
 
 :root[data-theme="light"] {
@@ -153,4 +154,34 @@ body { min-height: 100vh; }
   --color-danger-subtle:  #F0EAE0;
   --color-warm:           #7A5C30;
   --color-warm-subtle:    #F0EAE0;
+  --border-accent-subtle:  0.5px solid rgba(107, 140, 106, 0.30);
+}
+
+/* ── Tooltip structural overrides for data-theme attribute ──────────────────
+   components-new.css controls tooltip appearance in @media (prefers-color-scheme)
+   blocks, but those do not respond to the [data-theme] attribute. Mirror the
+   same structural rules here so the dev theme switcher works correctly.
+   ─────────────────────────────────────────────────────────────────────── */
+[data-theme="dark"] .tooltip {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  border: var(--border-default);
+}
+[data-theme="dark"] .tooltip::after {
+  border-top-color: var(--color-surface);
+}
+[data-theme="dark"] .tooltip.tooltip-bottom::after {
+  border-bottom-color: var(--color-surface);
+}
+
+[data-theme="light"] .tooltip {
+  background: var(--color-ink);
+  color: var(--color-canvas);
+  border: none;
+}
+[data-theme="light"] .tooltip::after {
+  border-top-color: var(--color-ink);
+}
+[data-theme="light"] .tooltip.tooltip-bottom::after {
+  border-bottom-color: var(--color-ink);
 }
