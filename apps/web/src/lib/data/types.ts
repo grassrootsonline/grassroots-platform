@@ -55,6 +55,19 @@ export interface Reply {
   reactionCount: number
 }
 
+export interface SidebarProject {
+  name: string
+  slug: string
+}
+
+export interface AppNotification {
+  id: string
+  actor: { name: string; username: string; avatarUrl: string | null }
+  text: string
+  time: string
+  read: boolean
+}
+
 export interface DataClient {
   getCurrentUser(): Promise<CurrentUser | null>
   getUserProfile(username: string): Promise<UserProfile | null>
@@ -65,4 +78,6 @@ export interface DataClient {
   getProfileProjects(username: string): Promise<ProfileProject[]>
   getThreadReplies(postId: string): Promise<Reply[]>
   getWaitlistCount(): Promise<number>
+  getUserProjects(): Promise<SidebarProject[]>
+  getNotifications(): Promise<AppNotification[]>
 }
