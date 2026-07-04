@@ -44,7 +44,11 @@ None — reuses the existing `.skeleton` utility class and design tokens already
 
    Match `feed-view.tsx`'s layout: left rail column + composer block + a handful of feed card placeholders in the center column.
 
+   **Correction from the original draft of this handoff: don't hand-roll generic skeleton divs for the feed cards.** `apps/web/src/components/feed/feed-card.tsx` already exports a `FeedCardSkeleton` component built exactly for this, dimensionally accurate to the real `FeedCard` (per `ARCHITECTURE.md` §12.4's `PostCard` + `PostCardSkeleton` convention) — reuse it instead of approximating with raw `<div className="skeleton">` heights:
+
    ```tsx
+   import { FeedCardSkeleton } from '@/components/feed/feed-card'
+
    export default function FeedLoading() {
      return (
        <div style={{ display: 'flex', gap: 'var(--space-relaxed)' }}>
@@ -52,7 +56,7 @@ None — reuses the existing `.skeleton` utility class and design tokens already
          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--space-lg)' }}>
            <div className="skeleton" style={{ height: 72, borderRadius: 'var(--radius-lg)' }} />
            {[1, 2, 3, 4].map((i) => (
-             <div key={i} className="skeleton" style={{ height: 160, borderRadius: 'var(--radius-lg)' }} />
+             <FeedCardSkeleton key={i} />
            ))}
          </div>
        </div>
@@ -60,7 +64,7 @@ None — reuses the existing `.skeleton` utility class and design tokens already
    }
    ```
 
-   (Adjust the left-rail width/height and card height to match the actual rendered dimensions of `LeftRail` and `FeedCard` once you can measure them — the values above are a starting approximation, not exact. Use `var(--space-relaxed)` for the gap, not a raw `24px` — see handoff 034 for why.)
+   (The left-rail placeholder and composer-row placeholder still need approximate dimensions — there's no `LeftRailSkeleton` yet, so measure against the real rendered `LeftRail`/composer row and adjust the width/height above accordingly; the values shown are a starting approximation, not exact. Use `var(--space-relaxed)` for the gap, not a raw `24px` — see handoff 034 for why.)
 
    Commit: `feat(feed): add loading.tsx skeleton`
 
@@ -83,4 +87,5 @@ None — reuses the existing `.skeleton` utility class and design tokens already
 - [ ] Navigating to `/feed`, `/profile/<username>`, and `/feed/<postId>` shows an instant layout-accurate skeleton shell (not a blank page or frozen previous route) while data loads — easiest to confirm by throttling network in devtools or adding a temporary artificial delay to the data client during a local check.
 - [ ] Skeleton dimensions are visually close to the real rendered content — no large layout shift when real content replaces the skeleton.
 - [ ] All three files use only `var(--space-*)` / `var(--radius-*)` tokens, no raw hex or unlisted px values beyond the approximate placeholder heights described above (those are dimension approximations, not colors/spacing — acceptable per the existing `(auth)` loading.tsx precedent, which does the same).
+- [ ] `feed/loading.tsx` renders feed-card placeholders via the existing `FeedCardSkeleton` component, not hand-rolled generic skeleton divs.
 - [ ] `pnpm type-check` passes.

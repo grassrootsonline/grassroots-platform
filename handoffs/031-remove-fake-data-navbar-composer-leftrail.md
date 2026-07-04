@@ -40,8 +40,8 @@ There is no `notifications` table yet (per `docs/ARCHITECTURE.md` §5.2, `notifi
 - `apps/web/src/components/feed/composer-modal.tsx` — accept a `projects` prop instead of the local `MOCK_PROJECTS`
 - `apps/web/src/app/(platform)/layout.tsx` — fetch notifications via `getDataClient()`, pass to `Navbar`
 - `apps/web/src/app/(platform)/feed/page.tsx`, `feed/feed-view.tsx` — fetch/pass `projects` for `LeftRail` and `ComposerModal`
-- `apps/web/src/app/(platform)/profile/[username]/page.tsx`, `profile-view.tsx` — fetch/pass `projects` for `LeftRail`
-- `apps/web/src/app/(platform)/feed/[postId]/page.tsx`, `thread-view.tsx` — fetch/pass `projects` for `LeftRail`
+- `apps/web/src/app/(platform)/profile/[username]/page.tsx`, `profile-view.tsx` — fetch/pass `sidebarProjects` for `LeftRail` (see naming note below — do not call this prop `projects`)
+- `apps/web/src/app/(platform)/feed/[postId]/page.tsx`, `thread-view.tsx` — fetch/pass `sidebarProjects` for `LeftRail`
 
 ---
 
@@ -126,8 +126,8 @@ None — data wiring and component props only, no new styles.
 
    - `(platform)/layout.tsx`: call `getDataClient().getNotifications()` alongside the existing `getCurrentUser()` call, pass to `<Navbar user={user} notifications={notifications} />`.
    - `feed/page.tsx`: add `client.getUserProjects()` to the existing `Promise.all(...)`, pass `projects` to `FeedView`, which passes it to both `<LeftRail>` and `<ComposerModal>`.
-   - `profile/[username]/page.tsx`: add `client.getUserProjects()` (this is the *viewer's* own projects for their own left rail, not the profile-being-viewed's projects — don't confuse with the existing `getProfileProjects(username)` call), pass to `ProfileView` → `<LeftRail>`.
-   - `feed/[postId]/page.tsx`: same addition, pass to `ThreadView` → `<LeftRail>`.
+   - `profile/[username]/page.tsx`: add `client.getUserProjects()` (this is the *viewer's* own projects for their own left rail, not the profile-being-viewed's projects — don't confuse with the existing `getProfileProjects(username)` call). **Naming: `ProfileViewProps` already has a `projects: ProfileProject[]` field, consumed by the "Projects" tab content, not `LeftRail`.** Add the new data as a separate prop named `sidebarProjects: SidebarProject[]` to avoid a name collision/shadowing bug — do not reuse `projects` for this. Pass `sidebarProjects` to `<LeftRail>` inside `ProfileView`; leave the existing `projects` prop and its tab usage untouched.
+   - `feed/[postId]/page.tsx`: same addition — add a `sidebarProjects: SidebarProject[]` prop to `ThreadViewProps` (no existing `projects` prop there, but use the same name for consistency across all three views), pass to `ThreadView` → `<LeftRail>`.
 
    Commit: `feat: wire getUserProjects/getNotifications into layout, feed, profile, and thread pages`
 
@@ -140,3 +140,4 @@ None — data wiring and component props only, no new styles.
 - [ ] `pnpm type-check` passes.
 - [ ] Grep `apps/web/src/components/layout/left-rail.tsx`, `apps/web/src/components/notifications/notification-panel.tsx`, and `apps/web/src/components/feed/composer-modal.tsx` for `MOCK_` — confirm zero results.
 - [ ] Grep `apps/web/src` for `Sarah Chen|Marcus Rivera|Priya Nair|Leo Tanaka|Inference Stack|PromptKit` outside `lib/mock-data.ts` and `lib/data/seed-client.ts` — confirm zero results.
+- [ ] `ProfileView`'s existing `projects: ProfileProject[]` prop (used by the "Projects" tab) is untouched and still receives the `getProfileProjects(username)` result — confirm the new sidebar data landed as a separate `sidebarProjects` prop, not a collision/overwrite.
