@@ -19,12 +19,16 @@ export class SupabaseDataClient implements DataClient {
     })
     if (!row) return null
 
+    const profile = await db.query.userProfiles.findFirst({
+      where: (p, { eq }) => eq(p.userId, row.id),
+    })
+
     return {
       id: row.id,
-      name: row.displayName,
+      name: profile?.displayName ?? row.displayName,
       username: row.username,
-      avatarUrl: row.avatarUrl,
-      bio: row.bio,
+      avatarUrl: profile?.avatarUrl ?? row.avatarUrl,
+      bio: profile?.bio ?? row.bio,
       followerCount: row.followerCount,
       followingCount: row.followingCount,
       projectCount: 0, // no projects table yet
@@ -38,12 +42,16 @@ export class SupabaseDataClient implements DataClient {
     })
     if (!row) return null
 
+    const profile = await db.query.userProfiles.findFirst({
+      where: (p, { eq }) => eq(p.userId, row.id),
+    })
+
     return {
       id: row.id,
-      name: row.displayName,
+      name: profile?.displayName ?? row.displayName,
       username: row.username,
-      avatarUrl: row.avatarUrl,
-      bio: row.bio,
+      avatarUrl: profile?.avatarUrl ?? row.avatarUrl,
+      bio: profile?.bio ?? row.bio,
       followerCount: row.followerCount,
       followingCount: row.followingCount,
       projectCount: 0,
