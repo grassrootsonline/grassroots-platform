@@ -44,13 +44,11 @@ export async function middleware(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser();
   const pathname = request.nextUrl.pathname;
 
-  // No session — allow public routes, redirect protected routes to /login
+  // No session — allow-list only. Anything not explicitly public (or the
+  // waitlisted holding page) requires a session. Mirrors the account_status
+  // allow-list below; do not reintroduce a route-specific deny-list here.
   if (!user) {
-    if (
-      pathname.startsWith('/feed') || pathname.startsWith('/u/') ||
-      pathname.startsWith('/notifications') || pathname.startsWith('/messages') ||
-      pathname.startsWith('/settings') || pathname === '/waitlisted'
-    ) {
+    if (!PUBLIC_PATHS.includes(pathname) && !pathname.startsWith('/waitlisted')) {
       return NextResponse.redirect(new URL('/login', request.url));
     }
     return response;
