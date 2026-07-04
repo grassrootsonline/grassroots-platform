@@ -5,21 +5,18 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Avatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/toast'
+import type { SidebarProject } from '@/lib/data'
 import s from './composer-modal.module.css'
-
-const MOCK_PROJECTS = [
-  { id: '1', name: 'Inference Stack' },
-  { id: '2', name: 'PromptKit' },
-]
 
 interface ComposerModalProps {
   open: boolean
   onClose: () => void
   onPublish: (post: { content: string; projectId?: string }) => void
   user: { name: string; username: string; avatarUrl?: string | null }
+  projects: SidebarProject[]
 }
 
-export function ComposerModal({ open, onClose, onPublish, user }: ComposerModalProps) {
+export function ComposerModal({ open, onClose, onPublish, user, projects }: ComposerModalProps) {
   const [content, setContent] = useState('')
   const [projectId, setProjectId] = useState('')
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -112,8 +109,8 @@ export function ComposerModal({ open, onClose, onPublish, user }: ComposerModalP
                   className={s.projectSelect}
                 >
                   <option value="">No project</option>
-                  {MOCK_PROJECTS.map((p) => (
-                    <option key={p.id} value={p.id}>
+                  {projects.map((p) => (
+                    <option key={p.slug} value={p.slug}>
                       {p.name}
                     </option>
                   ))}
