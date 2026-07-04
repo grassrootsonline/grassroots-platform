@@ -49,7 +49,7 @@ export function ThreadView({ user, post, initialReplies }: ThreadViewProps) {
   }
 
   return (
-    <div style={{ display: 'flex', gap: '24px' }}>
+    <div className={s.layout}>
       <LeftRail user={user} />
 
       <main className={s.main}>
