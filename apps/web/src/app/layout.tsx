@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: 'Share what you\'re building with the AI builder community.',
 }
 
-const isDev = process.env.NEXT_PUBLIC_APP_ENV !== 'production'
+const isDev = process.env.NEXT_PUBLIC_APP_ENV === 'development' || process.env.NEXT_PUBLIC_APP_ENV === 'preview'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

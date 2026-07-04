@@ -3,6 +3,8 @@
 
 ---
 
+> **Status: design document, not yet implemented.** This describes the planned five-table user system. Only `users` and `user_profiles` exist in the current schema — see `ARCHITECTURE.md` §5 for what's actually built. This document is referenced from `ROADMAP.md`.
+
 ## Overview
 
 This document defines the complete user identity and authentication strategy for Grassroots. It covers schema design, auth mechanics, role architecture, account lifecycle, username rules, and progressive profiling. It is the single source of truth for all decisions related to user data.
