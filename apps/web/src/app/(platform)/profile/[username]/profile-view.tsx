@@ -7,7 +7,7 @@ import { FeedCard } from '@/components/feed/feed-card'
 import { Avatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import type { CurrentUser, UserProfile, FeedPost, ProfileProject } from '@/lib/data'
+import type { CurrentUser, UserProfile, FeedPost, ProfileProject, SidebarProject } from '@/lib/data'
 import s from './page.module.css'
 
 type ProfileTab = 'posts' | 'projects' | 'about'
@@ -23,14 +23,15 @@ interface ProfileViewProps {
   isOwnProfile: boolean
   initialPosts: FeedPost[]
   projects: ProfileProject[]
+  sidebarProjects: SidebarProject[]
 }
 
-export function ProfileView({ viewer, profile, isOwnProfile, initialPosts, projects }: ProfileViewProps) {
+export function ProfileView({ viewer, profile, isOwnProfile, initialPosts, projects, sidebarProjects }: ProfileViewProps) {
   const [tab, setTab] = useState<ProfileTab>('posts')
 
   return (
-    <div style={{ display: 'flex', gap: '24px' }}>
-      <LeftRail user={viewer} />
+    <div className={s.layout}>
+      <LeftRail user={viewer} projects={sidebarProjects} />
 
       <main className={s.main}>
         <Link href="/feed" className={s.backLink}>

@@ -4,11 +4,15 @@ import { getDataClient } from '@/lib/data'
 import s from './layout.module.css'
 
 export default async function PlatformLayout({ children }: { children: React.ReactNode }) {
-  const user = await getDataClient().getCurrentUser()
+  const client = getDataClient()
+  const [user, notifications] = await Promise.all([
+    client.getCurrentUser(),
+    client.getNotifications(),
+  ])
 
   return (
     <>
-      <Navbar user={user} />
+      <Navbar user={user} notifications={notifications} />
       {process.env.USE_SEED_DATA === 'true' && (
         <div className={s.devBanner}>
           <i className="ti ti-database icon-xs" aria-hidden="true" />

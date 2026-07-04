@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { Avatar } from '@/components/ui/avatar'
 import { NotificationPanel } from '@/components/notifications/notification-panel'
 import { ThemeToggle } from './theme-toggle'
+import type { AppNotification } from '@/lib/data'
 import s from './navbar.module.css'
 
 interface NavbarProps {
@@ -13,9 +14,10 @@ interface NavbarProps {
     username: string
     avatarUrl?: string | null
   } | null
+  notifications: AppNotification[]
 }
 
-export function Navbar({ user }: NavbarProps) {
+export function Navbar({ user, notifications }: NavbarProps) {
   const [notifOpen, setNotifOpen] = useState(false)
 
   return (
@@ -47,7 +49,7 @@ export function Navbar({ user }: NavbarProps) {
                     className={s.notifBackdrop}
                     onClick={() => setNotifOpen(false)}
                   />
-                  <NotificationPanel onClose={() => setNotifOpen(false)} />
+                  <NotificationPanel onClose={() => setNotifOpen(false)} notifications={notifications} />
                 </>
               )}
             </div>

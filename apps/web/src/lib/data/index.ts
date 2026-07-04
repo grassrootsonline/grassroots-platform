@@ -11,4 +11,5 @@ export function getDataClient(): DataClient {
 export type {
   DataClient, CurrentUser, UserProfile, FeedPost,
   TrendingProject, SuggestedUser, ProfileProject, Reply,
+  SidebarProject, AppNotification,
 } from './types'
