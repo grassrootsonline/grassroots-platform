@@ -99,6 +99,42 @@ export const MOCK_WHO_TO_FOLLOW = [
 
 export const MOCK_WAITLIST_COUNT = 1247
 
+export const MOCK_SIDEBAR_PROJECTS = [
+  { name: 'Inference Stack', slug: 'inference-stack' },
+  { name: 'PromptKit', slug: 'promptkit' },
+]
+
+export const MOCK_NOTIFICATIONS = [
+  {
+    id: '1',
+    actor: { name: 'Sarah Chen', username: 'sarahchen', avatarUrl: null },
+    text: 'liked your post about the inference stack.',
+    time: '2m',
+    read: false,
+  },
+  {
+    id: '2',
+    actor: { name: 'Marcus Rivera', username: 'mrivera', avatarUrl: null },
+    text: 'started following you.',
+    time: '14m',
+    read: false,
+  },
+  {
+    id: '3',
+    actor: { name: 'Priya Nair', username: 'priyanair', avatarUrl: null },
+    text: 'replied to your post.',
+    time: '1h',
+    read: true,
+  },
+  {
+    id: '4',
+    actor: { name: 'Leo Tanaka', username: 'leotanaka', avatarUrl: null },
+    text: 'is now following your project.',
+    time: '3h',
+    read: true,
+  },
+]
+
 export const MOCK_REPLIES = [
   {
     id: 'r1',

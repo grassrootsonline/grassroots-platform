@@ -4,13 +4,20 @@ import { NextResponse, type NextRequest } from 'next/server';
 const PUBLIC_PATHS = ['/', '/signup', '/login', '/check-email', '/auth/callback'];
 
 export async function middleware(request: NextRequest) {
-  // In seed/preview mode, Supabase env vars are absent — pass all requests through.
-  // The seeded session (MOCK_USER) handles auth state in-app.
-  if (
-    process.env.USE_SEED_DATA === 'true' ||
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  ) {
+  // Seed/preview mode: pass through, the seeded session handles auth in-app.
+  if (process.env.USE_SEED_DATA === 'true') {
+    return NextResponse.next({ request });
+  }
+
+  // Outside seed mode, Supabase config is mandatory. Missing it is a
+  // deployment misconfiguration, not a valid state — fail closed rather
+  // than silently disabling auth for every request.
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    console.error('[middleware] Supabase env vars missing outside seed mode — blocking all non-public routes');
+    const pathname = request.nextUrl.pathname;
+    if (!PUBLIC_PATHS.includes(pathname)) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
     return NextResponse.next({ request });
   }
 

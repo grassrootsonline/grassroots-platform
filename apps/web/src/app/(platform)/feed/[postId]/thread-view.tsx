@@ -7,7 +7,7 @@ import { FeedCard } from '@/components/feed/feed-card'
 import { Avatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/toast'
-import type { CurrentUser, FeedPost, Reply } from '@/lib/data'
+import type { CurrentUser, FeedPost, Reply, SidebarProject } from '@/lib/data'
 import s from './page.module.css'
 
 function formatTime(dateStr: string): string {
@@ -25,9 +25,10 @@ interface ThreadViewProps {
   user: CurrentUser
   post: FeedPost
   initialReplies: Reply[]
+  sidebarProjects: SidebarProject[]
 }
 
-export function ThreadView({ user, post, initialReplies }: ThreadViewProps) {
+export function ThreadView({ user, post, initialReplies, sidebarProjects }: ThreadViewProps) {
   const [replies, setReplies] = useState(initialReplies)
   const [replyText, setReplyText] = useState('')
   const [replyLikes, setReplyLikes] = useState<Record<string, number>>({})
@@ -50,7 +51,7 @@ export function ThreadView({ user, post, initialReplies }: ThreadViewProps) {
 
   return (
     <div className={s.layout}>
-      <LeftRail user={user} />
+      <LeftRail user={user} projects={sidebarProjects} />
 
       <main className={s.main}>
         <Link href="/feed" className={s.backLink}>

@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Avatar } from '@/components/ui/avatar'
+import type { SidebarProject } from '@/lib/data'
 import s from './left-rail.module.css'
 
 interface NavItem {
@@ -19,20 +20,16 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/saved', icon: 'bookmark', label: 'Saved' },
 ]
 
-const MOCK_PROJECTS = [
-  { name: 'Inference Stack', slug: 'inference-stack' },
-  { name: 'PromptKit', slug: 'promptkit' },
-]
-
 interface LeftRailProps {
   user?: {
     name: string
     username: string
     avatarUrl?: string | null
   } | null
+  projects: SidebarProject[]
 }
 
-export function LeftRail({ user }: LeftRailProps) {
+export function LeftRail({ user, projects }: LeftRailProps) {
   const pathname = usePathname()
 
   return (
@@ -56,21 +53,23 @@ export function LeftRail({ user }: LeftRailProps) {
         })}
       </nav>
 
-      <div className={s.projects}>
-        <p className={`text-label ${s.projectsLabel}`}>
-          Your projects
-        </p>
-        {MOCK_PROJECTS.map((p) => (
-          <Link
-            key={p.slug}
-            href={`/project/${p.slug}`}
-            className={s.projectLink}
-          >
-            <i className={`ti ti-circle-dot ${s.projectIcon}`} aria-hidden="true" />
-            {p.name}
-          </Link>
-        ))}
-      </div>
+      {projects.length > 0 && (
+        <div className={s.projects}>
+          <p className={`text-label ${s.projectsLabel}`}>
+            Your projects
+          </p>
+          {projects.map((p) => (
+            <Link
+              key={p.slug}
+              href={`/project/${p.slug}`}
+              className={s.projectLink}
+            >
+              <i className={`ti ti-circle-dot ${s.projectIcon}`} aria-hidden="true" />
+              {p.name}
+            </Link>
+          ))}
+        </div>
+      )}
 
       {user && (
         <div className={s.userChip}>
