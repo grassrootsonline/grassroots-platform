@@ -5,6 +5,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import type {
   DataClient, CurrentUser, UserProfile, FeedPost,
   TrendingProject, SuggestedUser, ProfileProject, Reply,
+  SidebarProject, AppNotification,
 } from './types'
 
 export class SupabaseDataClient implements DataClient {
@@ -56,6 +57,8 @@ export class SupabaseDataClient implements DataClient {
   async getWhoToFollow(): Promise<SuggestedUser[]> { return [] }
   async getProfileProjects(_username: string): Promise<ProfileProject[]> { return [] }
   async getThreadReplies(_postId: string): Promise<Reply[]> { return [] }
+  async getUserProjects(): Promise<SidebarProject[]> { return [] }
+  async getNotifications(): Promise<AppNotification[]> { return [] }
 
   async getWaitlistCount(): Promise<number> {
     const [row] = await db
