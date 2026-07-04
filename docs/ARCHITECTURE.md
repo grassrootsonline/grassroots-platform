@@ -256,6 +256,8 @@ deleted_at      TIMESTAMPTZ
 
 > ⚠ `is_suspended` is deprecated in favour of `account_status = 'suspended'` and will be removed in a future migration. Do not introduce new reads of `is_suspended` in new code — read `account_status` instead.
 
+> ⚠ `display_name`, `bio`, and `avatar_url` on `users` are deprecated as of handoff 036 in favour of the equivalent columns on `user_profiles` (§5.3), which are now the read path used by `getCurrentUser()` and `getUserProfile()`. Do not introduce new reads of these three columns on `users` — read from `user_profiles` instead.
+
 #### `projects`
 
 ```sql

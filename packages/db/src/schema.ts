@@ -10,6 +10,11 @@ export const users = pgTable('users', {
   id:             uuid('id').primaryKey().defaultRandom(),
   authId:         uuid('auth_id').unique().notNull(),
   username:       text('username').unique().notNull(),
+  // Deprecated as of handoff 036 — display_name/bio/avatar_url are now read
+  // from user_profiles. Kept here (a) because users.displayName is NOT NULL
+  // and signupAction still writes it at account creation, and (b) dropping
+  // columns is a separate, deliberate migration decision, not a side effect
+  // of a read-path refactor. Do not read these three columns anywhere new.
   displayName:    text('display_name').notNull(),
   bio:            text('bio'),
   avatarUrl:      text('avatar_url'),
