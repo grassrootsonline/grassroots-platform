@@ -10,24 +10,25 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@grassroots/db": "workspace:*",
+    "@grassroots/types": "workspace:*",
+    "@grassroots/ui": "workspace:*",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.45.4",
     "@tabler/icons-react": "^3.19.0",
+    "@vercel/speed-insights": "^2.0.0",
+    "drizzle-orm": "^0.36.4",
     "framer-motion": "^11.11.11",
     "next": "^15.0.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "@grassroots/ui": "workspace:*",
-    "@grassroots/types": "workspace:*",
-    "@grassroots/db": "workspace:*",
-    "drizzle-orm": "^0.36.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^22.8.4",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "typescript": "^5.6.3",
-    "postcss": "^8.4.47"
+    "postcss": "^8.4.47",
+    "typescript": "^5.6.3"
   }
 }

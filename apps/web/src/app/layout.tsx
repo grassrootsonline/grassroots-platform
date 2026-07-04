@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import '@/styles/globals.css'
 import { DevNav } from '@/components/dev/dev-nav'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 export const metadata: Metadata = {
   title: 'Grassroots — A home for AI builders',
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         {isDev && <DevNav />}
+        <SpeedInsights />
       </body>
     </html>
   )
