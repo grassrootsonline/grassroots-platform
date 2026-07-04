@@ -58,15 +58,19 @@ export default async function LandingPage() {
           <div className={s.contentInner}>
             <div className={s.eyebrowRow}>
               <i className="ti ti-brand-github icon-md" aria-hidden="true" />
-              <span className="text-label">Completely open source</span>
+              <span className="text-label">Source available</span>
             </div>
             <h2 className={s.sectionHeading}>Built in public, for the public.</h2>
             <p className={s.sectionBody}>
-              Every line of code is visible, and open to contribution. A project built
-              for the community, by the community.
+              The full source is public and open to contribution. Not a permissive
+              open-source license — see our LICENSE for what that means in practice.
             </p>
-            {/* href intentionally "#" — repo visibility not yet confirmed (handoff 029) */}
-            <a href="#" className={s.sectionLink}>
+            <a
+              href="https://github.com/grassrootsonline/grassroots-platform"
+              className={s.sectionLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               View on GitHub <i className="ti ti-arrow-right" aria-hidden="true" />
             </a>
           </div>
