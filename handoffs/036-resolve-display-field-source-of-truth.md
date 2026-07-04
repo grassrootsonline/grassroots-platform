@@ -3,12 +3,12 @@
 | Field | Value |
 |---|---|
 | **Recipient** | `claude-code` |
-| **Priority** | `needs-approval` |
+| **Priority** | `high` |
 | **Type** | `refactor` |
-| **Branch** | `refactor/profile-data-source-of-truth` (once Alex decides — see below) |
+| **Branch** | `refactor/profile-data-source-of-truth` |
 | **Depends on** | none |
 
-**Awaiting Alex's approval before implementation** — this is a choice between two valid data-modeling paths (keep reading profile fields from `users`, or migrate reads to `user_profiles`), and it determines what `checkPermission`/RLS coverage actually protects going forward. Not mine to pick unilaterally.
+**Approved by Alex (2026-07-04): Path A.** Migrate profile reads to `user_profiles`, matching root CLAUDE.md's documented convention and making handoff 022's RLS policies load-bearing. Implementation steps below.
 
 ---
 
@@ -59,18 +59,95 @@ This matters beyond tidiness for two concrete reasons:
 
 ---
 
-## Affected files (once a path is approved)
+## Affected files
 
 - `apps/web/src/lib/data/supabase-client.ts` — `getCurrentUser()`, `getUserProfile()`
-- `packages/db/src/schema.ts` — possibly deprecate/annotate redundant `users` columns (path A) or `user_profiles` columns (path B)
-- `docs/ARCHITECTURE.md` §5.2/§5.3 — reconcile whichever table is authoritative
-- Root `CLAUDE.md` — update or confirm the "What fields exist and where" table
+- `packages/db/src/schema.ts` — annotate the now-redundant `users.displayName`/`bio`/`avatarUrl` columns as deprecated (do not drop them yet — see step 3)
+- `docs/ARCHITECTURE.md` §5.2 — note that `display_name`/`bio`/`avatar_url` on `users` are deprecated in favor of `user_profiles`, per the migration note §5.3 already anticipates
+- Root `CLAUDE.md` — no change needed; its "What fields exist and where" table already documents `user_profiles` as the source, this handoff makes the code match it
 
-*A full implementation plan with exact steps and a verification checklist will follow once Alex picks a direction — intentionally not written yet, since the steps differ meaningfully between (A) and (B).*
+---
+
+## Token dependencies
+
+None — data-layer and schema-comment changes only.
+
+---
+
+## Implementation steps
+
+1. **Update `getCurrentUser()` to source profile fields from `user_profiles`**
+
+   In `apps/web/src/lib/data/supabase-client.ts`, after loading the `users` row by `authId`, also query `user_profiles` by `userId: row.id` and read `displayName`/`bio`/`avatarUrl` from that row instead of the `users` row. Keep `username`, `followerCount`, `followingCount`, `accountStatus` from `users` — those aren't duplicated on `user_profiles` and aren't in scope here.
+
+   ```ts
+   async getCurrentUser(): Promise<CurrentUser | null> {
+     const supabase = await createServerClient()
+     const { data: { user } } = await supabase.auth.getUser()
+     if (!user) return null
+
+     const row = await db.query.users.findFirst({
+       where: (u, { eq }) => eq(u.authId, user.id),
+     })
+     if (!row) return null
+
+     const profile = await db.query.userProfiles.findFirst({
+       where: (p, { eq }) => eq(p.userId, row.id),
+     })
+
+     return {
+       id: row.id,
+       name: profile?.displayName ?? row.displayName,
+       username: row.username,
+       avatarUrl: profile?.avatarUrl ?? row.avatarUrl,
+       bio: profile?.bio ?? row.bio,
+       followerCount: row.followerCount,
+       followingCount: row.followingCount,
+       projectCount: 0,
+       accountStatus: row.accountStatus,
+     }
+   }
+   ```
+
+   The `?? row.X` fallback is defensive only — `signupAction` (handoff 012/018) always inserts both rows together, so `profile` should never be missing for a real user. It exists so a data-integrity bug surfaces as slightly-stale display data rather than a crash.
+
+2. **Update `getUserProfile(username)` the same way**
+
+   Same pattern: after finding the `users` row by `username`, query `user_profiles` by `userId: row.id` and source `displayName`/`bio`/`avatarUrl` from there.
+
+3. **Annotate — don't drop — the redundant `users` columns**
+
+   In `packages/db/src/schema.ts`, add a comment above `displayName`, `bio`, and `avatarUrl` on the `users` table:
+
+   ```ts
+   // Deprecated as of handoff 036 — display_name/bio/avatar_url are now read
+   // from user_profiles. Kept here (a) because users.displayName is NOT NULL
+   // and signupAction still writes it at account creation, and (b) dropping
+   // columns is a separate, deliberate migration decision, not a side effect
+   // of a read-path refactor. Do not read these three columns anywhere new.
+   ```
+
+   No migration in this handoff — this is a comment-only annotation. Dropping the columns is future work, not blocking.
+
+4. **Update `docs/ARCHITECTURE.md` §5.2**
+
+   Add a line noting `display_name`/`bio`/`avatar_url` on `users` are deprecated in favor of `user_profiles` (§5.3), resolving the "§5.2 will be updated when the migration handoff is issued" note that section already contains — this is that handoff.
+
+   Commit: `refactor: read profile display fields from user_profiles instead of users`
+
+---
+
+## Verification
+
+- [ ] `getCurrentUser()` and `getUserProfile()` both query `user_profiles`, not just `users`, for `displayName`/`bio`/`avatarUrl`.
+- [ ] Existing profile pages render identically for seeded/live users whose `users` and `user_profiles` rows already agree (should be everyone today — no visible behavior change expected).
+- [ ] `signupAction` unchanged — still inserts both rows.
+- [ ] Grep `supabase-client.ts` for `row.displayName`, `row.bio`, `row.avatarUrl` outside the fallback — confirm none remain as the primary source.
+- [ ] `pnpm type-check` passes.
 
 ---
 
 ## What this handoff does NOT cover
 
-- Any actual code change — this is scoped to surfacing the decision, not implementing either path.
+- Dropping the redundant `users` columns — deliberately deferred to a future migration decision.
 - Building the settings/profile-editing feature itself, which is what will first make this drift observable to real users.
