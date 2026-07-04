@@ -12,9 +12,10 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
   const profile = await client.getUserProfile(username)
   if (!profile) notFound()
 
-  const [initialPosts, projects] = await Promise.all([
+  const [initialPosts, projects, sidebarProjects] = await Promise.all([
     client.getFeedPosts(), // TODO: filter by author once posts schema exists
     client.getProfileProjects(username),
+    client.getUserProjects(),
   ])
 
   return (
@@ -24,6 +25,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
       isOwnProfile={viewer.username === profile.username}
       initialPosts={initialPosts}
       projects={projects}
+      sidebarProjects={sidebarProjects}
     />
   )
 }

@@ -7,10 +7,11 @@ export default async function FeedPage() {
   const user = await client.getCurrentUser()
   if (!user) redirect('/login')
 
-  const [initialPosts, trending, whoToFollow] = await Promise.all([
+  const [initialPosts, trending, whoToFollow, projects] = await Promise.all([
     client.getFeedPosts(),
     client.getTrendingProjects(),
     client.getWhoToFollow(),
+    client.getUserProjects(),
   ])
 
   return (
@@ -19,6 +20,7 @@ export default async function FeedPage() {
       initialPosts={initialPosts}
       trending={trending}
       whoToFollow={whoToFollow}
+      projects={projects}
     />
   )
 }

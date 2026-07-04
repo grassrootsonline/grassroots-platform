@@ -9,7 +9,7 @@ import { ComposerModal } from '@/components/feed/composer-modal'
 import { Avatar } from '@/components/ui/avatar'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import type { CurrentUser, FeedPost, TrendingProject, SuggestedUser } from '@/lib/data'
+import type { CurrentUser, FeedPost, TrendingProject, SuggestedUser, SidebarProject } from '@/lib/data'
 import s from './page.module.css'
 
 const container = {
@@ -27,9 +27,10 @@ interface FeedViewProps {
   initialPosts: FeedPost[]
   trending: TrendingProject[]
   whoToFollow: SuggestedUser[]
+  projects: SidebarProject[]
 }
 
-export function FeedView({ user, initialPosts, trending, whoToFollow }: FeedViewProps) {
+export function FeedView({ user, initialPosts, trending, whoToFollow, projects }: FeedViewProps) {
   const [posts, setPosts] = useState<FeedPost[]>(initialPosts)
   const [composerOpen, setComposerOpen] = useState(false)
   const [following, setFollowing] = useState<Record<string, boolean>>({})
@@ -54,7 +55,7 @@ export function FeedView({ user, initialPosts, trending, whoToFollow }: FeedView
     <>
       <div className={s.layout}>
         {/* Left rail */}
-        <LeftRail user={user} />
+        <LeftRail user={user} projects={projects} />
 
         {/* Center feed */}
         <main className={s.feed}>
@@ -168,6 +169,7 @@ export function FeedView({ user, initialPosts, trending, whoToFollow }: FeedView
         onClose={() => setComposerOpen(false)}
         onPublish={handlePublish}
         user={user}
+        projects={projects}
       />
     </>
   )

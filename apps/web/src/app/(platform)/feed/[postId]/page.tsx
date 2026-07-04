@@ -12,7 +12,10 @@ export default async function ThreadPage({ params }: { params: Promise<{ postId:
   const post = await client.getPost(postId)
   if (!post) notFound()
 
-  const initialReplies = await client.getThreadReplies(postId)
+  const [initialReplies, sidebarProjects] = await Promise.all([
+    client.getThreadReplies(postId),
+    client.getUserProjects(),
+  ])
 
-  return <ThreadView user={user} post={post} initialReplies={initialReplies} />
+  return <ThreadView user={user} post={post} initialReplies={initialReplies} sidebarProjects={sidebarProjects} />
 }
