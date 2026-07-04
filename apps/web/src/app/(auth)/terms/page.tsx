@@ -9,6 +9,8 @@ import s from '@/components/layout/legal-page-shell.module.css'
 
 export const metadata = {
   title: 'Terms of service — Grassroots',
+  // Remove once legal review is complete and legal.ts placeholders are filled in (handoffs 025–028).
+  robots: { index: false, follow: false },
 }
 
 export default function TermsPage() {
