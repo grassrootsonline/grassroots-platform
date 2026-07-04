@@ -858,6 +858,8 @@ All colors, spacing, typography, and radius values must reference CSS custom pro
 
 ### 15.4 Git workflow
 
+- Branch model: `main` (production, live) ← `staging` (closed testing, live, isolated Supabase project) ← `development` (integration, seeded) ← `feature/<short-description>` (seeded). Each branch gets its own Vercel deployment/environment.
+- `development` merges up into `staging` for a real-backend check before anything reaches production. `staging` merges up into `main` only after that check passes. Automated or bot-authored PRs (e.g. Vercel Agent integrations) that default to targeting `main` should be retargeted to `staging` before merging — do not merge them to `main` directly.
 - Branch naming: `feature/{ticket-id}-short-description`, `fix/{ticket-id}-description`, `chore/description`.
 - Commit messages follow Conventional Commits: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `perf:`.
 - Every PR requires: passing CI (lint + type-check + tests), at least one approval, and no merge conflicts.
@@ -916,9 +918,9 @@ SENTRY_AUTH_TOKEN=               # CI only
 AXIOM_TOKEN=
 AXIOM_DATASET=
 
-# App
-NEXT_PUBLIC_APP_URL=             # https://grassroots.ai in prod
-NEXT_PUBLIC_APP_ENV=             # development | preview | production
+# Environment
+NEXT_PUBLIC_APP_URL=             # https://grassroots.ai in prod — see open item on domain naming
+NEXT_PUBLIC_APP_ENV=             # development | preview | staging | production
 
 # Feature Flags (Vercel Edge Config)
 EDGE_CONFIG=                     # Vercel-injected automatically
@@ -934,6 +936,10 @@ Before going live, verify the following in the Supabase dashboard (Authenticatio
 - **Email templates:** customise the "Confirm signup" email in the Supabase dashboard. Minimum: update the subject line and button text to match the platform voice.
 
 In local development with Supabase CLI (`supabase start`), email confirmation is disabled by default, so `signupAction` will redirect to `/waitlisted` directly. This is the expected local dev behaviour.
+
+#### Staging environment configuration
+
+`staging` requires its own complete Supabase credential set — `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, and `DATABASE_URL` — scoped to the staging Vercel environment/branch and distinct from production's. Staging points at a separate, isolated Supabase project (same schema, applied via the same Drizzle migrations, but no shared data with production). `NEXT_PUBLIC_APP_ENV=staging` and `USE_SEED_DATA=false`.
 
 ---
 
