@@ -30,7 +30,7 @@ export function ProfileView({ viewer, profile, isOwnProfile, initialPosts, proje
   const [tab, setTab] = useState<ProfileTab>('posts')
 
   return (
-    <div style={{ display: 'flex', gap: '24px' }}>
+    <div className={s.layout}>
       <LeftRail user={viewer} projects={sidebarProjects} />
 
       <main className={s.main}>

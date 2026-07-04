@@ -50,7 +50,7 @@ export function ThreadView({ user, post, initialReplies, sidebarProjects }: Thre
   }
 
   return (
-    <div style={{ display: 'flex', gap: '24px' }}>
+    <div className={s.layout}>
       <LeftRail user={user} projects={sidebarProjects} />
 
       <main className={s.main}>
