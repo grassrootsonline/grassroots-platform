@@ -99,8 +99,7 @@ export default async function LandingPage() {
         <div className={s.footerLinks}>
           <Link href="/terms" className={s.footerLink}>Terms of service</Link>
           <Link href="/privacy" className={s.footerLink}>Privacy policy</Link>
-          {/* href intentionally "#" — /careers is deferred, not yet scheduled (handoff 029) */}
-          <a href="#" className={s.footerLink}>Careers</a>
+          <Link href="/careers" className={s.footerLink}>Careers</Link>
           {/* href intentionally "#" — repo visibility not yet confirmed (handoff 029) */}
           <a href="#" className={s.footerLink}>Contribute</a>
         </div>
