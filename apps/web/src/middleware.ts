@@ -1,7 +1,7 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-const PUBLIC_PATHS = ['/', '/signup', '/login', '/check-email', '/auth/callback'];
+const PUBLIC_PATHS = ['/', '/signup', '/login', '/check-email', '/auth/callback', '/privacy', '/terms', '/careers'];
 
 export async function middleware(request: NextRequest) {
   // Seed/preview mode: pass through, the seeded session handles auth in-app.
