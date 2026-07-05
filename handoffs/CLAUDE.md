@@ -17,6 +17,9 @@ When you find a handoff in this folder addressed to you:
 2. **Check Token dependencies.** If a token is marked `provisional`, define it exactly as specified in the handoff. If marked `pending Claude Design`, do not implement that item until the corresponding Claude Design amendment lands in `design-handoffs/`.
 3. **Branch from `development`** using the name in the `Branch` field (e.g. `fix/hardcoded-design-tokens`). Follow the branching and commit rules in the root `CLAUDE.md`.
 4. **Implement exactly what is described.** Do not expand scope. Do not touch files not listed in **Affected files**.
+
+   4a. **If this handoff adds a new route**, classify it in `apps/web/src/middleware.ts`'s `PUBLIC_PATHS` or `GATED_PATHS` as part of this handoff's implementation, even if `middleware.ts` isn't listed in **Affected files** — route classification is a standing requirement (see root `CLAUDE.md`), not optional scope. Run `pnpm check:routes` before your final commit.
+
 5. **Commit each logical group** using conventional commit messages as specified in each implementation step.
 6. **Push the branch. Stop.** Do not open a PR, do not merge to `development` or `main`.
 
