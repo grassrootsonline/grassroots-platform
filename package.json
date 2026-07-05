@@ -6,12 +6,20 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check:routes": "node scripts/check-route-access.mjs",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "turbo": "^2.3.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
     "prettier": "^3.3.3",
+    "turbo": "^2.3.3",
     "typescript": "^5.6.3"
+  },
+  "lint-staged": {
+    "apps/web/src/app/**/page.tsx": "node scripts/check-route-access.mjs",
+    "apps/web/src/middleware.ts": "node scripts/check-route-access.mjs"
   },
   "packageManager": "pnpm@9.12.3",
   "engines": {

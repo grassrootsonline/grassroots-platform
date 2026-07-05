@@ -3,6 +3,13 @@ import { NextResponse, type NextRequest } from 'next/server';
 
 const PUBLIC_PATHS = ['/', '/signup', '/login', '/check-email', '/auth/callback', '/privacy', '/terms', '/careers'];
 
+// Not read by middleware() — the fail-closed default already gates anything
+// outside PUBLIC_PATHS. This exists so every route has an explicit, reviewable
+// access-level decision on record, checked by scripts/check-route-access.mjs
+// (see package.json's check:routes / the pre-commit hook). Add every new
+// intentionally-gated route here.
+const GATED_PATHS = ['/feed', '/feed/:param', '/profile/:param', '/waitlisted'];
+
 export async function middleware(request: NextRequest) {
   // Seed/preview mode: pass through, the seeded session handles auth in-app.
   if (process.env.USE_SEED_DATA === 'true') {
