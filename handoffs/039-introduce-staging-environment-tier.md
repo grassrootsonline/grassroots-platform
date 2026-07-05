@@ -154,13 +154,22 @@ None — process, docs, and one env-flag logic fix. No styling changes.
 
 ---
 
+## Status update (2026-07-04): paused, not operational
+
+The staging Supabase project has been provisioned and schema-applied (see the checklist below — those steps are done), but Vercel↔Supabase env var wiring is not working end-to-end yet: hit an IPv6/pooler connection issue, then an auth-landing-in-production issue, then a persistent Postgres password-auth failure on the pooler connection string that wasn't resolved in a live debugging session. Rather than keep debugging live, Alex chose to pause this and revert to the two-tier flow (`development` → `main` directly) in the interim — see handoff 043 for the doc changes that reflect this. **Do not treat `staging` as a working merge target until this note is removed and 043's interim language is reverted.** The Supabase project itself should not be torn down — schema is correctly in place, so resuming later doesn't mean starting over, just re-nailing the connection string (region/host mismatch was the last live hypothesis, unconfirmed).
+
 ## Manual infrastructure checklist (Alex — not Claude Code)
 
 None of this can be done from within the repo. Listed here for traceability, not as implementation steps:
 
-- [ ] Create a new, separate Supabase project for staging.
-- [ ] Apply the existing Drizzle migrations (`supabase/migrations/`) to the new staging project so its schema matches production.
+- [ ] Create a new, separate Supabase project for staging (confirmed 2026-07-04: a fully separate project, not a Supabase persistent branch — Alex is optimizing for cost/simplicity over the auto-schema-promotion convenience branching would offer).
+- [ ] Apply schema by running the three existing SQL files in `supabase/migrations/` against the new project, in order, via the Supabase SQL Editor (or `supabase db push` if the CLI is linked to it):
+  1. `20260629000000_add_account_status.sql`
+  2. `20260702000000_rls_policies_users_user_profiles.sql`
+  3. `20260703000000_add_user_profiles_user_id_index.sql`
+
+  **Do not use `pnpm --filter @grassroots/db db:push` (`drizzle-kit push`) as a shortcut for this.** It diffs `packages/db/src/schema.ts` against the target DB, and that file only defines tables and the `account_status` enum — it has no representation of RLS policies or the hand-written FK index. Relying on `db:push` alone would silently produce a staging database with the right tables but **no RLS policies at all**, which matters more than usual here since RLS is currently the only real enforcement layer in the app (`ARCHITECTURE.md` §8.1).
 - [ ] Create the `staging` git branch off `development` on GitHub.
-- [ ] In Vercel project settings, configure a branch environment for `staging` with its own `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `DATABASE_URL` (pointing at the new staging Supabase project), `NEXT_PUBLIC_APP_ENV=staging`, `USE_SEED_DATA=false`.
+- [ ] In Vercel project settings, configure a branch environment for `staging` with its own `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `DATABASE_URL` (pointing at the new staging Supabase project), `NEXT_PUBLIC_APP_ENV=staging`, `USE_SEED_DATA=false`. **`DATABASE_URL` here must be the Transaction pooler connection string, not the direct connection** — the direct connection host only resolves via IPv6, which Vercel's functions can't route, and will break every page that touches the database with an `ENOTFOUND` error (hit this exact issue setting up staging on 2026-07-04 — see handoff 042 for the full fix and corrected `.env.example`).
 - [ ] Consider enabling Vercel Deployment Protection (password or SSO) on the `staging` branch's deployment — "closed testing" implies restricted access, and this is a dashboard-level toggle, not application code.
 - [ ] Decide whether to add a GitHub branch protection rule requiring `main` to only accept merges from `staging` (optional hardening, not required for this handoff to be useful).

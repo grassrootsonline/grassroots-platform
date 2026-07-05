@@ -455,8 +455,11 @@ Sentry and Axiom are **not** wired — no `instrumentation.ts`, no Sentry/Axiom 
 
 ### 15.4 Git workflow
 
+> ⚠ **Staging is not yet operational (as of 2026-07-04).** The project is provisioned and schema is applied, but Vercel↔Supabase environment variable wiring isn't working end-to-end — see handoff 039's status update for the diagnostic history. Until this callout is removed, treat `main` as receiving merges directly from `development` (temporary reversion — see below), not from `staging`.
+
 - Branch model: `main` (production, live) ← `staging` (closed testing, live, isolated Supabase project) ← `development` (integration, seeded) ← `feature/<short-description>` (seeded). Each branch gets its own Vercel deployment/environment.
-- `development` merges up into `staging` for a real-backend check before anything reaches production. `staging` merges up into `main` only after that check passes. Automated or bot-authored PRs (e.g. Vercel Agent integrations) that default to targeting `main` should be retargeted to `staging` before merging — do not merge them to `main` directly.
+- **Interim, while staging is paused (see callout above):** `development` merges directly into `main`, same as before the staging tier was introduced. Automated or bot-authored PRs (e.g. Vercel Agent integrations) that default to targeting `main` should be retargeted to `development` first, so at least one review step happens before `main` — not to `staging`, which isn't functional yet.
+- **Once staging is operational again:** `development` merges up into `staging` for a real-backend check before anything reaches production; `staging` merges up into `main` only after that check passes. Bot-authored PRs should retarget to `staging` at that point, not `development`.
 - Branch naming: `feature/{ticket-id}-short-description`, `fix/{ticket-id}-description`, `chore/description`.
 - Commit messages follow Conventional Commits: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `perf:`.
 - No CI currently runs on this repo (no `.github/workflows` — see §3.1). There is no automated lint/type-check/test gate and no required-approval rule today.
@@ -478,6 +481,7 @@ Moved to `ROADMAP.md` — this section described future growth phases, not curre
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=        # Server-side only — NEVER expose to client
+DATABASE_URL=                     # Transaction pooler string in any deployed environment (Vercel) — direct connection is IPv6-only and breaks on Vercel's functions. Direct connection is fine for local Drizzle Kit CLI use only.
 
 # Upstash Redis
 UPSTASH_REDIS_REST_URL=
@@ -516,7 +520,9 @@ In local development with Supabase CLI (`supabase start`), email confirmation is
 
 #### Staging environment configuration
 
-`staging` requires its own complete Supabase credential set — `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, and `DATABASE_URL` — scoped to the staging Vercel environment/branch and distinct from production's. Staging points at a separate, isolated Supabase project (same schema, applied via the same Drizzle migrations, but no shared data with production). `NEXT_PUBLIC_APP_ENV=staging` and `USE_SEED_DATA=false`.
+Not currently operational — see `CLAUDE.md` and handoff 039.
+
+`staging` requires its own complete Supabase credential set — `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, and `DATABASE_URL` — scoped to the staging Vercel environment/branch and distinct from production's. Staging points at a separate, isolated Supabase project (same schema, applied via the same Drizzle migrations, but no shared data with production). `NEXT_PUBLIC_APP_ENV=staging` and `USE_SEED_DATA=false`. **`DATABASE_URL` for the staging Vercel environment must be the transaction pooler string, same as production** — the direct connection is IPv6-only and breaks on Vercel's functions (see the `.env.example` guidance above; this is exactly the failure hit standing up staging on 2026-07-04).
 
 ---
 
