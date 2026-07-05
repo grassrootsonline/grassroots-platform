@@ -478,6 +478,7 @@ Moved to `ROADMAP.md` — this section described future growth phases, not curre
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=        # Server-side only — NEVER expose to client
+DATABASE_URL=                     # Transaction pooler string in any deployed environment (Vercel) — direct connection is IPv6-only and breaks on Vercel's functions. Direct connection is fine for local Drizzle Kit CLI use only.
 
 # Upstash Redis
 UPSTASH_REDIS_REST_URL=
@@ -516,7 +517,7 @@ In local development with Supabase CLI (`supabase start`), email confirmation is
 
 #### Staging environment configuration
 
-`staging` requires its own complete Supabase credential set — `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, and `DATABASE_URL` — scoped to the staging Vercel environment/branch and distinct from production's. Staging points at a separate, isolated Supabase project (same schema, applied via the same Drizzle migrations, but no shared data with production). `NEXT_PUBLIC_APP_ENV=staging` and `USE_SEED_DATA=false`.
+`staging` requires its own complete Supabase credential set — `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, and `DATABASE_URL` — scoped to the staging Vercel environment/branch and distinct from production's. Staging points at a separate, isolated Supabase project (same schema, applied via the same Drizzle migrations, but no shared data with production). `NEXT_PUBLIC_APP_ENV=staging` and `USE_SEED_DATA=false`. **`DATABASE_URL` for the staging Vercel environment must be the transaction pooler string, same as production** — the direct connection is IPv6-only and breaks on Vercel's functions (see the `.env.example` guidance above; this is exactly the failure hit standing up staging on 2026-07-04).
 
 ---
 
