@@ -1,0 +1,176 @@
+/* ── Shell ── */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-canvas);
+}
+
+/* ── Nav ── */
+.nav {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-xl);
+  border-bottom: var(--border-default);
+  background: var(--color-surface);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  color: var(--color-ink);
+  line-height: 1;
+  text-decoration: none;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: var(--color-ink);
+}
+
+/* ── Main ── */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xl);
+  padding: var(--space-3xl) var(--space-xl);
+  text-align: center;
+}
+
+.hero {
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.eyebrow {
+  font-size: var(--text-small);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: var(--weight-medium);
+  color: var(--color-accent);
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 400;
+  color: var(--color-ink);
+  line-height: var(--leading-display);
+}
+
+.body {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--color-ink-soft);
+}
+
+/* ── Notify card ── */
+.card {
+  width: 100%;
+  max-width: 560px;
+  background: var(--color-surface);
+  border: var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  text-align: left;
+}
+
+.cardTitle {
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+}
+
+.cardBody {
+  font-size: var(--text-small);
+  line-height: var(--leading-body);
+  color: var(--color-secondary);
+}
+
+.cardFootnote {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.formRow {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.formRow :global(.input) {
+  flex: 1;
+}
+
+/* ── Footer ── */
+.footer {
+  padding: var(--space-xl) var(--space-2xl);
+  border-top: var(--border-default);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.footerLinks {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+.footerLink {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  color: var(--color-ink);
+}
+
+.footerLinkActive {
+  color: var(--color-ink);
+  font-weight: var(--weight-medium);
+}
+
+.copyright {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+}
+
+/* ── Responsive — 768px matches --bp-md in responsive.css ── */
+@media (max-width: 768px) {
+  .main {
+    padding: var(--space-2xl) var(--space-lg);
+  }
+
+  .heading {
+    font-size: var(--text-title);
+  }
+}

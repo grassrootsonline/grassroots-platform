@@ -42,3 +42,9 @@ export const userProfiles = pgTable('user_profiles', {
   createdAt:   timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt:   timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });
+
+export const careerInterestSignups = pgTable('career_interest_signups', {
+  id:        uuid('id').primaryKey().defaultRandom(),
+  email:     text('email').unique().notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+});
