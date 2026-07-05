@@ -158,8 +158,13 @@ None — process, docs, and one env-flag logic fix. No styling changes.
 
 None of this can be done from within the repo. Listed here for traceability, not as implementation steps:
 
-- [ ] Create a new, separate Supabase project for staging.
-- [ ] Apply the existing Drizzle migrations (`supabase/migrations/`) to the new staging project so its schema matches production.
+- [ ] Create a new, separate Supabase project for staging (confirmed 2026-07-04: a fully separate project, not a Supabase persistent branch — Alex is optimizing for cost/simplicity over the auto-schema-promotion convenience branching would offer).
+- [ ] Apply schema by running the three existing SQL files in `supabase/migrations/` against the new project, in order, via the Supabase SQL Editor (or `supabase db push` if the CLI is linked to it):
+  1. `20260629000000_add_account_status.sql`
+  2. `20260702000000_rls_policies_users_user_profiles.sql`
+  3. `20260703000000_add_user_profiles_user_id_index.sql`
+
+  **Do not use `pnpm --filter @grassroots/db db:push` (`drizzle-kit push`) as a shortcut for this.** It diffs `packages/db/src/schema.ts` against the target DB, and that file only defines tables and the `account_status` enum — it has no representation of RLS policies or the hand-written FK index. Relying on `db:push` alone would silently produce a staging database with the right tables but **no RLS policies at all**, which matters more than usual here since RLS is currently the only real enforcement layer in the app (`ARCHITECTURE.md` §8.1).
 - [ ] Create the `staging` git branch off `development` on GitHub.
 - [ ] In Vercel project settings, configure a branch environment for `staging` with its own `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `DATABASE_URL` (pointing at the new staging Supabase project), `NEXT_PUBLIC_APP_ENV=staging`, `USE_SEED_DATA=false`.
 - [ ] Consider enabling Vercel Deployment Protection (password or SSO) on the `staging` branch's deployment — "closed testing" implies restricted access, and this is a dashboard-level toggle, not application code.
