@@ -1,7 +1,11 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-const PUBLIC_PATHS = ['/', '/signup', '/login', '/check-email', '/auth/callback', '/privacy', '/terms', '/careers'];
+const PUBLIC_PATHS = ['/', '/signup', '/login', '/check-email', '/auth/callback', '/privacy', '/terms', '/careers', '/careers/:param'];
+// Note: '/careers/:param' here is bookkeeping for scripts/check-route-access.mjs's
+// route-classification check only. The actual runtime allow-list for
+// /careers/[slug] is the explicit pathname.startsWith('/careers/') checks below —
+// PUBLIC_PATHS.includes() is an exact match and would never match a real slug.
 
 // Not read by middleware() — the fail-closed default already gates anything
 // outside PUBLIC_PATHS. This exists so every route has an explicit, reviewable
@@ -55,7 +59,7 @@ export async function middleware(request: NextRequest) {
   // waitlisted holding page) requires a session. Mirrors the account_status
   // allow-list below; do not reintroduce a route-specific deny-list here.
   if (!user) {
-    if (!PUBLIC_PATHS.includes(pathname) && !pathname.startsWith('/waitlisted')) {
+    if (!PUBLIC_PATHS.includes(pathname) && !pathname.startsWith('/waitlisted') && !pathname.startsWith('/careers/')) {
       return NextResponse.redirect(new URL('/login', request.url));
     }
     return response;
@@ -116,7 +120,7 @@ export async function middleware(request: NextRequest) {
   // Anything else — waitlisted, missing profile row, a failed/erroring
   // query, or an unrecognized future status — is treated as not-active
   // and gated to /waitlisted. This must fail closed, not open.
-  if (status !== 'active' && !PUBLIC_PATHS.includes(pathname) && !pathname.startsWith('/waitlisted')) {
+  if (status !== 'active' && !PUBLIC_PATHS.includes(pathname) && !pathname.startsWith('/waitlisted') && !pathname.startsWith('/careers/')) {
     return NextResponse.redirect(new URL('/waitlisted', request.url));
   }
 
