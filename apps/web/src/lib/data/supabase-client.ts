@@ -1,11 +1,11 @@
 import { count, eq } from 'drizzle-orm'
 import { db } from '@grassroots/db'
-import { users } from '@grassroots/db/schema'
+import { users, jobPostings } from '@grassroots/db/schema'
 import { createServerClient } from '@/lib/supabase/server'
 import type {
   DataClient, CurrentUser, UserProfile, FeedPost,
   TrendingProject, SuggestedUser, ProfileProject, Reply,
-  SidebarProject, AppNotification,
+  SidebarProject, AppNotification, JobPosting,
 } from './types'
 
 export class SupabaseDataClient implements DataClient {
@@ -74,5 +74,33 @@ export class SupabaseDataClient implements DataClient {
       .from(users)
       .where(eq(users.accountStatus, 'waitlisted'))
     return row?.count ?? 0
+  }
+
+  async getPublishedJobPostings(): Promise<JobPosting[]> {
+    const rows = await db
+      .select()
+      .from(jobPostings)
+      .where(eq(jobPostings.status, 'published'))
+    return rows.map(toJobPosting)
+  }
+
+  async getJobPostingBySlug(slug: string): Promise<JobPosting | null> {
+    const row = await db.query.jobPostings.findFirst({
+      where: (p, { eq }) => eq(p.slug, slug),
+    })
+    if (!row || row.status !== 'published') return null
+    return toJobPosting(row)
+  }
+}
+
+function toJobPosting(row: typeof jobPostings.$inferSelect): JobPosting {
+  return {
+    id: row.id,
+    slug: row.slug,
+    title: row.title,
+    department: row.department,
+    location: row.location,
+    employmentType: row.employmentType,
+    description: row.description,
   }
 }

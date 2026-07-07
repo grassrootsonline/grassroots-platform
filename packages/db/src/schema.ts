@@ -48,3 +48,42 @@ export const careerInterestSignups = pgTable('career_interest_signups', {
   email:     text('email').unique().notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });
+
+export const jobPostingStatusEnum = pgEnum('job_posting_status', [
+  'draft',
+  'published',
+  'closed',
+]);
+
+export const adminUsers = pgTable('admin_users', {
+  id:        uuid('id').primaryKey().defaultRandom(),
+  userId:    uuid('user_id').unique().notNull().references(() => users.id, { onDelete: 'cascade' }),
+  grantedBy: uuid('granted_by').references(() => users.id),
+  grantedAt: timestamp('granted_at', { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const jobPostings = pgTable('job_postings', {
+  id:             uuid('id').primaryKey().defaultRandom(),
+  slug:           text('slug').unique().notNull(),
+  title:          text('title').notNull(),
+  department:     text('department'),
+  location:       text('location'),
+  employmentType: text('employment_type'),
+  description:    text('description').notNull(),
+  status:         jobPostingStatusEnum('status').notNull().default('draft'),
+  createdBy:      uuid('created_by').notNull().references(() => users.id),
+  createdAt:      timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt:      timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  publishedAt:    timestamp('published_at', { withTimezone: true }),
+  closedAt:       timestamp('closed_at', { withTimezone: true }),
+});
+
+export const jobApplications = pgTable('job_applications', {
+  id:           uuid('id').primaryKey().defaultRandom(),
+  postingId:    uuid('posting_id').notNull().references(() => jobPostings.id, { onDelete: 'cascade' }),
+  name:         text('name').notNull(),
+  email:        text('email').notNull(),
+  portfolioUrl: text('portfolio_url'),
+  note:         text('note'),
+  createdAt:    timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+});
