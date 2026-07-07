@@ -64,7 +64,7 @@ export async function middleware(request: NextRequest) {
   // Session exists — fetch account_status
   const { data: profile, error: profileError } = await supabase
     .from('users')
-    .select('account_status')
+    .select('id, account_status')
     .eq('auth_id', user.id)
     .single();
 
@@ -80,6 +80,31 @@ export async function middleware(request: NextRequest) {
     const url = new URL('/login', request.url);
     url.searchParams.set('reason', 'suspended');
     return NextResponse.redirect(url);
+  }
+
+  // Admin routes — independent of account_status. Being staff isn't the same
+  // axis as being waitlisted/active, so this check runs on its own rather than
+  // folding into the allow-list below. Non-admins (including active ones) are
+  // sent to /feed, not /waitlisted — they're not being told to wait, they're
+  // just not staff.
+  if (pathname.startsWith('/admin')) {
+    // HANDOFF CONFLICT (052): the handoff's snippet checked
+    // admin_users.user_id against the Supabase auth UID directly, but
+    // admin_users.user_id is a FK to the internal users.id (same auth_id vs.
+    // users.id distinction the account_status lookup above already handles).
+    // Using profile.id here instead so the check can actually match.
+    const { data: admin } = profile?.id
+      ? await supabase
+          .from('admin_users')
+          .select('id')
+          .eq('user_id', profile.id)
+          .maybeSingle()
+      : { data: null };
+
+    if (!admin) {
+      return NextResponse.redirect(new URL('/feed', request.url));
+    }
+    return response;
   }
 
   // Active user hitting auth pages or the waitlisted holding page — send to feed
