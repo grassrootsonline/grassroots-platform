@@ -1,0 +1,212 @@
+.page {
+  padding: var(--space-2xl);
+  max-width: 960px;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  font-weight: 400;
+  color: var(--color-ink);
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  background: none;
+  border: none;
+  text-decoration: none;
+  margin-bottom: var(--space-lg);
+}
+
+.backLink:hover {
+  color: var(--color-ink);
+}
+
+.backLink i {
+  font-size: 14px;
+}
+
+/* ── Table ── */
+.tableCard {
+  background: var(--color-surface);
+  border: var(--border-default);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  color: var(--color-secondary);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: var(--border-default);
+}
+
+.table td {
+  font-size: var(--text-body);
+  color: var(--color-ink);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: var(--border-default);
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.right {
+  text-align: right;
+}
+
+.actionCol {
+  width: 44px;
+}
+
+.roleCell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.roleTitle {
+  font-weight: var(--weight-medium);
+}
+
+.roleMeta {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+}
+
+.department {
+  color: var(--color-ink-soft);
+}
+
+.rowLink {
+  color: var(--color-accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--text-body);
+  text-decoration: none;
+}
+
+.rowAction {
+  background: none;
+  border: none;
+  color: var(--color-secondary);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+  display: inline-flex;
+}
+
+.rowAction:hover {
+  color: var(--color-ink);
+  background: var(--color-canvas);
+}
+
+/* ── Empty state ── */
+.emptyState {
+  background: var(--color-surface);
+  border: var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-sm);
+}
+
+.emptyState i {
+  font-size: 28px;
+  color: var(--color-secondary);
+}
+
+.emptyTitle {
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+}
+
+.emptyBody {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  max-width: 320px;
+}
+
+/* ── Posting form ── */
+.formPage {
+  padding: var(--space-2xl);
+  max-width: 640px;
+  width: 100%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.formRow {
+  display: flex;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.formRow .field {
+  flex: 1;
+  min-width: 180px;
+}
+
+.formActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding-top: var(--space-sm);
+}
+
+.dangerAction {
+  margin-left: auto;
+  color: var(--color-danger);
+}
+
+.selectWrap {
+  position: relative;
+}
+
+.selectWrap i {
+  position: absolute;
+  right: var(--space-md);
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: var(--color-secondary);
+  pointer-events: none;
+}
