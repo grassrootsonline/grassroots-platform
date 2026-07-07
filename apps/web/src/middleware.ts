@@ -82,8 +82,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Active user hitting auth pages — send to feed
-  if (status === 'active' && (pathname === '/signup' || pathname === '/login' || pathname === '/')) {
+  // Active user hitting auth pages or the waitlisted holding page — send to feed
+  if (status === 'active' && (pathname === '/signup' || pathname === '/login' || pathname === '/' || pathname === '/waitlisted')) {
     return NextResponse.redirect(new URL('/feed', request.url));
   }
 
