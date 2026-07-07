@@ -454,6 +454,7 @@ Rate limits are applied per authenticated user ID. Unauthenticated requests are 
 | **Media processing** | After image upload to Supabase Storage, a webhook triggers image optimization and blur placeholder generation. |
 | **Search index sync** | After content creation or update, a job syncs the record to the search index (Phase 2: Algolia). |
 | **Moderation queue** | Flagged content is queued in a `moderation_queue` table and processed by Platform Mods via the admin panel. |
+| **Waitlist activation email** | When a waitlisted account is activated (today: a manual `UPDATE`; planned: triggered from the admin panel's career/user management section), a transactional email is sent via Resend notifying the user access is open. Today activation is silent — `/waitlisted`'s "we'll email you" copy is currently aspirational, not backed by code. |
 
 ---
 

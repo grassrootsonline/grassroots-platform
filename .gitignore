@@ -16,6 +16,9 @@ out
 # Vercel
 .vercel
 
+# Supabase CLI local cache
+supabase/.temp
+
 # TypeScript
 *.tsbuildinfo
 
