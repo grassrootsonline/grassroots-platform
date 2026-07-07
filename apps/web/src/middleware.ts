@@ -12,7 +12,11 @@ const PUBLIC_PATHS = ['/', '/signup', '/login', '/check-email', '/auth/callback'
 // access-level decision on record, checked by scripts/check-route-access.mjs
 // (see package.json's check:routes / the pre-commit hook). Add every new
 // intentionally-gated route here.
-const GATED_PATHS = ['/feed', '/feed/:param', '/profile/:param', '/waitlisted'];
+const GATED_PATHS = [
+  '/feed', '/feed/:param', '/profile/:param', '/waitlisted',
+  '/admin', '/admin/careers', '/admin/careers/new',
+  '/admin/careers/:param/edit', '/admin/careers/:param/applications',
+];
 
 export async function middleware(request: NextRequest) {
   // Seed/preview mode: pass through, the seeded session handles auth in-app.
