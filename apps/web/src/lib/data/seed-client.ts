@@ -1,7 +1,7 @@
 import type {
   DataClient, CurrentUser, UserProfile, FeedPost,
   TrendingProject, SuggestedUser, ProfileProject, Reply,
-  SidebarProject, AppNotification,
+  SidebarProject, AppNotification, JobPosting,
 } from './types'
 import {
   MOCK_USER, MOCK_POSTS, MOCK_TRENDING,
@@ -12,6 +12,27 @@ import {
 const MOCK_PROFILE_PROJECTS: ProfileProject[] = [
   { id: '1', name: 'Inference Stack', slug: 'inference-stack', description: 'High-throughput batched inference for open-source LLMs.', postCount: 12, collaboratorCount: 3 },
   { id: '2', name: 'PromptKit', slug: 'promptkit', description: 'Structured output, retries, and a local prompt playground.', postCount: 8, collaboratorCount: 1 },
+]
+
+const MOCK_JOB_POSTINGS: JobPosting[] = [
+  {
+    id: '1',
+    slug: 'founding-engineer',
+    title: 'Founding Engineer',
+    department: 'Engineering',
+    location: 'Remote',
+    employmentType: 'Full-time',
+    description: 'Help us build the social platform for AI builders, from the ground up. You will work across the full stack — frontend, backend, and infra — with a small, senior team.',
+  },
+  {
+    id: '2',
+    slug: 'community-lead',
+    title: 'Community Lead',
+    department: 'Community',
+    location: 'Remote',
+    employmentType: 'Full-time',
+    description: 'Own the day-to-day health of the Grassroots community — onboarding new builders, moderation, and running programs that help people ship.',
+  },
 ]
 
 export class SeedDataClient implements DataClient {
@@ -38,4 +59,10 @@ export class SeedDataClient implements DataClient {
   async getWaitlistCount(): Promise<number> { return MOCK_WAITLIST_COUNT }
   async getUserProjects(): Promise<SidebarProject[]> { return MOCK_SIDEBAR_PROJECTS }
   async getNotifications(): Promise<AppNotification[]> { return MOCK_NOTIFICATIONS }
+
+  async getPublishedJobPostings(): Promise<JobPosting[]> { return MOCK_JOB_POSTINGS }
+
+  async getJobPostingBySlug(slug: string): Promise<JobPosting | null> {
+    return MOCK_JOB_POSTINGS.find((p) => p.slug === slug) ?? null
+  }
 }
