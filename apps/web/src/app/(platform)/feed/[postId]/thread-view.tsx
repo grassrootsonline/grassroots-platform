@@ -7,6 +7,7 @@ import { FeedCard } from '@/components/feed/feed-card'
 import { Avatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/toast'
+import { createCommentAction, reactToPostAction } from '@/actions/posts.actions'
 import type { CurrentUser, FeedPost, Reply, SidebarProject } from '@/lib/data'
 import s from './page.module.css'
 
@@ -33,19 +34,27 @@ export function ThreadView({ user, post, initialReplies, sidebarProjects }: Thre
   const [replyText, setReplyText] = useState('')
   const [replyLikes, setReplyLikes] = useState<Record<string, number>>({})
 
-  function handleReply() {
+  async function handleReply() {
     if (!replyText.trim()) return
-    setReplies((prev) => [
-      ...prev,
-      {
-        id: `r-${Date.now()}`,
-        author: { name: user.name, username: user.username, avatarUrl: user.avatarUrl },
-        content: replyText.trim(),
-        createdAt: new Date().toISOString(),
-        reactionCount: 0,
-      },
-    ])
+    const trimmed = replyText.trim()
     setReplyText('')
+
+    const optimisticReply: Reply = {
+      id: `r-${Date.now()}`,
+      author: { name: user.name, username: user.username, avatarUrl: user.avatarUrl },
+      content: trimmed,
+      createdAt: new Date().toISOString(),
+      reactionCount: 0,
+    }
+    setReplies((prev) => [...prev, optimisticReply])
+
+    const result = await createCommentAction(post.id, trimmed)
+    if ('error' in result) {
+      setReplies((prev) => prev.filter((r) => r.id !== optimisticReply.id))
+      toast('Could not post your reply. Try again.')
+      return
+    }
+    setReplies((prev) => prev.map((r) => (r.id === optimisticReply.id ? { ...r, id: result.id, createdAt: result.createdAt } : r)))
     toast('Reply posted.')
   }
 
@@ -59,7 +68,10 @@ export function ThreadView({ user, post, initialReplies, sidebarProjects }: Thre
           Back to feed
         </Link>
 
-        <FeedCard post={post} />
+        <FeedCard
+          post={post}
+          onReact={(postId) => reactToPostAction(postId).catch(() => toast('Could not update your reaction.'))}
+        />
 
         {/* Replies section */}
         <div className={s.replies}>
