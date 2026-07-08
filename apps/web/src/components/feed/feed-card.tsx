@@ -37,6 +37,7 @@ export interface FeedPost {
 interface FeedCardProps {
   post: FeedPost
   onOpenThread?: (postId: string) => void
+  onReact?: (postId: string) => void
 }
 
 function formatTime(dateStr: string): string {
@@ -53,13 +54,14 @@ function formatTime(dateStr: string): string {
   return date.toLocaleDateString('en', { month: 'short', day: 'numeric' })
 }
 
-export function FeedCard({ post, onOpenThread }: FeedCardProps) {
+export function FeedCard({ post, onOpenThread, onReact }: FeedCardProps) {
   const [liked, setLiked] = useState(post.likedByMe ?? false)
   const [likeCount, setLikeCount] = useState(post.reactionCount)
 
   function handleLike() {
     setLiked((prev) => !prev)
     setLikeCount((prev) => (liked ? prev - 1 : prev + 1))
+    onReact?.(post.id)
   }
 
   return (

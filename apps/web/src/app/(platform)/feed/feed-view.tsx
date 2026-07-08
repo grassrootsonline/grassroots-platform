@@ -9,6 +9,9 @@ import { ComposerModal } from '@/components/feed/composer-modal'
 import { Avatar } from '@/components/ui/avatar'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { toast } from '@/components/ui/toast'
+import { createPostAction, reactToPostAction } from '@/actions/posts.actions'
+import { followUserAction } from '@/actions/follows.actions'
 import type { CurrentUser, FeedPost, TrendingProject, SuggestedUser, SidebarProject } from '@/lib/data'
 import s from './page.module.css'
 
@@ -35,20 +38,49 @@ export function FeedView({ user, initialPosts, trending, whoToFollow, projects }
   const [composerOpen, setComposerOpen] = useState(false)
   const [following, setFollowing] = useState<Record<string, boolean>>({})
 
-  function handlePublish({ content, projectId }: { content: string; projectId?: string }) {
-    const newPost: FeedPost = {
-      id: `new-${Date.now()}`,
+  async function handlePublish({ content }: { content: string; projectId?: string }) {
+    const tempId = `new-${Date.now()}`
+    const optimisticPost: FeedPost = {
+      id: tempId,
       author: { name: user.name, username: user.username, avatarUrl: user.avatarUrl },
       content,
       createdAt: new Date().toISOString(),
       reactionCount: 0,
       commentCount: 0,
     }
-    setPosts((prev) => [newPost, ...prev])
+    setPosts((prev) => [optimisticPost, ...prev])
+
+    const result = await createPostAction(content)
+    if ('error' in result) {
+      setPosts((prev) => prev.filter((p) => p.id !== tempId))
+      throw new Error(result.error)
+    }
+    // Reconcile temp ID with the real one so /feed/[postId] links work.
+    setPosts((prev) => prev.map((p) => (p.id === tempId ? { ...p, id: result.id, createdAt: result.createdAt } : p)))
   }
 
-  function toggleFollow(key: string) {
+  function handleReact(postId: string) {
+    reactToPostAction(postId).catch(() => {
+      toast('Could not update your reaction. Try again.')
+      // FeedCard's own local state already flipped optimistically — a full rollback would
+      // need lifting like-state up out of FeedCard, which isn't worth it for a rare failure
+      // case. A toast + leaving the optimistic state is an acceptable v1 tradeoff.
+    })
+  }
+
+  function toggleFollowProject(key: string) {
+    // "Trending projects" stays stubbed empty (no real projects table yet, per handoff 059's
+    // scope note) — local-only toggle is fine since there's nothing real to persist yet.
     setFollowing((f) => ({ ...f, [key]: !f[key] }))
+  }
+
+  async function handleFollowUser(username: string, userId: string) {
+    setFollowing((f) => ({ ...f, [username]: !f[username] })) // optimistic
+    const result = await followUserAction(userId)
+    if ('error' in result) {
+      setFollowing((f) => ({ ...f, [username]: !f[username] })) // rollback
+      toast(result.error)
+    }
   }
 
   return (
@@ -94,6 +126,7 @@ export function FeedView({ user, initialPosts, trending, whoToFollow, projects }
                   <FeedCard
                     post={post}
                     onOpenThread={(id) => window.location.assign(`/feed/${id}`)}
+                    onReact={handleReact}
                   />
                 </motion.div>
               ))}
@@ -118,7 +151,7 @@ export function FeedView({ user, initialPosts, trending, whoToFollow, projects }
                     </p>
                   </div>
                   <button
-                    onClick={() => toggleFollow(p.slug)}
+                    onClick={() => toggleFollowProject(p.slug)}
                     className={[
                       'btn btn-sm flex-shrink-0',
                       following[p.slug] ? 'btn-secondary' : 'btn-primary',
@@ -149,7 +182,7 @@ export function FeedView({ user, initialPosts, trending, whoToFollow, projects }
                     </div>
                   </div>
                   <button
-                    onClick={() => toggleFollow(u.username)}
+                    onClick={() => handleFollowUser(u.username, u.id)}
                     className={[
                       'btn btn-sm flex-shrink-0',
                       following[u.username] ? 'btn-secondary' : 'btn-primary',
