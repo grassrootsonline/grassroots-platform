@@ -68,6 +68,16 @@ export interface AppNotification {
   read: boolean
 }
 
+export interface JobPosting {
+  id: string
+  slug: string
+  title: string
+  department: string | null
+  location: string | null
+  employmentType: string | null
+  description: string
+}
+
 export interface DataClient {
   getCurrentUser(): Promise<CurrentUser | null>
   getUserProfile(username: string): Promise<UserProfile | null>
@@ -80,4 +90,6 @@ export interface DataClient {
   getWaitlistCount(): Promise<number>
   getUserProjects(): Promise<SidebarProject[]>
   getNotifications(): Promise<AppNotification[]>
+  getPublishedJobPostings(): Promise<JobPosting[]>
+  getJobPostingBySlug(slug: string): Promise<JobPosting | null>
 }

@@ -21,9 +21,11 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: var(--color-canvas); color: var(--color-ink); font-family: var(--font-body); }
+    a { color: var(--color-accent); }
+    a:hover { opacity: 0.8; }
     .wordmark { font-family: var(--font-display); font-size: 24px; color: var(--color-ink); text-decoration: none; }
-    .input { display: block; width: 100%; font-family: var(--font-body); font-size: var(--text-body); color: var(--color-ink); background: var(--color-canvas); border: var(--border-strong); border-radius: var(--radius-md); padding: 10px 14px; outline: none; transition: border-color 120ms ease, box-shadow 120ms ease; }
-    .input:focus { border-color: var(--color-accent); box-shadow: var(--focus-ring); }
+    .role-card { display: flex; align-items: center; justify-content: space-between; gap: var(--space-lg); width: 100%; text-align: left; background: var(--color-surface); border: var(--border-default); border-radius: var(--radius-lg); padding: var(--space-lg) var(--space-relaxed); text-decoration: none; color: inherit; cursor: pointer; transition: border-color 120ms ease; }
+    .role-card:hover { border-color: var(--color-accent); }
   </style>
 </helmet>
 
@@ -38,27 +40,55 @@
   </nav>
 
   <!-- Main -->
-  <main style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:var(--space-3xl) var(--space-xl); text-align:center;">
+  <main style="flex:1; width:100%; max-width:720px; margin:0 auto; padding:var(--space-3xl) var(--space-xl); display:flex; flex-direction:column;">
 
-    <div style="max-width:560px; display:flex; flex-direction:column; align-items:center; gap:var(--space-xl);">
-
-      <div style="display:flex; flex-direction:column; gap:var(--space-md);">
-        <p style="font-size:var(--text-small); text-transform:uppercase; letter-spacing:0.08em; font-weight:var(--weight-medium); color:var(--color-accent);">Careers</p>
-        <h1 style="font-family:var(--font-display); font-size:40px; font-weight:400; color:var(--color-ink); line-height:1.15;">We're a small team building something we care about.</h1>
-        <p style="font-size:var(--text-body); line-height:1.7; color:var(--color-ink-soft);">No open roles right now — but that'll change. When we're ready to grow, we want to find people who genuinely believe in what we're doing.</p>
-      </div>
-
-      <div style="width:100%; background:var(--color-surface); border:var(--border-default); border-radius:var(--radius-lg); padding:var(--space-xl); display:flex; flex-direction:column; gap:var(--space-md); text-align:left;">
-        <p style="font-size:var(--text-body); font-weight:var(--weight-medium); color:var(--color-ink);">Stay in the loop</p>
-        <p style="font-size:var(--text-small); line-height:1.6; color:var(--color-secondary);">Drop your email and we'll reach out when something opens up that might be a fit.</p>
-        <div style="display:flex; gap:var(--space-sm);">
-          <input class="input" type="email" placeholder="you@example.com" style="flex:1;">
-          <button class="btn btn-primary" style="white-space:nowrap;">Notify me</button>
-        </div>
-        <p style="font-size:var(--text-small); color:var(--color-secondary);">No spam. Unsubscribe anytime.</p>
-      </div>
-
+    <!-- Header -->
+    <div style="display:flex; flex-direction:column; gap:var(--space-md); margin-bottom:var(--space-2xl);">
+      <p style="font-size:var(--text-small); text-transform:uppercase; letter-spacing:0.08em; font-weight:var(--weight-medium); color:var(--color-accent);">Careers</p>
+      <h1 style="font-family:var(--font-display); font-size:40px; font-weight:400; color:var(--color-ink); line-height:1.15;">We're a small team building something we care about.</h1>
+      <p style="font-size:var(--text-body); line-height:1.7; color:var(--color-ink-soft);">We hire slowly and intentionally. When a role opens, we're looking for people who genuinely believe in what we're building.</p>
     </div>
+
+    <!-- Populated: role listing -->
+    <sc-if value="{{ hasPostings }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex; flex-direction:column; gap:var(--space-relaxed);">
+        <p style="font-size:var(--text-small); font-weight:var(--weight-medium); color:var(--color-secondary);">{{ openCountLabel }}</p>
+        <div style="display:flex; flex-direction:column; gap:var(--space-md);">
+          <sc-for list="{{ postings }}" as="job" hint-placeholder-count="3">
+            <a href="07-careers-posting.dc.html" class="role-card">
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <span style="font-size:var(--text-heading); font-weight:var(--weight-medium); color:var(--color-ink);">{{ job.title }}</span>
+                <div style="display:flex; align-items:center; gap:var(--space-sm); flex-wrap:wrap;">
+                  <span style="font-size:var(--text-small); color:var(--color-secondary);">{{ job.department }}</span>
+                  <span style="font-size:var(--text-small); color:var(--color-border-strong);">·</span>
+                  <span style="font-size:var(--text-small); color:var(--color-secondary);">{{ job.location }}</span>
+                  <span style="font-size:var(--text-small); color:var(--color-border-strong);">·</span>
+                  <span style="font-size:var(--text-small); color:var(--color-secondary);">{{ job.type }}</span>
+                </div>
+              </div>
+              <i class="ti ti-arrow-right" style="font-size:18px; color:var(--color-accent); flex-shrink:0;" aria-hidden="true"></i>
+            </a>
+          </sc-for>
+        </div>
+        <p style="font-size:var(--text-small); color:var(--color-secondary); margin-top:var(--space-sm);">Don't see a fit? <button class="link-btn" style="font-size:var(--text-small); color:var(--color-accent); background:none; border:none; padding:0; cursor:pointer; text-decoration:underline; text-underline-offset:2px;" onClick="{{ toggleState }}">Join our talent list</button> and we'll reach out when something opens.</p>
+      </div>
+    </sc-if>
+
+    <!-- Empty: no roles + notify-me -->
+    <sc-if value="{{ noPostings }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:520px; display:flex; flex-direction:column; gap:var(--space-xl);">
+        <p style="font-size:var(--text-body); line-height:1.7; color:var(--color-ink-soft);">No open roles right now — but that'll change. When we're ready to grow, we want to find people who care about the same things we do.</p>
+        <div style="width:100%; background:var(--color-surface); border:var(--border-default); border-radius:var(--radius-lg); padding:var(--space-xl); display:flex; flex-direction:column; gap:var(--space-md);">
+          <p style="font-size:var(--text-body); font-weight:var(--weight-medium); color:var(--color-ink);">Stay in the loop</p>
+          <p style="font-size:var(--text-small); line-height:1.6; color:var(--color-secondary);">Drop your email and we'll reach out when something opens up that might be a fit.</p>
+          <div style="display:flex; gap:var(--space-sm);">
+            <input class="input" type="email" placeholder="you@example.com" style="flex:1;">
+            <button class="btn btn-primary" style="white-space:nowrap;">Notify me</button>
+          </div>
+          <p style="font-size:var(--text-small); color:var(--color-secondary);">No spam. Unsubscribe anytime.</p>
+        </div>
+      </div>
+    </sc-if>
 
   </main>
 
@@ -73,7 +103,34 @@
     </div>
   </footer>
 
+  <!-- Dev nav: toggle populated / empty -->
+  <div style="position:fixed; bottom:20px; right:20px; z-index:500;">
+    <button onClick="{{ toggleState }}" style="display:inline-flex; align-items:center; gap:8px; padding:8px 14px; font-size:12px; font-family:var(--font-body); color:var(--color-canvas); background:var(--color-ink); border:none; border-radius:999px; cursor:pointer; box-shadow:var(--shadow-overlay);">
+      <i class="ti ti-switch-horizontal" style="font-size:14px;" aria-hidden="true"></i> {{ toggleLabel }}
+    </button>
+  </div>
+
 </div>
 </x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { hasPostings: true };
+  renderVals() {
+    const postings = [
+      { title: 'Founding full-stack engineer', department: 'Engineering', location: 'Remote', type: 'Full-time' },
+      { title: 'Product designer', department: 'Design', location: 'Remote', type: 'Full-time' },
+      { title: 'Community lead', department: 'Community', location: 'Remote', type: 'Contract' },
+    ];
+    return {
+      hasPostings: this.state.hasPostings,
+      noPostings: !this.state.hasPostings,
+      postings,
+      openCountLabel: postings.length + ' open ' + (postings.length === 1 ? 'role' : 'roles'),
+      toggleState: () => this.setState(s => ({ hasPostings: !s.hasPostings })),
+      toggleLabel: this.state.hasPostings ? 'View empty state' : 'View open roles',
+    };
+  }
+}
+</script>
 </body>
 </html>

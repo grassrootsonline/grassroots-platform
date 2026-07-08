@@ -1,14 +1,22 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-const PUBLIC_PATHS = ['/', '/signup', '/login', '/check-email', '/auth/callback', '/privacy', '/terms', '/careers'];
+const PUBLIC_PATHS = ['/', '/signup', '/login', '/check-email', '/auth/callback', '/privacy', '/terms', '/careers', '/careers/:param'];
+// Note: '/careers/:param' here is bookkeeping for scripts/check-route-access.mjs's
+// route-classification check only. The actual runtime allow-list for
+// /careers/[slug] is the explicit pathname.startsWith('/careers/') checks below —
+// PUBLIC_PATHS.includes() is an exact match and would never match a real slug.
 
 // Not read by middleware() — the fail-closed default already gates anything
 // outside PUBLIC_PATHS. This exists so every route has an explicit, reviewable
 // access-level decision on record, checked by scripts/check-route-access.mjs
 // (see package.json's check:routes / the pre-commit hook). Add every new
 // intentionally-gated route here.
-const GATED_PATHS = ['/feed', '/feed/:param', '/profile/:param', '/waitlisted'];
+const GATED_PATHS = [
+  '/feed', '/feed/:param', '/profile/:param', '/waitlisted',
+  '/admin', '/admin/careers', '/admin/careers/new',
+  '/admin/careers/:param/edit', '/admin/careers/:param/applications',
+];
 
 export async function middleware(request: NextRequest) {
   // Seed/preview mode: pass through, the seeded session handles auth in-app.
@@ -55,7 +63,7 @@ export async function middleware(request: NextRequest) {
   // waitlisted holding page) requires a session. Mirrors the account_status
   // allow-list below; do not reintroduce a route-specific deny-list here.
   if (!user) {
-    if (!PUBLIC_PATHS.includes(pathname) && !pathname.startsWith('/waitlisted')) {
+    if (!PUBLIC_PATHS.includes(pathname) && !pathname.startsWith('/waitlisted') && !pathname.startsWith('/careers/')) {
       return NextResponse.redirect(new URL('/login', request.url));
     }
     return response;
@@ -64,7 +72,7 @@ export async function middleware(request: NextRequest) {
   // Session exists — fetch account_status
   const { data: profile, error: profileError } = await supabase
     .from('users')
-    .select('account_status')
+    .select('id, account_status')
     .eq('auth_id', user.id)
     .single();
 
@@ -82,6 +90,31 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Admin routes — independent of account_status. Being staff isn't the same
+  // axis as being waitlisted/active, so this check runs on its own rather than
+  // folding into the allow-list below. Non-admins (including active ones) are
+  // sent to /feed, not /waitlisted — they're not being told to wait, they're
+  // just not staff.
+  if (pathname.startsWith('/admin')) {
+    // HANDOFF CONFLICT (052): the handoff's snippet checked
+    // admin_users.user_id against the Supabase auth UID directly, but
+    // admin_users.user_id is a FK to the internal users.id (same auth_id vs.
+    // users.id distinction the account_status lookup above already handles).
+    // Using profile.id here instead so the check can actually match.
+    const { data: admin } = profile?.id
+      ? await supabase
+          .from('admin_users')
+          .select('id')
+          .eq('user_id', profile.id)
+          .maybeSingle()
+      : { data: null };
+
+    if (!admin) {
+      return NextResponse.redirect(new URL('/feed', request.url));
+    }
+    return response;
+  }
+
   // Active user hitting auth pages or the waitlisted holding page — send to feed
   if (status === 'active' && (pathname === '/signup' || pathname === '/login' || pathname === '/' || pathname === '/waitlisted')) {
     return NextResponse.redirect(new URL('/feed', request.url));
@@ -91,7 +124,7 @@ export async function middleware(request: NextRequest) {
   // Anything else — waitlisted, missing profile row, a failed/erroring
   // query, or an unrecognized future status — is treated as not-active
   // and gated to /waitlisted. This must fail closed, not open.
-  if (status !== 'active' && !PUBLIC_PATHS.includes(pathname) && !pathname.startsWith('/waitlisted')) {
+  if (status !== 'active' && !PUBLIC_PATHS.includes(pathname) && !pathname.startsWith('/waitlisted') && !pathname.startsWith('/careers/')) {
     return NextResponse.redirect(new URL('/waitlisted', request.url));
   }
 
