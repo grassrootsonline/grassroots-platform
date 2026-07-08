@@ -7,6 +7,7 @@ import s from './layout.module.css';
 export function AdminNav() {
   const pathname = usePathname();
   const isDashboard = pathname === '/admin';
+  const isUsers = pathname.startsWith('/admin/users');
   const isCareers = pathname.startsWith('/admin/careers');
 
   return (
@@ -14,6 +15,10 @@ export function AdminNav() {
       <Link href="/admin" className={`${s.navItem} ${isDashboard ? s.navItemActive : ''}`}>
         <i className="ti ti-layout-dashboard" aria-hidden="true" />
         Dashboard
+      </Link>
+      <Link href="/admin/users" className={`${s.navItem} ${isUsers ? s.navItemActive : ''}`}>
+        <i className="ti ti-users" aria-hidden="true" />
+        Users
       </Link>
       <Link href="/admin/careers" className={`${s.navItem} ${isCareers ? s.navItemActive : ''}`}>
         <i className="ti ti-briefcase" aria-hidden="true" />
