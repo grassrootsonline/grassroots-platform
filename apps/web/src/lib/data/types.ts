@@ -32,6 +32,7 @@ export interface TrendingProject {
 }
 
 export interface SuggestedUser {
+  id: string
   name: string
   username: string
   tagline: string
