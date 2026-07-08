@@ -84,6 +84,7 @@ export interface DataClient {
   getCurrentUser(): Promise<CurrentUser | null>
   getUserProfile(username: string): Promise<UserProfile | null>
   getFeedPosts(): Promise<FeedPost[]>
+  getUserPosts(username: string): Promise<FeedPost[]>
   getPost(postId: string): Promise<FeedPost | null>
   getTrendingProjects(): Promise<TrendingProject[]>
   getWhoToFollow(): Promise<SuggestedUser[]>

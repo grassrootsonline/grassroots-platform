@@ -88,6 +88,29 @@ export class SupabaseDataClient implements DataClient {
     return rows.map((r) => toFeedPost(r.post, r.user, r.profile, likedPostIds))
   }
 
+  async getUserPosts(username: string): Promise<FeedPost[]> {
+    const author = await db.query.users.findFirst({
+      where: (u, { eq }) => eq(u.username, username),
+      columns: { id: true },
+    })
+    if (!author) return []
+
+    const rows = await db
+      .select({ post: posts, user: users, profile: userProfiles })
+      .from(posts)
+      .innerJoin(users, eq(users.id, posts.authorId))
+      .leftJoin(userProfiles, eq(userProfiles.userId, users.id))
+      .where(and(eq(posts.authorId, author.id), isNull(posts.deletedAt)))
+      .orderBy(desc(posts.createdAt))
+      // no 50-row feed cap here — this is a single author's post history, not the main feed
+
+    const currentUser = await this.getCurrentUser()
+    const likedPostIds = currentUser
+      ? await getLikedPostIds(currentUser.id, rows.map((r) => r.post.id))
+      : new Set<string>()
+    return rows.map((r) => toFeedPost(r.post, r.user, r.profile, likedPostIds))
+  }
+
   async getPost(postId: string): Promise<FeedPost | null> {
     const [row] = await db
       .select({ post: posts, user: users, profile: userProfiles })
