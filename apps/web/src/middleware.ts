@@ -14,7 +14,7 @@ const PUBLIC_PATHS = ['/', '/signup', '/login', '/check-email', '/auth/callback'
 // intentionally-gated route here.
 const GATED_PATHS = [
   '/feed', '/feed/:param', '/profile/:param', '/waitlisted',
-  '/admin', '/admin/careers', '/admin/careers/new',
+  '/admin', '/admin/users', '/admin/careers', '/admin/careers/new',
   '/admin/careers/:param/edit', '/admin/careers/:param/applications',
 ];
 

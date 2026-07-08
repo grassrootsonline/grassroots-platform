@@ -1,0 +1,100 @@
+.page {
+  padding: var(--space-2xl);
+  max-width: 960px;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  font-weight: 400;
+  color: var(--color-ink);
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+}
+
+/* ── Filter row ── */
+/* Uses the global .tab-list-pill / .tab-pill classes from components-new.css;
+   this just adds page-level spacing below the row. */
+.filterBar {
+  margin-bottom: var(--space-lg);
+}
+
+/* ── Table ── */
+.tableCard {
+  background: var(--color-surface);
+  border: var(--border-default);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  color: var(--color-secondary);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: var(--border-default);
+}
+
+.table td {
+  font-size: var(--text-body);
+  color: var(--color-ink);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: var(--border-default);
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.right {
+  text-align: right;
+}
+
+.actionCol {
+  width: 44px;
+}
+
+.userCell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.userName {
+  font-weight: var(--weight-medium);
+}
+
+.userHandle {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+}
+
+.joined {
+  color: var(--color-ink-soft);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+}
