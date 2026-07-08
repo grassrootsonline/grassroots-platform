@@ -78,18 +78,21 @@ export const MOCK_TRENDING = [
 
 export const MOCK_WHO_TO_FOLLOW = [
   {
+    id: 'u-orenetz',
     name: 'Oren Etzioni',
     username: 'orenetz',
     tagline: 'AI researcher & builder',
     avatarUrl: null,
   },
   {
+    id: 'u-liangchen',
     name: 'Liang Chen',
     username: 'liangchen',
     tagline: 'Open-source LLM tools',
     avatarUrl: null,
   },
   {
+    id: 'u-nadiasolvay',
     name: 'Nadia Solvay',
     username: 'nadiasolvay',
     tagline: 'Multimodal & robotics',
