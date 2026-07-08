@@ -23,6 +23,7 @@ export interface UserProfile {
   followerCount: number
   followingCount: number
   projectCount: number
+  isFollowedByViewer: boolean
 }
 
 export interface TrendingProject {
@@ -32,6 +33,7 @@ export interface TrendingProject {
 }
 
 export interface SuggestedUser {
+  id: string
   name: string
   username: string
   tagline: string
@@ -82,6 +84,7 @@ export interface DataClient {
   getCurrentUser(): Promise<CurrentUser | null>
   getUserProfile(username: string): Promise<UserProfile | null>
   getFeedPosts(): Promise<FeedPost[]>
+  getUserPosts(username: string): Promise<FeedPost[]>
   getPost(postId: string): Promise<FeedPost | null>
   getTrendingProjects(): Promise<TrendingProject[]>
   getWhoToFollow(): Promise<SuggestedUser[]>

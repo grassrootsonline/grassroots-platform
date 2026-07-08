@@ -43,10 +43,14 @@ export class SeedDataClient implements DataClient {
 
   async getUserProfile(_username: string): Promise<UserProfile | null> {
     const { pronouns: _pronouns, account_status: _s, ...rest } = MOCK_USER
-    return rest
+    return { ...rest, isFollowedByViewer: false } // seed mode only ever shows the viewer's own profile
   }
 
   async getFeedPosts(): Promise<FeedPost[]> { return MOCK_POSTS }
+
+  async getUserPosts(username: string): Promise<FeedPost[]> {
+    return MOCK_POSTS.filter((p) => p.author.username === username)
+  }
 
   async getPost(postId: string): Promise<FeedPost | null> {
     return MOCK_POSTS.find((p) => p.id === postId) ?? MOCK_POSTS[0] ?? null

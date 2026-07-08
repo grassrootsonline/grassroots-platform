@@ -11,7 +11,7 @@ import s from './composer-modal.module.css'
 interface ComposerModalProps {
   open: boolean
   onClose: () => void
-  onPublish: (post: { content: string; projectId?: string }) => void
+  onPublish: (post: { content: string; projectId?: string }) => Promise<void>
   user: { name: string; username: string; avatarUrl?: string | null }
   projects: SidebarProject[]
 }
@@ -21,13 +21,21 @@ export function ComposerModal({ open, onClose, onPublish, user, projects }: Comp
   const [projectId, setProjectId] = useState('')
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  function handlePublish() {
+  async function handlePublish() {
     if (!content.trim()) return
-    onPublish({ content: content.trim(), projectId: projectId || undefined })
-    toast('Post published.')
+    const trimmed = content.trim()
     setContent('')
     setProjectId('')
     onClose()
+    try {
+      await onPublish({ content: trimmed, projectId: projectId || undefined })
+      toast('Post published.')
+    } catch {
+      toast('Something went wrong publishing your post. Try again.')
+      // Deliberately not restoring `content` here — see feed-view.tsx's rollback for how
+      // the failed post itself gets removed from the feed instead. Re-opening the composer
+      // with the lost text is a nice-to-have, not required for this handoff.
+    }
   }
 
   function handleTextareaChange(e: React.ChangeEvent<HTMLTextAreaElement>) {

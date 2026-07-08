@@ -7,6 +7,8 @@ import { FeedCard } from '@/components/feed/feed-card'
 import { Avatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { toast } from '@/components/ui/toast'
+import { followUserAction } from '@/actions/follows.actions'
 import type { CurrentUser, UserProfile, FeedPost, ProfileProject, SidebarProject } from '@/lib/data'
 import s from './page.module.css'
 
@@ -28,6 +30,16 @@ interface ProfileViewProps {
 
 export function ProfileView({ viewer, profile, isOwnProfile, initialPosts, projects, sidebarProjects }: ProfileViewProps) {
   const [tab, setTab] = useState<ProfileTab>('posts')
+  const [following, setFollowing] = useState(profile.isFollowedByViewer)
+
+  async function handleFollowClick() {
+    setFollowing((f) => !f)
+    const result = await followUserAction(profile.id)
+    if ('error' in result) {
+      setFollowing((f) => !f)
+      toast(result.error)
+    }
+  }
 
   return (
     <div className={s.layout}>
@@ -52,7 +64,9 @@ export function ProfileView({ viewer, profile, isOwnProfile, initialPosts, proje
                 <Button variant="secondary" size="sm">
                   Message
                 </Button>
-                <Button size="sm">Follow</Button>
+                <Button size="sm" onClick={handleFollowClick}>
+                  {following ? 'Following' : 'Follow'}
+                </Button>
               </div>
             )}
           </div>

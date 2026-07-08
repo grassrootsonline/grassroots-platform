@@ -1,4 +1,4 @@
-import { pgTable, pgEnum, uuid, text, boolean, integer, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, pgEnum, uuid, text, boolean, integer, timestamp, unique, index } from 'drizzle-orm/pg-core';
 
 export const accountStatusEnum = pgEnum('account_status', [
   'waitlisted',
@@ -87,3 +87,62 @@ export const jobApplications = pgTable('job_applications', {
   note:         text('note'),
   createdAt:    timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });
+
+export const posts = pgTable('posts', {
+  id:            uuid('id').primaryKey().defaultRandom(),
+  authorId:      uuid('author_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  content:       text('content').notNull(),
+  reactionCount: integer('reaction_count').notNull().default(0),
+  commentCount:  integer('comment_count').notNull().default(0),
+  createdAt:     timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt:     timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  deletedAt:     timestamp('deleted_at', { withTimezone: true }), // soft delete, same pattern as `users.deletedAt`
+}, (table) => ({
+  createdAtIdx: index('posts_created_at_idx').on(table.createdAt),
+}));
+
+export const postReactions = pgTable('post_reactions', {
+  id:        uuid('id').primaryKey().defaultRandom(),
+  postId:    uuid('post_id').notNull().references(() => posts.id, { onDelete: 'cascade' }),
+  userId:    uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (table) => ({
+  uniqReaction: unique('post_reactions_post_user_unique').on(table.postId, table.userId),
+}));
+
+export const comments = pgTable('comments', {
+  id:            uuid('id').primaryKey().defaultRandom(),
+  postId:        uuid('post_id').notNull().references(() => posts.id, { onDelete: 'cascade' }),
+  authorId:      uuid('author_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  content:       text('content').notNull(),
+  reactionCount: integer('reaction_count').notNull().default(0),
+  createdAt:     timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+});
+// v1 is a flat reply list (matches ThreadView's rendering — no nested replies), so no parentCommentId.
+
+export const follows = pgTable('follows', {
+  id:          uuid('id').primaryKey().defaultRandom(),
+  followerId:  uuid('follower_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  followingId: uuid('following_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  createdAt:   timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (table) => ({
+  uniqFollow: unique('follows_follower_following_unique').on(table.followerId, table.followingId),
+  followerIdx: index('follows_follower_id_idx').on(table.followerId),
+  followingIdx: index('follows_following_id_idx').on(table.followingId),
+}));
+// Enforce follower_id != following_id in the Server Action, not a DB CHECK constraint —
+// simpler, and the only write path is the action.
+
+export const notificationTypeEnum = pgEnum('notification_type', ['reaction', 'comment', 'follow']);
+
+export const notifications = pgTable('notifications', {
+  id:          uuid('id').primaryKey().defaultRandom(),
+  recipientId: uuid('recipient_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  actorId:     uuid('actor_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  type:        notificationTypeEnum('type').notNull(),
+  postId:      uuid('post_id').references(() => posts.id, { onDelete: 'cascade' }), // null for 'follow'
+  read:        boolean('read').notNull().default(false),
+  createdAt:   timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (table) => ({
+  recipientIdx: index('notifications_recipient_id_idx').on(table.recipientId),
+}));
