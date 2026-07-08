@@ -23,6 +23,7 @@ export interface UserProfile {
   followerCount: number
   followingCount: number
   projectCount: number
+  isFollowedByViewer: boolean
 }
 
 export interface TrendingProject {

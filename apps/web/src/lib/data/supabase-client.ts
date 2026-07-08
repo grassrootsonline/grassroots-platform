@@ -46,6 +46,13 @@ export class SupabaseDataClient implements DataClient {
       where: (p, { eq }) => eq(p.userId, row.id),
     })
 
+    const viewer = await this.getCurrentUser()
+    const isFollowedByViewer = viewer && viewer.id !== row.id
+      ? !!(await db.query.follows.findFirst({
+          where: and(eq(follows.followerId, viewer.id), eq(follows.followingId, row.id)),
+        }))
+      : false
+
     return {
       id: row.id,
       name: profile?.displayName ?? row.displayName,
@@ -55,6 +62,7 @@ export class SupabaseDataClient implements DataClient {
       followerCount: row.followerCount,
       followingCount: row.followingCount,
       projectCount: 0,
+      isFollowedByViewer,
     }
   }
 
