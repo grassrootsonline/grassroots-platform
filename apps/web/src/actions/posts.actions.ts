@@ -6,6 +6,7 @@ import { db } from '@grassroots/db';
 import { posts, postReactions, comments, notifications, users } from '@grassroots/db/schema';
 import { eq, and, sql } from 'drizzle-orm';
 import { requireSession } from '@/lib/auth/require-session';
+import { isUniqueViolation } from '@/lib/db-errors';
 
 const ContentSchema = z.string().trim().min(1, 'Say something first.').max(2000, 'Keep it under 2000 characters.');
 
@@ -43,7 +44,19 @@ export async function reactToPostAction(postId: string): Promise<{ liked: boolea
     return { liked: false, reactionCount: row?.reactionCount ?? 0 };
   }
 
-  await db.insert(postReactions).values({ postId, userId });
+  try {
+    await db.insert(postReactions).values({ postId, userId });
+  } catch (err) {
+    // Race: another concurrent request already inserted the same (postId, userId)
+    // row between our findFirst check and this insert. Treat as already-liked,
+    // not an error — the end state (liked=true) is what both callers wanted.
+    if (isUniqueViolation(err)) {
+      const [row] = await db.select({ reactionCount: posts.reactionCount }).from(posts).where(eq(posts.id, postId));
+      return { liked: true, reactionCount: row?.reactionCount ?? 0 };
+    }
+    throw err;
+  }
+
   const [row] = await db.update(posts)
     .set({ reactionCount: sql`${posts.reactionCount} + 1` })
     .where(eq(posts.id, postId))
