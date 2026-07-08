@@ -3,6 +3,8 @@ import { getDataClient } from '@/lib/data'
 import { NotifyForm } from './notify-form'
 import s from './page.module.css'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: 'Careers — Grassroots',
 }
