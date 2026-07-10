@@ -4,6 +4,8 @@ import { db } from '@grassroots/db'
 import { AdminNav } from './nav'
 import s from './layout.module.css'
 
+export const maxDuration = 30
+
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createServerClient()
   const { data: { user } } = await supabase.auth.getUser()
