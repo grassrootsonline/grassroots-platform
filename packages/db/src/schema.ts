@@ -1,4 +1,4 @@
-import { pgTable, pgEnum, uuid, text, boolean, integer, timestamp, unique, index } from 'drizzle-orm/pg-core';
+import { pgTable, pgEnum, uuid, text, boolean, integer, numeric, timestamp, unique, index } from 'drizzle-orm/pg-core';
 
 export const accountStatusEnum = pgEnum('account_status', [
   'waitlisted',
@@ -145,4 +145,22 @@ export const notifications = pgTable('notifications', {
   createdAt:   timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 }, (table) => ({
   recipientIdx: index('notifications_recipient_id_idx').on(table.recipientId),
+}));
+
+export const boardCardTypeEnum = pgEnum('board_card_type', ['bug', 'idea', 'planning']);
+export const boardCardStatusEnum = pgEnum('board_card_status', ['inbox', 'discussing', 'handoff', 'done']);
+
+export const boardCards = pgTable('board_cards', {
+  id:        uuid('id').primaryKey().defaultRandom(),
+  authorId:  uuid('author_id').references(() => users.id, { onDelete: 'set null' }),
+  type:      boardCardTypeEnum('type').notNull().default('idea'),
+  title:     text('title').notNull(),
+  body:      text('body'),
+  status:    boardCardStatusEnum('status').notNull().default('inbox'),
+  position:  numeric('position').notNull().default('0'), // drizzle numeric default is a string
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+}, (table) => ({
+  statusPositionIdx: index('idx_board_cards_status_position').on(table.status, table.position),
+  authorIdx:         index('idx_board_cards_author_id').on(table.authorId),
 }));
