@@ -15,7 +15,7 @@ const PUBLIC_PATHS = ['/', '/signup', '/login', '/check-email', '/auth/callback'
 const GATED_PATHS = [
   '/feed', '/feed/:param', '/profile/:param', '/waitlisted',
   '/admin', '/admin/users', '/admin/careers', '/admin/careers/new',
-  '/admin/careers/:param/edit', '/admin/careers/:param/applications',
+  '/admin/careers/:param/edit', '/admin/careers/:param/applications', '/admin/board',
 ];
 
 export async function middleware(request: NextRequest) {

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/fonts.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/colors.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/typography.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/spacing.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/tokens/motion.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/components/components.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/components/components-new.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/components/responsive.css">
+  <link rel="stylesheet" href="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <script src="../../../_ds/grassroots-production-design-system-c34b0dd3-13cb-4153-942c-708034de55d6/_ds_bundle.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--color-canvas); color: var(--color-ink); font-family: var(--font-body); }
+    a { color: var(--color-accent); }
+    a:hover { color: var(--color-accent-ink); }
+    .nav-item { display: flex; align-items: center; gap: var(--space-md); width: 100%; padding: 9px var(--space-md); font-size: var(--text-body); font-family: var(--font-body); color: var(--color-secondary); background: none; border: none; border-radius: var(--radius-md); cursor: pointer; text-align: left; text-decoration: none; transition: background 120ms ease, color 120ms ease; }
+    .nav-item:hover { background: var(--color-canvas); color: var(--color-ink); }
+    .nav-item.active { background: var(--color-accent-subtle); color: var(--color-accent-ink); font-weight: var(--weight-medium); }
+    .row-action { background: none; border: none; color: var(--color-secondary); cursor: pointer; padding: 4px; border-radius: var(--radius-sm); font-size: 16px; display: inline-flex; align-items: center; justify-content: center; transition: color 120ms ease, background 120ms ease; }
+    .row-action:hover { color: var(--color-ink); background: var(--color-canvas); }
+    select.input { appearance: none; background-image: none; cursor: pointer; }
+
+    /* ---- Board ---- */
+    .board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-lg); align-items: start; }
+    .board-column { min-width: 0; display: flex; flex-direction: column; background: var(--color-canvas); border: var(--border-default); border-radius: var(--radius-lg); transition: background 120ms ease, border-color 120ms ease; }
+    .board-column.is-drop-target { background: var(--color-accent-mist); border-color: var(--color-accent); }
+    .col-head { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md) var(--space-md) var(--space-sm); }
+    .col-title { display: flex; align-items: center; gap: 7px; font-size: var(--text-small); font-weight: var(--weight-medium); color: var(--color-ink); }
+    .col-count { font-size: var(--text-small); color: var(--color-secondary); font-variant-numeric: tabular-nums; }
+    .col-add { margin-left: auto; }
+    .col-body { display: flex; flex-direction: column; gap: var(--space-sm); padding: 0 var(--space-md) var(--space-md); min-height: 72px; }
+
+    .board-card { position: relative; background: var(--color-surface); border: var(--border-default); border-radius: var(--radius-lg); padding: var(--space-md); cursor: grab; transition: border-color 120ms ease, box-shadow 120ms ease, opacity 120ms ease; }
+    .board-card:hover { border-color: var(--color-border-strong); }
+    .board-card:hover .drag-handle { opacity: 1; }
+    .board-card.is-dragging { opacity: 0.55; box-shadow: var(--shadow-dropdown); cursor: grabbing; border-color: var(--color-accent); }
+    .board-card.is-drop-before::before { content: ""; position: absolute; left: var(--space-md); right: var(--space-md); top: -5px; height: 2px; border-radius: 999px; background: var(--color-accent); }
+    .card-top { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: 7px; }
+    .drag-handle { position: absolute; top: 10px; right: 10px; color: var(--color-border-strong); font-size: 16px; opacity: 0; transition: opacity 120ms ease; }
+    .card-title { font-size: var(--text-body); font-weight: var(--weight-medium); color: var(--color-ink); line-height: 1.4; margin-bottom: 4px; }
+    .card-body { font-size: var(--text-small); color: var(--color-ink-soft); line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .card-foot { display: flex; align-items: center; gap: 6px; margin-top: var(--space-sm); }
+    .avatar-xs { width: 22px; height: 22px; border-radius: var(--radius-pill); background: var(--color-accent-subtle); color: var(--color-accent-ink); display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: var(--weight-medium); flex-shrink: 0; }
+    .type-badge { display: inline-flex; align-items: center; gap: 4px; }
+    .col-empty { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; padding: var(--space-lg) var(--space-sm); border: var(--border-dashed); border-radius: var(--radius-md); color: var(--color-secondary); }
+    .seg { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
+    .seg-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; font-size: var(--text-small); font-family: var(--font-body); color: var(--color-secondary); background: var(--color-canvas); border: var(--border-default); border-radius: var(--radius-md); cursor: pointer; transition: color 120ms ease, background 120ms ease, border-color 120ms ease; }
+    .seg-btn:hover { color: var(--color-ink); }
+    .seg-btn.active { background: var(--color-accent-subtle); color: var(--color-accent-ink); border-color: transparent; font-weight: var(--weight-medium); }
+    .meta-row { display: flex; gap: var(--space-lg); font-size: var(--text-small); color: var(--color-secondary); }
+    .meta-row b { font-weight: var(--weight-medium); color: var(--color-ink-soft); }
+  </style>
+</helmet>
+
+<!-- ===================== UNAUTHORIZED ===================== -->
+<sc-if value="{{ isUnauthorized }}" hint-placeholder-val="{{ false }}">
+  <div style="min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:var(--space-2xl); text-align:center; gap:var(--space-md);">
+    <div style="width:48px; height:48px; border-radius:var(--radius-pill); background:var(--color-surface); border:var(--border-default); display:flex; align-items:center; justify-content:center;">
+      <i class="ti ti-lock" style="font-size:22px; color:var(--color-secondary);" aria-hidden="true"></i>
+    </div>
+    <h1 style="font-family:var(--font-display); font-size:var(--text-title); font-weight:400; color:var(--color-ink);">Not authorized</h1>
+    <p style="font-size:var(--text-body); line-height:1.7; color:var(--color-ink-soft); max-width:360px;">You don't have access to the admin panel. If you think this is a mistake, contact an administrator.</p>
+    <a href="../../core-social-mvp/prototypes/03-landing-auth-waitlist.dc.html" style="font-size:var(--text-small); color:var(--color-accent); text-decoration:none; font-weight:var(--weight-medium);">Back to Grassroots</a>
+  </div>
+</sc-if>
+
+<!-- ===================== ADMIN SHELL ===================== -->
+<sc-if value="{{ isAuthed }}" hint-placeholder-val="{{ true }}">
+  <div style="min-height:100vh; display:flex;">
+
+    <!-- Sidebar -->
+    <aside style="width:240px; flex-shrink:0; border-right:var(--border-default); background:var(--color-surface); display:flex; flex-direction:column; position:sticky; top:0; height:100vh;">
+      <div style="padding:var(--space-lg) var(--space-lg) var(--space-md); display:flex; align-items:center; gap:var(--space-sm);">
+        <span style="font-family:var(--font-display); font-size:20px; color:var(--color-ink);">Grassroots</span>
+        <span class="badge badge-muted" style="font-size:10px;">Admin</span>
+      </div>
+      <nav style="flex:1; padding:var(--space-sm) var(--space-md); display:flex; flex-direction:column; gap:2px;">
+        <a class="nav-item" href="../../core-social-mvp/prototypes/08-admin.dc.html"><i class="ti ti-layout-dashboard" style="font-size:18px;" aria-hidden="true"></i>Dashboard</a>
+        <a class="nav-item" href="../../core-social-mvp/prototypes/08-admin.dc.html"><i class="ti ti-briefcase" style="font-size:18px;" aria-hidden="true"></i>Postings</a>
+        <a class="nav-item" href="../../core-social-mvp/prototypes/08-admin.dc.html"><i class="ti ti-file-text" style="font-size:18px;" aria-hidden="true"></i>Applications</a>
+        <button class="nav-item active"><i class="ti ti-layout-kanban" style="font-size:18px;" aria-hidden="true"></i>Task board</button>
+      </nav>
+      <div style="padding:var(--space-md); border-top:var(--border-default); display:flex; align-items:center; gap:var(--space-sm);">
+        <div style="width:32px; height:32px; border-radius:var(--radius-pill); background:var(--color-accent-subtle); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:var(--weight-medium); color:var(--color-accent-ink); flex-shrink:0;">AX</div>
+        <div style="flex:1; min-width:0;">
+          <p style="font-size:var(--text-small); font-weight:var(--weight-medium); color:var(--color-ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Alex</p>
+          <p style="font-size:12px; color:var(--color-secondary);">Administrator</p>
+        </div>
+        <a href="../../core-social-mvp/prototypes/03-landing-auth-waitlist.dc.html" class="row-action" style="text-decoration:none;" aria-label="Exit admin"><i class="ti ti-logout" aria-hidden="true"></i></a>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <div style="flex:1; min-width:0; display:flex; flex-direction:column; max-height:100vh; overflow-y:auto;">
+      <div style="padding:var(--space-2xl); width:100%;">
+
+        <!-- Header -->
+        <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:var(--space-md); margin-bottom:var(--space-xl);">
+          <div>
+            <h1 style="font-family:var(--font-display); font-size:var(--text-title); font-weight:400; color:var(--color-ink); margin-bottom:4px;">Task board</h1>
+            <p style="font-size:var(--text-small); color:var(--color-secondary);">Log bugs, ideas, and planning items. The advisor reads these to turn into handoffs.</p>
+          </div>
+          <button class="btn btn-primary" onClick="{{ openCreateDefault }}"><i class="ti ti-plus" style="font-size:16px; margin-right:6px;" aria-hidden="true"></i>New card</button>
+        </div>
+
+        <!-- Empty board -->
+        <sc-if value="{{ isBoardEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="background:var(--color-surface); border:var(--border-default); border-radius:var(--radius-lg); padding:var(--space-3xl) var(--space-2xl); display:flex; flex-direction:column; align-items:center; text-align:center; gap:var(--space-md); max-width:640px; margin:0 auto;">
+            <div style="width:48px; height:48px; border-radius:var(--radius-pill); background:var(--color-canvas); border:var(--border-default); display:flex; align-items:center; justify-content:center;">
+              <i class="ti ti-layout-kanban" style="font-size:22px; color:var(--color-secondary);" aria-hidden="true"></i>
+            </div>
+            <p style="font-family:var(--font-display); font-size:var(--text-heading); color:var(--color-ink);">The board is empty</p>
+            <p style="font-size:var(--text-body); color:var(--color-ink-soft); line-height:1.6; max-width:380px;">Add your first card to start logging bugs, ideas, and planning items.</p>
+            <button class="btn btn-primary" onClick="{{ openCreateDefault }}"><i class="ti ti-plus" style="font-size:16px; margin-right:6px;" aria-hidden="true"></i>Add a card</button>
+          </div>
+        </sc-if>
+
+        <!-- Board -->
+        <sc-if value="{{ hasCards }}" hint-placeholder-val="{{ true }}">
+          <div class="board">
+            <sc-for list="{{ columns }}" as="col" hint-placeholder-count="4">
+              <div class="board-column {{ col.dropClass }}" onDragOver="{{ col.onDragOver }}" onDragLeave="{{ col.onDragLeave }}" onDrop="{{ col.onDrop }}">
+                <div class="col-head">
+                  <span class="col-title"><i class="ti ti-{{ col.icon }}" style="font-size:15px; color:var(--color-secondary);" aria-hidden="true"></i>{{ col.label }}</span>
+                  <span class="col-count">{{ col.count }}</span>
+                  <button class="row-action col-add" onClick="{{ col.onAdd }}" aria-label="Add card to this column"><i class="ti ti-plus" aria-hidden="true"></i></button>
+                </div>
+                <div class="col-body">
+                  <sc-for list="{{ col.cards }}" as="c" hint-placeholder-count="2">
+                    <div class="board-card {{ c.dragClass }} {{ c.dropBeforeClass }}" draggable="true" onDragStart="{{ c.onDragStart }}" onDragEnd="{{ c.onDragEnd }}" onDragOver="{{ c.onDragOver }}" onDrop="{{ c.onDrop }}" onClick="{{ c.onOpen }}">
+                      <i class="ti ti-grip-vertical drag-handle" aria-hidden="true"></i>
+                      <div class="card-top">
+                        <span class="badge badge-muted type-badge"><i class="ti ti-{{ c.typeIcon }}" style="font-size:12px;" aria-hidden="true"></i>{{ c.typeLabel }}</span>
+                      </div>
+                      <p class="card-title">{{ c.title }}</p>
+                      <sc-if value="{{ c.hasBody }}" hint-placeholder-val="{{ true }}">
+                        <p class="card-body">{{ c.body }}</p>
+                      </sc-if>
+                      <div class="card-foot">
+                        <span class="avatar-xs">{{ c.initials }}</span>
+                        <span style="font-size:var(--text-small); color:var(--color-secondary);">{{ c.author }}</span>
+                        <span style="font-size:var(--text-small); color:var(--color-border-strong); margin-left:auto;">{{ c.created }}</span>
+                      </div>
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{ col.isEmpty }}" hint-placeholder-val="{{ false }}">
+                    <div class="col-empty">
+                      <i class="ti ti-plant-2" style="font-size:18px;" aria-hidden="true"></i>
+                      <span style="font-size:var(--text-small);">No cards yet</span>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ===================== OVERLAY (create / detail-edit) ===================== -->
+<sc-if value="{{ overlayOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="sheet-backdrop" onClick="{{ closeOverlay }}">
+    <div class="sheet" style="width:520px;" onClick="{{ stop }}">
+      <div class="sheet-handle"></div>
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:var(--space-md); margin-bottom:var(--space-lg);">
+        <h2 style="font-family:var(--font-display); font-size:var(--text-heading); font-weight:400; color:var(--color-ink);">{{ overlayTitle }}</h2>
+        <button class="row-action" onClick="{{ closeOverlay }}" aria-label="Close"><i class="ti ti-x" aria-hidden="true"></i></button>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:var(--space-lg);">
+        <div class="field">
+          <label class="field-label">Type</label>
+          <div class="seg">
+            <sc-for list="{{ typeOptions }}" as="t" hint-placeholder-count="3">
+              <button type="button" class="seg-btn {{ t.activeClass }}" onClick="{{ t.select }}"><i class="ti ti-{{ t.icon }}" style="font-size:14px;" aria-hidden="true"></i>{{ t.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <sc-if value="{{ isEdit }}" hint-placeholder-val="{{ false }}">
+          <div class="field">
+            <label class="field-label">Status</label>
+            <div class="seg">
+              <sc-for list="{{ statusOptions }}" as="st" hint-placeholder-count="4">
+                <button type="button" class="seg-btn {{ st.activeClass }}" onClick="{{ st.select }}"><i class="ti ti-{{ st.icon }}" style="font-size:14px;" aria-hidden="true"></i>{{ st.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <div class="field">
+          <label class="field-label">Title</label>
+          <input class="input" type="text" placeholder="Short summary of the bug, idea, or item" value="{{ formTitle }}" onInput="{{ onTitleInput }}">
+        </div>
+
+        <div class="field">
+          <label class="field-label">Body <span style="color:var(--color-secondary); font-weight:var(--weight-regular);">· optional</span></label>
+          <textarea class="input" style="min-height:150px; resize:vertical;" placeholder="Repro steps, desired behaviour, or detail." value="{{ formBody }}" onInput="{{ onBodyInput }}"></textarea>
+        </div>
+
+        <sc-if value="{{ isEdit }}" hint-placeholder-val="{{ false }}">
+          <div class="meta-row" style="padding-top:var(--space-sm); border-top:var(--border-default);">
+            <span>Author <b>{{ editAuthor }}</b></span>
+            <span>Created <b>{{ editCreated }}</b></span>
+            <span>Updated <b>{{ editUpdated }}</b></span>
+          </div>
+        </sc-if>
+
+        <div style="display:flex; align-items:center; gap:var(--space-md); padding-top:var(--space-sm);">
+          <button class="btn btn-primary" onClick="{{ saveOverlay }}">{{ saveLabel }}</button>
+          <button class="btn btn-secondary" onClick="{{ closeOverlay }}">Cancel</button>
+          <sc-if value="{{ isEdit }}" hint-placeholder-val="{{ false }}">
+            <button class="btn btn-ghost" style="margin-left:auto; color:var(--color-danger);" onClick="{{ deleteCard }}"><i class="ti ti-trash" style="font-size:15px; margin-right:5px;" aria-hidden="true"></i>Delete</button>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<!-- Dev nav -->
+<div style="position:fixed; bottom:20px; right:20px; z-index:900; display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+  <sc-if value="{{ devOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="background:var(--color-surface); border:var(--border-default); border-radius:10px; box-shadow:var(--shadow-overlay); padding:6px; display:flex; flex-direction:column; gap:2px; min-width:200px;">
+      <p style="font-size:11px; font-weight:500; color:var(--color-accent); letter-spacing:0.08em; text-transform:uppercase; padding:4px 10px 6px; margin:0;">Dev navigation</p>
+      <sc-for list="{{ devRoutes }}" as="d" hint-placeholder-count="4">
+        <button style="display:flex; align-items:center; gap:8px; width:100%; padding:7px 10px; font-size:13px; font-family:var(--font-body); color:var(--color-secondary); background:none; border:none; border-radius:6px; cursor:pointer; text-align:left;" onClick="{{ d.go }}"><i class="ti ti-{{ d.icon }}" style="font-size:14px;" aria-hidden="true"></i>{{ d.label }}</button>
+      </sc-for>
+    </div>
+  </sc-if>
+  <button onClick="{{ toggleDev }}" aria-label="Dev navigation" style="width:36px; height:36px; border-radius:999px; background:var(--color-ink); color:var(--color-canvas); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-overlay);">
+    <i class="ti ti-terminal-2" style="font-size:16px;" aria-hidden="true"></i>
+  </button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    screen: 'board',
+    cards: this.seed(),
+    overlay: null,       // null | 'create' | 'edit'
+    editingId: null,
+    form: { type: 'idea', title: '', body: '', status: 'inbox' },
+    draggingId: null,
+    dragOverStatus: null,
+    dragOverCardId: null,
+    devOpen: false,
+  };
+
+  seed() {
+    let n = 0;
+    const c = (type, title, body, status, created) => ({
+      id: 'c' + (++n), type, title, body, status,
+      author: 'Alex', initials: 'AX', created,
+      createdFull: 'Jul ' + (2 + n), updated: 'Jul ' + (5 + n),
+    });
+    return [
+      c('bug', 'Composer loses draft on tab switch', 'Steps: open the composer, type a few words, switch tabs, come back — the draft is gone. Expected: draft persists locally until posted or discarded.', 'inbox', 'Jul 9'),
+      c('idea', 'Weekly digest of community activity', 'A quiet opt-in summary of posts from communities you follow. Once a week, sentence-case subject, no marketing tone.', 'inbox', 'Jul 8'),
+      c('bug', 'Avatar initials wrong for two-word names', '"Ada Lovelace" shows "A" instead of "AL". Check the initials fallback in the avatar helper.', 'inbox', 'Jul 8'),
+      c('planning', 'Decide feed ranking for v1', 'Chronological vs. lightly ranked. Leaning chronological for launch; revisit once there are enough follows to rank against.', 'discussing', 'Jul 7'),
+      c('idea', 'Save posts to a private bookmarks list', 'The bookmark icon is already on the feed card. Needs a place to view saved posts — a profile tab or a standalone page?', 'discussing', 'Jul 6'),
+      c('planning', 'Task board — phase 2 implementation', 'Wire this prototype to board_cards. Server Actions for create/edit/move; drag writes position. Reference handoff 066 for the schema.', 'handoff', 'Jul 6'),
+      c('bug', 'Dark mode sage reads green-on-green on cards', 'Confirm the accent-subtle dark token contrast against the surface. Amendment 06 covers the neutrals; double-check card badges.', 'handoff', 'Jul 5'),
+      c('planning', 'Ship privacy policy and terms pages', 'Both live, noindexed pending review. Handoffs 025–028.', 'done', 'Jul 3'),
+    ];
+  }
+
+  TYPE = {
+    bug:      { icon: 'bug',           label: 'Bug' },
+    idea:     { icon: 'bulb',          label: 'Idea' },
+    planning: { icon: 'clipboard-list', label: 'Planning' },
+  };
+  COLS = [
+    { status: 'inbox',      label: 'Inbox',      icon: 'inbox' },
+    { status: 'discussing', label: 'Discussing', icon: 'messages' },
+    { status: 'handoff',    label: 'Handoff',    icon: 'arrow-right-circle' },
+    { status: 'done',       label: 'Done',       icon: 'circle-check' },
+  ];
+
+  // ---- drag/drop ----
+  onDragStart(id) { return (e) => { if (e.dataTransfer) e.dataTransfer.effectAllowed = 'move'; this.setState({ draggingId: id }); }; }
+  onDragEnd() { return () => this.setState({ draggingId: null, dragOverStatus: null, dragOverCardId: null }); }
+  onColOver(status) { return (e) => { e.preventDefault(); if (this.state.dragOverStatus !== status || this.state.dragOverCardId !== null) this.setState({ dragOverStatus: status, dragOverCardId: null }); }; }
+  onColLeave(status) { return (e) => { if (this.state.dragOverStatus === status) this.setState(s => ({ dragOverStatus: s.dragOverStatus === status ? null : s.dragOverStatus })); }; }
+  onCardOver(id, status) { return (e) => { e.preventDefault(); e.stopPropagation(); if (this.state.dragOverCardId !== id || this.state.dragOverStatus !== status) this.setState({ dragOverCardId: id, dragOverStatus: status }); }; }
+  onColDrop(status) { return (e) => { e.preventDefault(); this.moveCard(status, null); }; }
+  onCardDrop(id, status) { return (e) => { e.preventDefault(); e.stopPropagation(); this.moveCard(status, id); }; }
+
+  moveCard(status, beforeId) {
+    const dragId = this.state.draggingId;
+    if (!dragId || dragId === beforeId) { this.setState({ draggingId: null, dragOverStatus: null, dragOverCardId: null }); return; }
+    this.setState(s => {
+      const cards = s.cards.slice();
+      const from = cards.findIndex(c => c.id === dragId);
+      if (from < 0) return { draggingId: null, dragOverStatus: null, dragOverCardId: null };
+      const [card] = cards.splice(from, 1);
+      card.status = status;
+      if (beforeId) {
+        const idx = cards.findIndex(c => c.id === beforeId);
+        cards.splice(idx < 0 ? cards.length : idx, 0, card);
+      } else {
+        let last = -1;
+        cards.forEach((c, i) => { if (c.status === status) last = i; });
+        cards.splice(last + 1, 0, card);
+      }
+      return { cards, draggingId: null, dragOverStatus: null, dragOverCardId: null };
+    });
+  }
+
+  // ---- overlay ----
+  openCreate(status) { this.setState({ overlay: 'create', editingId: null, devOpen: false, form: { type: 'idea', title: '', body: '', status: status || 'inbox' } }); }
+  openEdit(id) {
+    const card = this.state.cards.find(c => c.id === id);
+    if (!card) return;
+    this.setState({ overlay: 'edit', editingId: id, devOpen: false, form: { type: card.type, title: card.title, body: card.body || '', status: card.status } });
+  }
+  close() { this.setState({ overlay: null, editingId: null }); }
+  setForm(patch) { this.setState(s => ({ form: { ...s.form, ...patch } })); }
+
+  save() {
+    const f = this.state.form;
+    const title = (f.title || '').trim();
+    const body = (f.body || '').trim();
+    if (!title) return;
+    this.setState(st => {
+      if (st.overlay === 'edit') {
+        const cards = st.cards.map(c => c.id === st.editingId ? { ...c, type: f.type, title, body, status: f.status, updated: 'Just now' } : c);
+        return { cards, overlay: null, editingId: null };
+      }
+      const id = 'c' + Date.now();
+      const card = { id, type: f.type, title, body, status: f.status, author: 'Alex', initials: 'AX', created: 'Just now', createdFull: 'Just now', updated: 'Just now' };
+      let cards = st.cards.slice();
+      let last = -1;
+      cards.forEach((c, i) => { if (c.status === f.status) last = i; });
+      cards.splice(last + 1, 0, card);
+      return { cards, overlay: null, editingId: null };
+    });
+  }
+  remove() { this.setState(s => ({ cards: s.cards.filter(c => c.id !== s.editingId), overlay: null, editingId: null })); }
+
+  renderVals() {
+    const s = this.state;
+    const editing = s.cards.find(c => c.id === s.editingId);
+
+    const columns = this.COLS.map(col => {
+      const cards = s.cards.filter(c => c.status === col.status).map(c => {
+        const t = this.TYPE[c.type] || this.TYPE.idea;
+        return {
+          id: c.id, title: c.title, body: c.body, hasBody: !!(c.body && c.body.length),
+          author: c.author, initials: c.initials, created: c.created,
+          typeIcon: t.icon, typeLabel: t.label,
+          dragClass: s.draggingId === c.id ? 'is-dragging' : '',
+          dropBeforeClass: (s.dragOverCardId === c.id && s.draggingId && s.draggingId !== c.id) ? 'is-drop-before' : '',
+          onDragStart: this.onDragStart(c.id),
+          onDragEnd: this.onDragEnd(),
+          onDragOver: this.onCardOver(c.id, col.status),
+          onDrop: this.onCardDrop(c.id, col.status),
+          onOpen: () => this.openEdit(c.id),
+        };
+      });
+      return {
+        status: col.status, label: col.label, icon: col.icon,
+        count: cards.length, isEmpty: cards.length === 0, cards,
+        dropClass: (s.dragOverStatus === col.status && s.draggingId) ? 'is-drop-target' : '',
+        onDragOver: this.onColOver(col.status),
+        onDragLeave: this.onColLeave(col.status),
+        onDrop: this.onColDrop(col.status),
+        onAdd: () => this.openCreate(col.status),
+      };
+    });
+
+    const isEdit = s.overlay === 'edit';
+
+    return {
+      isUnauthorized: s.screen === 'unauthorized',
+      isAuthed: s.screen !== 'unauthorized',
+      isBoardEmpty: s.cards.length === 0,
+      hasCards: s.cards.length > 0,
+      columns,
+
+      openCreateDefault: () => this.openCreate('inbox'),
+
+      overlayOpen: !!s.overlay,
+      isEdit,
+      overlayTitle: isEdit ? 'Edit card' : 'New card',
+      saveLabel: isEdit ? 'Save changes' : 'Add card',
+      formTitle: s.form.title,
+      formBody: s.form.body,
+      typeOptions: ['bug', 'idea', 'planning'].map(k => ({
+        label: this.TYPE[k].label, icon: this.TYPE[k].icon,
+        activeClass: s.form.type === k ? 'active' : '',
+        select: () => this.setForm({ type: k }),
+      })),
+      statusOptions: this.COLS.map(col => ({
+        label: col.label, icon: col.icon,
+        activeClass: s.form.status === col.status ? 'active' : '',
+        select: () => this.setForm({ status: col.status }),
+      })),
+      onTitleInput: (e) => this.setForm({ title: e.target.value }),
+      onBodyInput: (e) => this.setForm({ body: e.target.value }),
+      saveOverlay: () => this.save(),
+      closeOverlay: () => this.close(),
+      deleteCard: () => this.remove(),
+      stop: (e) => e.stopPropagation(),
+      editAuthor: editing ? editing.author : '',
+      editCreated: editing ? editing.createdFull : '',
+      editUpdated: editing ? editing.updated : '',
+
+      devOpen: s.devOpen,
+      toggleDev: () => this.setState(v => ({ devOpen: !v.devOpen })),
+      devRoutes: [
+        { icon: 'layout-kanban', label: 'Board', act: () => this.setState({ screen: 'board', cards: this.seed(), devOpen: false }) },
+        { icon: 'plus', label: 'New card', act: () => this.openCreate('inbox') },
+        { icon: 'square-off', label: 'Empty board', act: () => this.setState({ screen: 'board', cards: [], devOpen: false }) },
+        { icon: 'lock', label: 'Not authorized', act: () => this.setState({ screen: 'unauthorized', devOpen: false }) },
+      ].map(d => ({ icon: d.icon, label: d.label, go: d.act })),
+    };
+  }
+}
+</script>
+</body>
+</html>
