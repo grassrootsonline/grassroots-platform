@@ -3,6 +3,8 @@ import { Toaster } from '@/components/ui/toast'
 import { getDataClient } from '@/lib/data'
 import s from './layout.module.css'
 
+export const maxDuration = 30
+
 export default async function PlatformLayout({ children }: { children: React.ReactNode }) {
   const client = getDataClient()
   const [user, notifications] = await Promise.all([
