@@ -1,5 +1,7 @@
 # Add a self-announcing "moved" banner to the archived ARCHITECTURE.md
 
+> **Superseded.** `design-handoffs/core-social-mvp/ARCHITECTURE.md` doesn't exist — commit `b5b3085` fully deleted it when its content moved to `docs/ARCHITECTURE.md`, rather than leaving a stub. This handoff's premise (add a banner to that file) doesn't apply. The actual bug was `design-handoffs/CLAUDE.md`'s index still reading "these files are kept for reference only," implying a copy still lives there. Claude Code corrected that index directly instead of implementing the steps below. Left as-is for the record of how the diagnosis evolved — see [[feedback-verify-grep-hits-before-citing]].
+
 | Field | Value |
 |---|---|
 | **Recipient** | `claude-code` |
