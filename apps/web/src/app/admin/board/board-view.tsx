@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Avatar } from '@/components/ui/avatar'
+import { toast } from '@/components/ui/toast'
 import {
   createCardAction,
   deleteCardAction,
@@ -158,10 +159,17 @@ export function BoardView({ initialCards, currentUser }: BoardViewProps) {
     setDragOverCardId(null)
     if (!dragId || dragId === beforeId) return
 
+    const prevCard = cards.find((c) => c.id === dragId)
+    if (!prevCard) return
     const newPosition = computePosition(cards, targetStatus, beforeId, dragId)
     setCards((prev) => prev.map((c) => (c.id === dragId ? { ...c, status: targetStatus, position: newPosition } : c)))
-    startTransition(() => {
-      moveCardAction(dragId, { status: targetStatus, position: newPosition })
+    startTransition(async () => {
+      try {
+        await moveCardAction(dragId, { status: targetStatus, position: newPosition })
+      } catch {
+        setCards((prev) => prev.map((c) => (c.id === dragId ? prevCard : c)))
+        toast("Couldn't move the card. Try again.")
+      }
     })
   }
 
@@ -172,12 +180,18 @@ export function BoardView({ initialCards, currentUser }: BoardViewProps) {
 
     if (overlay === 'edit' && editingId) {
       const id = editingId
+      const prevCard = cards.find((c) => c.id === id)
       setCards((prev) =>
         prev.map((c) => (c.id === id ? { ...c, type: form.type, title, body: body || null, status: form.status, updatedAt: new Date() } : c))
       )
       closeOverlay()
-      startTransition(() => {
-        updateCardAction(id, { type: form.type, title, body: body || undefined, status: form.status })
+      startTransition(async () => {
+        try {
+          await updateCardAction(id, { type: form.type, title, body: body || undefined, status: form.status })
+        } catch {
+          if (prevCard) setCards((prev) => prev.map((c) => (c.id === id ? prevCard : c)))
+          toast("Couldn't save changes. Try again.")
+        }
       })
       return
     }
@@ -205,24 +219,35 @@ export function BoardView({ initialCards, currentUser }: BoardViewProps) {
     ])
     closeOverlay()
     startTransition(async () => {
-      const inserted = await createCardAction({ type: form.type, title, body: body || undefined, status })
-      setCards((prev) =>
-        prev.map((c) =>
-          c.id === tempId
-            ? { ...c, id: inserted.id, position: parseFloat(inserted.position), createdAt: new Date(inserted.createdAt), updatedAt: new Date(inserted.updatedAt) }
-            : c
+      try {
+        const inserted = await createCardAction({ type: form.type, title, body: body || undefined, status })
+        setCards((prev) =>
+          prev.map((c) =>
+            c.id === tempId
+              ? { ...c, id: inserted.id, position: parseFloat(inserted.position), createdAt: new Date(inserted.createdAt), updatedAt: new Date(inserted.updatedAt) }
+              : c
+          )
         )
-      )
+      } catch {
+        setCards((prev) => prev.filter((c) => c.id !== tempId))
+        toast("Couldn't add the card. Try again.")
+      }
     })
   }
 
   function handleDelete() {
     if (!editingId) return
     const id = editingId
+    const prevCard = cards.find((c) => c.id === id)
     setCards((prev) => prev.filter((c) => c.id !== id))
     closeOverlay()
-    startTransition(() => {
-      deleteCardAction(id)
+    startTransition(async () => {
+      try {
+        await deleteCardAction(id)
+      } catch {
+        if (prevCard) setCards((prev) => [...prev, prevCard])
+        toast("Couldn't delete the card. Try again.")
+      }
     })
   }
 
