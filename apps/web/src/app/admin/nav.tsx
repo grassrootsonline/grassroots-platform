@@ -9,6 +9,7 @@ export function AdminNav() {
   const isDashboard = pathname === '/admin';
   const isUsers = pathname.startsWith('/admin/users');
   const isCareers = pathname.startsWith('/admin/careers');
+  const isBoard = pathname.startsWith('/admin/board');
 
   return (
     <nav className={s.nav}>
@@ -27,6 +28,10 @@ export function AdminNav() {
       <Link href="/admin/careers" className={s.navItem}>
         <i className="ti ti-file-text" aria-hidden="true" />
         Applications
+      </Link>
+      <Link href="/admin/board" className={`${s.navItem} ${isBoard ? s.navItemActive : ''}`}>
+        <i className="ti ti-layout-kanban" aria-hidden="true" />
+        Task board
       </Link>
     </nav>
   );

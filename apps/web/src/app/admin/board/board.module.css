@@ -1,0 +1,316 @@
+.page {
+  padding: var(--space-2xl);
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  font-weight: 400;
+  color: var(--color-ink);
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+}
+
+/* ── Board ── */
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+.column {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-canvas);
+  border: var(--border-default);
+  border-radius: var(--radius-lg);
+  transition: background var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
+}
+
+.isDropTarget {
+  background: var(--color-accent-mist);
+  border-color: var(--color-accent);
+}
+
+.colHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-md) var(--space-sm);
+}
+
+.colTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+}
+
+.colTitle i {
+  font-size: 15px;
+  color: var(--color-secondary);
+}
+
+.colCount {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.colAdd {
+  margin-left: auto;
+}
+
+.colBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: 0 var(--space-md) var(--space-md);
+  min-height: var(--space-3xl);
+}
+
+/* Small icon-only button — mirrors the .row-action pattern already
+   duplicated per-module elsewhere in the admin panel (layout.module.css,
+   careers.module.css); no shared global class exists yet to reuse. */
+.rowAction {
+  background: none;
+  border: none;
+  color: var(--color-secondary);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--duration-fast) var(--ease-standard), background var(--duration-fast) var(--ease-standard);
+}
+
+.rowAction:hover {
+  color: var(--color-ink);
+  background: var(--color-surface);
+}
+
+/* ── Card ── */
+.card {
+  position: relative;
+  background: var(--color-surface);
+  border: var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  cursor: grab;
+  transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard), opacity var(--duration-fast) var(--ease-standard);
+}
+
+.card:hover {
+  border-color: var(--color-border-strong);
+}
+
+.card:hover .dragHandle {
+  opacity: 1;
+}
+
+.isDragging {
+  opacity: 0.55;
+  box-shadow: var(--shadow-dropdown);
+  cursor: grabbing;
+  border-color: var(--color-accent);
+}
+
+/* Drop-indicator line: no --space-* token matches the prototype's 2px
+   thickness. Reusing --accent-stripe-height (an existing decorative
+   thickness token, not a new invented value) keeps this token-only. */
+.isDropBefore::before {
+  content: '';
+  position: absolute;
+  left: var(--space-md);
+  right: var(--space-md);
+  top: calc(var(--space-xs) * -1);
+  height: var(--accent-stripe-height);
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.dragHandle {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  color: var(--color-border-strong);
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+
+.cardTitle {
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.cardBody {
+  font-size: var(--text-small);
+  color: var(--color-ink-soft);
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardFoot {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.footAuthor {
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+}
+
+.footDate {
+  font-size: var(--text-small);
+  color: var(--color-border-strong);
+  margin-left: auto;
+}
+
+.typeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.typeBadge i {
+  font-size: 12px;
+}
+
+.colEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  text-align: center;
+  padding: var(--space-lg) var(--space-sm);
+  border: var(--border-dashed);
+  border-radius: var(--radius-md);
+  color: var(--color-secondary);
+}
+
+.colEmpty i {
+  font-size: 18px;
+}
+
+/* ── Overlay (create / edit sheet) ── */
+.sheetHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.sheetTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-weight: 400;
+  color: var(--color-ink);
+}
+
+.fieldsWrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.seg {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.segBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--text-small);
+  font-family: var(--font-body);
+  color: var(--color-secondary);
+  background: var(--color-canvas);
+  border: var(--border-default);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-standard), background var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
+}
+
+.segBtn:hover {
+  color: var(--color-ink);
+}
+
+.segBtnActive {
+  background: var(--color-accent-subtle);
+  color: var(--color-accent-ink);
+  border-color: transparent;
+  font-weight: var(--weight-medium);
+}
+
+.segBtn i {
+  font-size: 14px;
+}
+
+.metaRow {
+  display: flex;
+  gap: var(--space-lg);
+  font-size: var(--text-small);
+  color: var(--color-secondary);
+  padding-top: var(--space-sm);
+  border-top: var(--border-default);
+}
+
+.metaRow b {
+  font-weight: var(--weight-medium);
+  color: var(--color-ink-soft);
+}
+
+.actionsRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding-top: var(--space-sm);
+}
+
+.deleteBtn {
+  margin-left: auto;
+  color: var(--color-danger);
+}
+
+.deleteBtn i {
+  font-size: 15px;
+}
