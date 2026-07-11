@@ -1,5 +1,7 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+import { cacheGet, cacheSet } from '@/lib/redis/client';
+import { sessionKey, adminKey } from '@/lib/redis/keys';
 
 const PUBLIC_PATHS = ['/', '/signup', '/login', '/check-email', '/auth/callback', '/privacy', '/terms', '/careers', '/careers/:param'];
 // Note: '/careers/:param' here is bookkeeping for scripts/check-route-access.mjs's
@@ -69,12 +71,33 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
-  // Session exists — fetch account_status
-  const { data: profile, error: profileError } = await supabase
-    .from('users')
-    .select('id, account_status')
-    .eq('auth_id', user.id)
-    .single();
+  // Session exists — fetch account_status, read-through cached by auth user id
+  // (the id available here before any DB lookup — caching by the internal
+  // users.id would defeat the purpose, since you'd need a DB query to get it
+  // first).
+  type CachedSession = { id: string; account_status: 'waitlisted' | 'active' | 'suspended' };
+
+  let profile: CachedSession | null = await cacheGet<CachedSession>(sessionKey(user.id));
+  let profileError: { message: string } | null = null;
+
+  if (!profile) {
+    const result = await supabase
+      .from('users')
+      .select('id, account_status')
+      .eq('auth_id', user.id)
+      .single();
+    profile = result.data;
+    profileError = result.error;
+    if (profile) {
+      // 30s, not the 3600s in ROADMAP.md's original sketch — this value gates
+      // account access (waitlisted/active/suspended), and this project has
+      // already shipped two bugs (handoffs 049, 054) where a stale gate check
+      // blocked a just-activated user. 30s bounds the worst case even if
+      // invalidation somehow doesn't fire; it is not a substitute for
+      // invalidation, it's a backstop under it.
+      await cacheSet(sessionKey(user.id), profile, 30);
+    }
+  }
 
   if (profileError) {
     console.error('[middleware] account_status lookup failed for', user.id, profileError.message);
@@ -101,15 +124,23 @@ export async function middleware(request: NextRequest) {
     // admin_users.user_id is a FK to the internal users.id (same auth_id vs.
     // users.id distinction the account_status lookup above already handles).
     // Using profile.id here instead so the check can actually match.
-    const { data: admin } = profile?.id
-      ? await supabase
-          .from('admin_users')
-          .select('id')
-          .eq('user_id', profile.id)
-          .maybeSingle()
-      : { data: null };
+    // Shares the same admin:{user_id} cache key as requireAdmin() (via
+    // lib/redis/keys.ts) so this edge-level gate and the Server Action-level
+    // check never disagree with each other or need separate tuning.
+    let isAdmin: boolean | null = profile?.id ? await cacheGet<boolean>(adminKey(profile.id)) : false;
+    if (isAdmin === null && profile?.id) {
+      const { data: admin } = await supabase
+        .from('admin_users')
+        .select('id')
+        .eq('user_id', profile.id)
+        .maybeSingle();
+      isAdmin = !!admin;
+      // 5 min — admin grants are manual/bootstrap-only today (no UI action
+      // exists to grant/revoke), so staleness risk here is low.
+      await cacheSet(adminKey(profile.id), isAdmin, 300);
+    }
 
-    if (!admin) {
+    if (!isAdmin) {
       return NextResponse.redirect(new URL('/feed', request.url));
     }
     return response;
