@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { count, eq, and, ne, isNull, desc, asc, inArray } from 'drizzle-orm'
 import { db } from '@grassroots/db'
 import { users, userProfiles, jobPostings, posts, postReactions, comments, follows, notifications } from '@grassroots/db/schema'
@@ -8,32 +9,40 @@ import type {
   SidebarProject, AppNotification, JobPosting,
 } from './types'
 
+// Memoized per request/render pass — cache() dedupes by function reference
+// and arguments, not by which SupabaseDataClient instance called it, so this
+// collapses every this.getCurrentUser() call across a request (getDataClient()
+// creates a new instance per call site) down to a single identity lookup.
+const getCachedCurrentUser = cache(async (): Promise<CurrentUser | null> => {
+  const supabase = await createServerClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return null
+
+  const row = await db.query.users.findFirst({
+    where: (u, { eq }) => eq(u.authId, user.id),
+  })
+  if (!row) return null
+
+  const profile = await db.query.userProfiles.findFirst({
+    where: (p, { eq }) => eq(p.userId, row.id),
+  })
+
+  return {
+    id: row.id,
+    name: profile?.displayName ?? row.displayName,
+    username: row.username,
+    avatarUrl: profile?.avatarUrl ?? row.avatarUrl,
+    bio: profile?.bio ?? row.bio,
+    followerCount: row.followerCount,
+    followingCount: row.followingCount,
+    projectCount: 0, // no projects table yet
+    accountStatus: row.accountStatus,
+  }
+})
+
 export class SupabaseDataClient implements DataClient {
   async getCurrentUser(): Promise<CurrentUser | null> {
-    const supabase = await createServerClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return null
-
-    const row = await db.query.users.findFirst({
-      where: (u, { eq }) => eq(u.authId, user.id),
-    })
-    if (!row) return null
-
-    const profile = await db.query.userProfiles.findFirst({
-      where: (p, { eq }) => eq(p.userId, row.id),
-    })
-
-    return {
-      id: row.id,
-      name: profile?.displayName ?? row.displayName,
-      username: row.username,
-      avatarUrl: profile?.avatarUrl ?? row.avatarUrl,
-      bio: profile?.bio ?? row.bio,
-      followerCount: row.followerCount,
-      followingCount: row.followingCount,
-      projectCount: 0, // no projects table yet
-      accountStatus: row.accountStatus,
-    }
+    return getCachedCurrentUser()
   }
 
   async getUserProfile(username: string): Promise<UserProfile | null> {

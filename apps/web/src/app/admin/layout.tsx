@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createServerClient } from '@/lib/supabase/server'
 import { db } from '@grassroots/db'
+import { Toaster } from '@/components/ui/toast'
 import { AdminNav } from './nav'
 import s from './layout.module.css'
 
@@ -55,6 +56,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       </aside>
 
       <div className={s.content}>{children}</div>
+      <Toaster />
     </div>
   )
 }
